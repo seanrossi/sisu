@@ -1,0 +1,29 @@
+{% extends 'blog/base.html' %}
+{% load staticfiles %}
+
+<div class="content">
+  <div class="row">
+    <div class="col-md-8">
+     {% block content %}         
+     {% for post in posts %}
+        <div class="post">
+          
+          <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+            <p class="date">published: {{ post.published_date }}</p>
+            <p>{{ post.short_desc|linebreaksbr }}</p>
+            <a href="{% url 'post_detail' pk=post.pk %}" class="download">Details</a>
+            
+        </div>
+        
+        <div class="line"></div>       
+        
+     {% empty %}
+        <div class="separator_line"></div>
+        <p> New Stories are coming! </p>
+             
+     {% endfor %}
+     {% endblock %}
+    </div>
+  </div>
+</div>
+  

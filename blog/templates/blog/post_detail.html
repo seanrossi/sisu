@@ -1,0 +1,79 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <div class="post">
+        {% if post.published_date %}
+            <div class="separator_line"></div>
+            <div class="date">
+                {{ post.published_date }}
+            </div>
+        {% else %}
+          {% if user.is_authenticated %}
+            <a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
+            <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+            <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+          {% endif %}
+        {% endif %}
+        <h1>{{ post.title }}</h1>
+        <p>{{ post.text|linebreaksbr }}</p>
+    </div>
+    
+   <div class="wrapper"> 
+    <div id="bottombar">
+      <div id ="bottombarCollapseHolder">
+       <li id="bottombarCollapse" class="btn btn-info botnavbar-btn" aria-expanded="false">
+          <i class="glyphicon glyphicon-chevron-up icon_open"></i>
+          <i class="glyphicon glyphicon-chevron-down icon_close"></i>
+          {% if user.is_authenticated %}
+          <div class="bottombar-header">
+            <strong><a class="btn btn-info botnavbar-btn" href="{% url 'add_comment_to_post' pk=post.pk %}">Leave a comment</a></strong>
+          </div>
+          {% endif %}
+       </li>
+      </div>
+       
+       <div id="div1" style="height:500px;position:relative;">
+         <div id="div2" style="max-height:100%;overflow:auto;">
+           <div id="div3" style="height:800px;">
+               {% if user.is_authenticated %}
+                {% for comment in post.comments.all|dictsortreversed:"created_date" %}
+                  {% if comment.approved_comment %}
+                  <div class="comment">
+                    <div class="date">
+                      {{ comment.created_date }}
+                    </div>
+                    <strong>{{ comment.author }}</strong>
+                    <p>{{ comment.text|linebreaks }}</p>
+                  </div>
+                  {% else %}
+                      {% if user.is_superuser %}
+                        <div class="comment">
+                          <div class="date">
+                            {{ comment.created_date }}
+                          </div>
+                          <strong>{{ comment.author }}</strong>
+                          <p>{{ comment.text|linebreaks }}</p>
+                          <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+                          <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
+                        </div>
+                      {% endif %}
+                  {% endif %}
+                  
+                  <div class="line"></div>  
+                  {% empty %}
+                    <p>No comments here yet. Post the first comment!</p>
+                  
+                {% endfor %}
+              {% else %} 
+                <p> Please log in to view comments.</p>
+              {% endif %}             
+             
+               
+           </div>
+         </div>
+       </div>
+      </div>  
+    </div>
+    
+    
+{% endblock %}

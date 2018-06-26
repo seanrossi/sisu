@@ -1,0 +1,24 @@
+{% load staticfiles %}
+
+<li class="active">
+  <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Category</a>
+    <ul class="collapse list-unstyled" id="homeSubmenu" >
+      <li>
+      {% for name, member in categories %}
+      <a href="{% url 'post_list_by_category' category_name=member.value %}"> {{ name }} </a>
+      {% endfor %}
+      </li>
+      
+    </ul>
+    
+</li>
+
+<li>
+  <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a>
+    <ul class="collapse list-unstyled" id="pageSubmenu">
+      <li><a href="{% url 'post_list' %}">Post</a></li>
+      <li><a href="/">Page 2</a></li>
+      <li><a href="/">Page 3</a></li>
+    </ul>
+</li>
+                   

@@ -1,0 +1,62 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<h2>SiSu</h2>
+  <p>Sisu, which means grit, bravery, resilience and hardiness all in one word in Finnish. </p>
+  <p>Leave Blank</p>
+
+  <div class="line"></div>
+
+  <h2>About Us</h2>
+  <p>Why this app? </p>
+  
+  <div class="line"></div>
+
+  <h2>Vote for App</h2>
+  {% if summary.voted %}
+   
+   {% if not user.is_authenticated %}
+      <p>There was a vote from this IP / device. </p>
+   
+   {% else %}
+       <p>Thank you, {{ user.username }}, for your vote! </p>
+   {% endif %}
+   
+   <p>See the summary of the current status. </p>
+      
+   <label><i class="glyphicon glyphicon-thumbs-up"></i> Yes = {{ summary.total_yes }} </label>
+   <label><i class="glyphicon glyphicon-thumbs-down"></i> No = {{ summary.total_no }} </label>
+  
+  {% else %}
+   <p>We'd love to hear from you if an app version is needed.</p>
+   <p>Vote below to help us make a decision!</p>
+      
+   <div>  
+     <a href="#!" onClick="document.getElementById('likebutton').submit()">
+       <label class="btnVote btnVote-up"><i class="glyphicon glyphicon-thumbs-up"></i> Yes, please!</label>
+             
+     </a>  
+          
+     <a href="#!" onClick="document.getElementById('dislikebutton').submit()">
+       <label class="btnVote btnVote-down"><i class="glyphicon glyphicon-thumbs-down"></i> Website is fine.</label>
+     </a>
+
+     <form id="likebutton" method="POST" action="/preference/1/">
+     {% csrf_token %}
+     <input type="hidden">
+     </form>
+
+     <form id="dislikebutton" method="POST" action="/preference/2/">
+     {% csrf_token %}
+     <input type="hidden">
+     </form>
+
+   </div>
+  {% endif %}
+    
+  <div class="line"></div>
+
+  <h3>Section Blank 2</h3>
+  <p>Leave Blank 3</p>
+                
+{% endblock %}

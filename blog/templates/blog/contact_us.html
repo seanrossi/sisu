@@ -1,0 +1,22 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<h2>Contact Us</h2>
+  <p>Leave us a message!</p>
+  <p>Your feedback is valued! Or if you want to share a story, don't hesitate to contact us!</p>
+  
+  <div class="line"></div>
+  
+  <form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}  
+    <div class="form-actions">
+      <button type="submit">Send</button>
+    </div>
+  </form>
+  
+  <p>Or Email us at admin@example.com</p>
+  
+ 
+                
+{% endblock %}
