@@ -428,3 +428,44 @@ label {
   cursor:pointer;
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
 }
+
+/*
+* For "Me too!" feature
+*/
+.star{
+  font-size: 25px;
+	color:gold;
+  background:white;
+  width: 40px;
+  height: 30px;
+  border-radius: 0;
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.star:hover{
+  cursor:pointer;
+} 
+
+#tolight input[type=checkbox]{
+    display: none;
+}
+
+#lighted input[type=checkbox]{
+    display: none;
+}
+
+/*
+* Search bar
+*/
+#searchDiv {
+  width: 250px;
+  height: 50px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  text-align: left;
+  vertical-align: middle !important;
+}
+

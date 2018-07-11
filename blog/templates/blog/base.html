@@ -58,14 +58,25 @@
                                   <i class="glyphicon glyphicon-align-justify"></i>
                                   <span></span>
                               </button>
-                              <button type="button" id="searchBtn" class="btn btn-info navbar-btn">
-                                  <i class="glyphicon glyphicon-search"></i>
-                                  <span></span>
-                              </button>
+                              <!--<button type="button" id="searchBtn" class="btn btn-info navbar-btn" onClick="searchFunction()">
+                                  <i class="glyphicon glyphicon-search" ></i>
+                              </button> -->
                               
+                              <div id="searchDiv">
+                                  <form action="{% url 'search' %}" method="POST" id="seachForm">
+                                    {% csrf_token %}
+                                    <input id="search_content" class="btn btn-info navbar-btn" type="text" name="search_string" 
+                                           style="text-align:left; cursor:auto" placeholder="Search in Sisu">
+                                    <button type="submit" id="searchBtn" class="btn btn-info navbar-btn">
+                                        <i class="glyphicon glyphicon-search" ></i>
+                                    </button>
+                                  </form>
+                              </div>
                           </div>
                       </div>
+                      
                   </nav>
+                  
               </div>
                
                 {% block content %}
@@ -117,6 +128,17 @@
 					 
                  });
              });
+         </script>
+         
+         <script> 
+         function searchFunction() {
+           var search = document.getElementById("searchDiv");
+           if (search.style.display === "none") {
+               search.style.display = "block";
+           } else {
+               search.style.display = "none";
+           }
+        }
          </script>
     </body>
 </html>

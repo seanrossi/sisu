@@ -65,6 +65,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'blog.views.category',
                 'blog.views.check_voted',
+                
             ],
         },
     },

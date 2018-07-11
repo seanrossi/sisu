@@ -6,10 +6,22 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Category(Enum):
-  Category_A = 'A';
-  Category_B = 'B'; 
-  Category_C = 'C';
-  Category_D = 'D';
+  Harassment = 'Harassment'; 
+  Discrimination = 'Discrimination'; 
+  Politics = 'Politics';
+  Imagination = 'Imagination';
+  Worklife = 'Worklife';
+  Miscellaneous = 'Miscellaneous';
+  
+  class Labels:
+    Harassment = 'Struggling with harassment?';
+    Discrimination = 'Feeling unfair due to discrimination?'; 
+    Politics = 'Politics around you';
+    Imagination = 'Is it your imagination?';
+    Worklife = 'Do you have a healthy worklife?';
+    Miscellaneous = 'Other issues';
+        
+  
 
 class Post(models.Model):
   author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
@@ -18,7 +30,8 @@ class Post(models.Model):
   short_desc = models.TextField()
   published_date = models.DateTimeField(blank=True, null=True)
   created_date = models.DateTimeField(default=timezone.now)
-  category_name = EnumField(Category, max_length=1, default='A')
+  category_name = EnumField(Category, max_length=30, default=Category.Harassment)#models.CharField(max_length=200)
+  #EnumField(Category, max_length=30, default=Category.Harassment)
   
   def publish_post(self):
     self.published_date = timezone.now()
@@ -49,11 +62,22 @@ class Comment(models.Model):
 class AppPreferrence(models.Model):
   username = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
   ip_address = models.CharField(max_length=40)
-  vote_yes = models.IntegerField(default=0) #1 = yes, 2 = no
+  vote_yes = models.IntegerField(default=0) 
   vote_no = models.IntegerField(default=0)
   vote_date = models.DateTimeField(default=timezone.now)
   
   def __str__(self):
     return str(self.username) + str(self.ip_address) + str(self.vote_date)
+    
+class PostPreferrence(models.Model):
+  username = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+  postpk = models.ForeignKey(Post, on_delete=models.CASCADE)
+  ip_address = models.CharField(max_length=40)
+  vote_value = models.IntegerField(default=0) #1 = yes, 2 = no
+  vote_date = models.DateTimeField(default=timezone.now)
   
-  
+  def __str__(self):
+    return str(self.username) + str(self.ip_address) + str(self.postpk)
+    
+  class Meta:
+    unique_together = ("username", "postpk", "ip_address")

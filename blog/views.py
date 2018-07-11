@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.utils import timezone
-from .models import Post, Comment, Category, AppPreferrence
+from .models import Post, Comment, Category, AppPreferrence, PostPreferrence
 from django.shortcuts import render, get_object_or_404
-from .forms import PostForm, CommentForm, ContactForm
+from .forms import PostForm, CommentForm, ContactForm, SearchForm
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.db import models
@@ -11,6 +11,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import auth
 from ipware import get_client_ip
 from django.template import Context
+import re
+from django.db.models import Q
+
 
 # Create your views here.
 
@@ -39,7 +42,31 @@ def post_list_by_category(request, category_name):
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    return render(request, 'blog/post_detail.html', {'post': post})
+    user_name = auth.get_user(request)
+    ip = request.session['ip']
+      
+    if request.user.is_authenticated:
+        if PostPreferrence.objects.filter(username=user_name, ip_address=ip, postpk=pk, vote_value=1).exists():   
+            voted = True
+        else:
+            voted = False
+        
+    else:
+        if PostPreferrence.objects.filter(ip_address=ip, postpk=pk, vote_value=1).exists(): 
+            voted = True
+        else:
+            voted = False   
+    try:
+        total_yes = PostPreferrence.objects.filter(vote_value=1, postpk=pk).count()
+    except PostPreferrence.DoesNotExist:
+        total_yes = 0;
+    
+    summary = ({
+      'voted':voted,
+      'total_yes': total_yes,
+    }) 
+    
+    return render(request, 'blog/post_detail.html', {'post': post, 'summary': summary})
     
 @login_required
 def post_new(request):
@@ -197,6 +224,87 @@ def vote_for_app(request, voted_value):
          app_voted.username = user_name
               
    app_voted.save()
-   
-   
+     
    return render(request, "blog/about.html")
+  
+def on_off_star(request, postid, on_off_value):
+   
+   if request.method == "POST":     
+          
+      post_preference = int(on_off_value)
+      user_name = auth.get_user(request)
+      ip = request.session['ip']
+      
+      post = get_object_or_404(Post, pk=postid)   
+      
+      try:
+        postpreferrence_obj = PostPreferrence.objects.get(username=request.user, postpk=post, ip_address=ip)     
+        postpreferrence_obj.vote_value = post_preference
+        postpreferrence_obj.save()       
+        
+        if post_preference == 2:
+            voted = False
+        else:
+            voted = True
+      
+      except PostPreferrence.DoesNotExist:
+        post_voted = PostPreferrence()
+        post_voted.ip_address = ip
+        post_voted.postpk = post
+        post_voted.vote_value = post_preference 
+      
+        if request.user.is_authenticated:
+          #print("===================================" + str(user_preference) + str(ip) + str(user_name))
+          post_voted.username = user_name
+                 
+        post_voted.save()   
+        voted = True
+   
+      summary = ({
+         'voted':voted,
+         'total_yes': PostPreferrence.objects.filter(vote_value=1, postpk=postid).count(),
+      })
+      
+   return render(request, 'blog/post_detail.html', {'post':post, 'summary':summary})
+ 
+# Search Functionality
+def normalize_query(query_string,
+                    findterms=re.compile(r'"([^"]+)"|(\S+)').findall,
+                    normspace=re.compile(r'\s{2,}').sub):
+ 
+    return [normspace(' ', (t[0] or t[1]).strip()) for t in findterms(query_string)]
+
+def get_query(query_string, search_fields):
+    
+    query = None # Query to search for every search term        
+    terms = normalize_query(query_string)
+    for term in terms:
+        or_query = None # Query to search for a given term in each field
+        for field_name in search_fields:
+            q = Q(**{"%s__icontains" % field_name: term})
+            if or_query is None:
+                or_query = q
+            else:
+                or_query = or_query | q
+        if query is None:
+            query = or_query
+        else:
+            query = query & or_query
+    return query
+    
+def search(request):
+    query_string = ''
+    found_entries = None
+    
+    if request.method == "POST":
+       search_form = SearchForm(request.POST)
+      
+       if search_form.is_valid():
+          query_string = search_form.cleaned_data['search_string']
+          post_query = get_query(query_string, ['title', 'text', 'category_name'])
+          found_entries = Post.objects.filter(post_query).order_by('-published_date')
+            
+    else:
+       search_form = SearchForm()
+    
+    return render(request, 'blog/post_search_res.html',{ 'query_string': query_string, 'found_entries': found_entries }) 
