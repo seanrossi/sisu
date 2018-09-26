@@ -1,62 +1,73 @@
 {% extends "blog/base.html" %}
+{% load staticfiles %}
 
 {% block content %}
-<h2>SiSu</h2>
-  <p>Sisu, which means grit, bravery, resilience and hardiness all in one word in Finnish. </p>
-  <p>Leave Blank</p>
-
-  <div class="line"></div>
-
-  <h2>About Us</h2>
-  <p>Why this app? </p>
-  
-  <div class="line"></div>
-
-  <h2>Vote for App</h2>
-  {% if summary.voted %}
-   
-   {% if not user.is_authenticated %}
-      <p>There was a vote from this IP / device. </p>
-   
-   {% else %}
-       <p>Thank you, {{ user.username }}, for your vote! </p>
-   {% endif %}
-   
-   <p>See the summary of the current status. </p>
+<!--================Offcanvus Side Menu Area =================-->
+        <div class="side_menu">
+			<a class="logo" href="#"><img src="{% static 'img/logo.png'%}" alt=""></a>
       
-   <label><i class="glyphicon glyphicon-thumbs-up"></i> Yes!      ({{ summary.total_yes }}) </label>
-   <label><i class="glyphicon glyphicon-thumbs-down"></i> No.      ({{ summary.total_no }}) </label>
-  
-  {% else %}
-   <p>We'd love to hear from you if an app version is needed.</p>
-   <p>Vote below to help us make a decision!</p>
+			<ul class="list menu_right">   
+        <li><a href="/">Home</a></li>      
+        
+        {% include 'blog/post_category.html' %}                    
+       
+				<li><a href="{% url 'about_us' %}">About Us</a></li>
+				<li><a href="{% url 'contact_us' %}">Contact Sisu</a></li>
+			</ul>
+			
+        
+      <ul class="list menu_right">
       
-   <div>  
-     <a href="#!" onClick="document.getElementById('likebutton').submit()">
-       <label class="btnVote btnVote-up"><i class="glyphicon glyphicon-thumbs-up"></i> Yes, please!</label>
-             
-     </a>  
-          
-     <a href="#!" onClick="document.getElementById('dislikebutton').submit()">
-       <label class="btnVote btnVote-down"><i class="glyphicon glyphicon-thumbs-down"></i> Website is fine.</label>
-     </a>
+      {% if user.is_authenticated %}
+        <li>{{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></li>
+        <li><a href="{% url 'user_settings' %}" >Settings</a> </li>
+        {% else %}
+        <li><i class="glyphicon glyphicon-lock"></i> <a href="{% url 'signup' %}">Sign in / Sign up </a></li>
+        {% endif %}
+      </ul>
+		</div>
+        <!--================End Offcanvus Side Menu Area =================-->
 
-     <form id="likebutton" method="POST" action="/preference/1/">
-     {% csrf_token %}
-     <input type="hidden">
-     </form>
+        <!--================Canvus Menu Area =================-->
+        <div class="canvus_menu">
+        	<div class="container">
+        		<div class="float-left">
+        			<div class="toggle_icon">
+        				<span></span>
+        			</div>
+        		</div>
+        	</div>
+        </div>
+        <!--================End Canvus Menu Area =================-->
+        
+        <!--================Home Banner Area =================-->
+        <section class="home_slider">
+			<div class="swiper-container">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide"><img src="{% static 'img/slider/slider-1.jpg' %}" alt="">
+						<div class="slider_text">
+							<img src="{% static 'img/slider/slider-content.png' %}" alt="">
+						</div>
+					</div>
+					<div class="swiper-slide"><img src="{% static 'img/slider/slider-2.jpg' %}" alt="">
+						<div class="slider_text">
+							<img src="{% static 'img/slider/slider-content.png' %}" alt="">
+						</div>
+					</div>
+					<div class="swiper-slide"><img src="{% static 'img/slider/slider-3.jpg' %}" alt="">
+						<div class="slider_text">
+							<img src="{% static 'img/slider/slider-content.png" alt="">
+						</div>
+					</div>
+				</div>
+			</div>
 
-     <form id="dislikebutton" method="POST" action="/preference/2/">
-     {% csrf_token %}
-     <input type="hidden">
-     </form>
-
-   </div>
-  {% endif %}
-    
-  <div class="line"></div>
-
-  <h3>Section Blank 2</h3>
-  <p>Leave Blank 3</p>
+        </section>
+        <!--================End Home Banner Area =================-->
+        
+        <!--================About Us Area =================-->
+        {% include 'blog/about_us_content.html' %}
+        
+        
                 
 {% endblock %}

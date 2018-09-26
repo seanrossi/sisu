@@ -1,0 +1,152 @@
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'css/alert.css' %}" /> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  
+      {% if user.is_authenticated %}
+      <div id="commentContainer">
+          <input id="button_test" type="submit" value="Post" class="tiny button">
+          
+      <div id="commentDiv">
+            <form action="{% url 'add_comment_to_post' pk=post.pk %}" method="POST" id="comentForm" formUrl="{% url 'add_comment_to_post' pk=post.pk %}">
+            {% csrf_token %}
+             <input id="user_name" type="hidden" name="author" value="{{ user.username }}" >
+             <textarea id="comment_content" name="text" rows="14" cols="10" wrap="soft" style="overflow:auto; resize:none;" placeholder="What do you think?"></textarea>
+             <button type="submit" id="addCommentBtn" class="btn btn-info navbar-btn">
+               <i class="glyphicon glyphicon-send" ></i>
+             </button>
+            </form>           
+                     
+          {% if messages %}
+          <ul class="messages" style="display:none;">
+              {% for message in messages %}
+              <li id="msg" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>   
+              {% endfor %}
+          </ul>
+          {% endif %}
+       </div>
+       
+       {% endif %}
+             
+       <div id="div1" style="height:500px;position:relative;">
+         <div id="div2" style="max-height:100%;">
+           <div id="div3" style="height:800px;">
+               {% if user.is_authenticated %}
+               
+                {% for comment in post.comments.all|dictsortreversed:"created_date" %}
+                  {% if comment.approved_comment %}
+                  <div class="comment" >
+                    <div class="date">
+                      {{ comment.created_date }}
+                      <button id="replyButton" class="btn btn-info navbar-btn" onClick="replyToCommentFunction({{ comment.pk }})" >Reply</button>
+                      <div id="replyToCommentDiv{{ comment.pk }}" style="display:none;">
+                            <form action="{% url 'add_reply_to_comment' pk=post.pk cpk=comment.pk %}" method="POST" 
+                                  id="replyToCommentForm" >
+                            {% csrf_token %}
+                             <input id="user_name" type="hidden" name="author" value="{{ user.username }}" >
+                             <textarea id="reply_content" name="text" rows="8" cols="40" wrap="soft" style="overflow:auto; resize:none;" placeholder="I also want to say something!?"></textarea>
+             
+                             <button type="submit" id="addCommentBtn" class="btn btn-info navbar-btn">
+                               <i class="glyphicon glyphicon-send" ></i>
+                             </button>
+                            </form>
+                       </div>
+                    </div>
+                    
+                    <strong>{{ comment.author }}</strong>
+                    
+                    <p>{{ comment.text|linebreaks }}</p>
+                    
+                    {% for reply in comment.replyToComment.all|dictsort:"created_date" %}
+                    <div class="replyTocomment">
+                      {{ reply.created_date }} by {{ reply.author }}: 
+                      {{ reply.text }}
+                    </div>
+                    {% endfor %}
+                  
+                  </div>
+                  {% else %}
+                      {% if user.get_username == comment.author %}
+                      <div id="forSensor">[Your comment will be pulished after censoring]</div>
+                      {% endif %}
+                      
+                      {% if user.is_superuser %}
+                        <div class="comment">
+                          <div class="date">
+                            {{ comment.created_date }}
+                          </div>
+                          <strong>{{ comment.author }}</strong>
+                          <p>{{ comment.text|linebreaks }}</p>
+                          <a class="btn btn-info navbar-btn" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+                          <a class="btn btn-info navbar-btn" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
+                        </div>
+                      {% endif %}
+                  {% endif %}
+                  
+                  <div class="line"></div>  
+                  {% empty %}
+                    <p>No comments here yet. Post the first comment!</p>
+                  
+                {% endfor %}
+              {% else %} 
+                <p> Please log in to view comments.</p>
+              {% endif %}                           
+           </div>
+         </div>
+       </div>
+      </div>  
+    
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <!-- Bootstrap Js CDN -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script> 
+         function replyToCommentFunction(id) {
+           var divId = String(id);  
+           var reply = document.getElementById("replyToCommentDiv" + divId);
+           if (reply.style.display === "none") {
+               //reply.style.display = "block";
+               $(reply).fadeIn("slow");
+           } else {
+               //reply.style.display = "none";
+               $(reply).fadeOut();
+           }
+        }
+       
+  </script>
+  
+  <script type="text/javascript" src="{% static '/js/alert.js' %}"></script>
+  
+  <script>
+    $(document).ready(function(){
+      var mesg = document.getElementById("msg");
+      alert(mesg.innerHTML);
+    });
+    
+  </script>
+  
+  <!-- For testing ajax only -->
+  <script>
+  $("#button_test").on("click", function(event){
+      event.preventDefault();
+      var div = document.getElementById("comment_content");
+      var form = $(div).closest("form");
+      var result = document.getElementById("forSensor");
+      var formData = form.serializeArray()
+          
+      $.ajax({
+        url: form.attr("formUrl"),
+        data: formData,
+        type: "GET",
+        dataType: 'json',
+        success: function (data) {
+          form[0].reset();
+          $(result).load(location.href + result); 
+        }
+      });
+      
+      result.innerHTML = form.attr("formUrl");
+      //alert(form.serialize() + form.attr("formUrl"));      
+      
+  });  
+  </script>

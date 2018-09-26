@@ -1,0 +1,32 @@
+{% load staticfiles %}
+
+  {% if summary.voted %}           
+  <div id="lighted">
+    <div>
+      <input type="checkbox" id="toCheck2" checked>
+        <a href="#" onClick="document.getElementById('dislikebutton').submit()"><label class="star glyphicon glyphicon-star" for="toCheck2"></label></a>
+    </div>
+    
+    <div> <p> Total {{ summary.total_yes }} have lighted the star! Let's fight together. </p></div>
+
+  </div>
+  {% else %}
+  <div id="tolight">
+    <div>
+      <input type="checkbox" id="toCheck" checked>
+        <a href="#" onClick="document.getElementById('likebutton').submit()"><label class="star glyphicon glyphicon-star-empty" for="toCheck"></label></a>
+    </div>
+    <div><p> Have you met similar situation? If so, light the star to let others know they are not alone. </p>  </div>
+          
+  </div>
+ {% endif %}
+ 
+  <form id="likebutton" method="POST" action="/post/{{ post.id }}/preference/1/">
+     {% csrf_token %}
+     <input type="hidden">
+  </form>
+
+  <form id="dislikebutton" method="POST" action="/post/{{ post.id }}/preference/2/">
+     {% csrf_token %}
+     <input type="hidden">
+  </form> 

@@ -62,6 +62,7 @@ a, a:hover, a:focus {
   position: fixed;
   top: 0;
   width: 100%;
+  z-index: 751;
 }
 
 /* ---------------------------------------------------
@@ -201,8 +202,10 @@ a.article, a.article:hover {
     min-height: 100vh;
     transition: all 0.3s;
     position: absolute;
-    top: 20;
-    right: 0;
+    top: 5%;
+    left: 0;
+    z-index: 750;
+    overflow:auto;
 }
 
 /* ---------------------------------------------------
@@ -467,5 +470,20 @@ label {
   right: 0;
   text-align: left;
   vertical-align: middle !important;
+}
+
+/*
+* Comments related
+*/
+#comment_content {
+  width: 270px;
+  height: 250px;
+  vertical-align: bottom !important;
+  color: #999;
+}
+
+#reply_content {
+  vertical-align: bottom !important;
+  color: #999;
 }
 

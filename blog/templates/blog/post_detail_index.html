@@ -1,0 +1,52 @@
+{% extends 'blog/base_sub.html' %}
+{% load staticfiles %}
+
+{% block header %}
+<ul class="nav navbar-nav menu_nav ml-auto">
+								<li class="nav-item"><a class="nav-link" href="/">Home</a></li> 
+								<li class="nav-item"><a class="nav-link" href="{% url 'about_us' %}">About Us</a></li> 
+								<li class="nav-item submenu dropdown active">
+									<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Story Category <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										{% include 'blog/post_category_header.html'%}
+                    </ul>
+								</li> 
+								<li class="nav-item"><a class="nav-link" href="{% url 'contact_us' %}">Contact Sisu</a></li>
+							</ul>
+{% endblock %}
+
+{% block sub_content %}
+<link rel="stylesheet" href="{% static 'css/component.css' %}" />
+
+		<div class="container" style="overflow:auto">
+			<div id="splitlayout" class="splitlayout">
+				<div class="story">						
+					<div class="side side-bottom">           
+						<div class="story-content">
+							<i class="glyphicon glyphicon-arrow-up" style="color: white; text-align:center;font-size: 0.75em; padding-top:15%;" ></i>					
+							<span class="storytext">Show Comments</span>						
+						</div>
+						
+            {% include 'blog/post_detail.html' %} 
+						
+						<div class="compoverlay"></div>
+					</div>
+					
+          <p><a href="#" class="back back-story" title="back to intro" style="position: fixed; left:45; bottom:59%; font-size:1.8em; font-weight: bold; color:white;">&darr; Hide Comments</a></p>
+            
+				</div><!-- /intro -->
+							
+				<div class="page page-bottom">	
+					<div class="page-inner">
+            {% include 'blog/post_comments.html' %}
+          </div>
+      
+        </div>
+   		        	
+			</div><!-- /splitlayout -->
+		</div>
+
+    <script type="text/javascript" src="{% static '/js/modernizr.custom.js' %}"></script>
+    <script type="text/javascript" src="{% static '/js/classie.js' %}"></script>
+    <script type="text/javascript" src="{% static '/js/splitLayout.js' %}"></script>
+{% endblock %}

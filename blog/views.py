@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.utils import timezone
-from .models import Post, Comment, Category, AppPreferrence, PostPreferrence
+from .models import Post, Comment, Category, AppPreferrence, PostPreferrence, ReplyToComment
 from django.shortcuts import render, get_object_or_404
-from .forms import PostForm, CommentForm, ContactForm, SearchForm
+from .forms import PostForm, CommentForm, ContactForm, SearchForm, ReplyToCommentForm
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.db import models
@@ -13,7 +13,7 @@ from ipware import get_client_ip
 from django.template import Context
 import re
 from django.db.models import Q
-
+from django.contrib import messages
 
 # Create your views here.
 
@@ -30,6 +30,9 @@ def category(request):
 def about_sisu(request):
     return render(request, 'blog/about.html')
     
+def about_us(request):
+    return render(request, 'blog/about_us.html')
+    
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
     return render(request, 'blog/post_list.html', {'posts':posts})
@@ -38,7 +41,8 @@ def post_list(request):
 
 def post_list_by_category(request, category_name):
     posts = Post.objects.filter(category_name=category_name).order_by('-published_date')
-    return render(request, 'blog/post_list.html', {'posts':posts})
+    cat = Category.get_label(category_name)
+    return render(request, 'blog/post_list.html', {'posts':posts, 'cat':cat })
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -66,7 +70,7 @@ def post_detail(request, pk):
       'total_yes': total_yes,
     }) 
     
-    return render(request, 'blog/post_detail.html', {'post': post, 'summary': summary})
+    return render(request, 'blog/post_detail_index.html', {'post': post, 'summary': summary})
     
 @login_required
 def post_new(request):
@@ -101,6 +105,7 @@ def post_remove(request, pk):
 
 @login_required     
 def post_edit(request, pk):
+
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
         form = PostForm(request.POST, instance=post)
@@ -123,6 +128,23 @@ def add_comment_to_post(request, pk):
             comment = form.save(commit=False)
             comment.post = post
             comment.save()
+            messages.info(request, 'Thank you for your comment! It will be posted after censoring.')
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = CommentForm()
+    return render(request, 'blog/add_comment_to_post.html', {'form': form})
+    
+@login_required     
+def add_reply_to_comment(request, pk, cpk):
+    post = get_object_or_404(Post, pk=pk)
+    comment = get_object_or_404(Comment, post=post, pk=cpk)
+    if request.method == "POST":
+        form = ReplyToCommentForm(request.POST)
+        if form.is_valid():
+            replyToComment = form.save(commit=False)
+            replyToComment.post = post
+            replyToComment.comment = comment
+            replyToComment.save()
             return redirect('post_detail', pk=post.pk)
     else:
         form = CommentForm()
@@ -265,7 +287,7 @@ def on_off_star(request, postid, on_off_value):
          'total_yes': PostPreferrence.objects.filter(vote_value=1, postpk=postid).count(),
       })
       
-   return render(request, 'blog/post_detail.html', {'post':post, 'summary':summary})
+   return render(request, 'blog/post_detail_index.html', {'post':post, 'summary':summary})
  
 # Search Functionality
 def normalize_query(query_string,
@@ -307,4 +329,4 @@ def search(request):
     else:
        search_form = SearchForm()
     
-    return render(request, 'blog/post_search_res.html',{ 'query_string': query_string, 'found_entries': found_entries }) 
+    return render(request, 'blog/post_search_res.html',{ 'query_string': query_string, 'found_entries': found_entries })

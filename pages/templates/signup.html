@@ -1,0 +1,12 @@
+<!-- templates/signup.html -->
+{% load staticfiles %}
+
+<link rel="stylesheet" href="{% static 'css/stylish-portfolio.css' %}" />
+<script src="js/stylish-portfolio.js"></script>
+
+<h2>Sign up</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Sign up</button>
+</form>

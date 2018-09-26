@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Comment
+from .models import Post, Comment, ReplyToComment
 from django.contrib import auth
 
 class PostForm(forms.ModelForm):
@@ -22,3 +22,9 @@ class ContactForm(forms.Form):
 
 class SearchForm(forms.Form):
     search_string = forms.CharField(max_length=200)
+
+class ReplyToCommentForm(forms.ModelForm):
+
+    class Meta:
+        model = ReplyToComment
+        fields = ('author', 'text',)

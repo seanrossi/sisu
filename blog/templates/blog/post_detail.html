@@ -1,6 +1,5 @@
-{% extends 'blog/base.html' %}
+{% load staticfiles %}
 
-{% block content %}
     <div class="post">
         {% if post.published_date %}
             <div class="separator_line"></div>
@@ -15,110 +14,13 @@
           {% endif %}
         {% endif %}
         
-        <h1>{{ post.title }}</h1> 
+        <h2>{{ post.title }}</h2> 
         <p>{{ post.text|linebreaksbr }}</p>
         
         <div>
-          {% if summary.voted %}           
-            <div id="lighted">
-              <div>
-                <input type="checkbox" id="toCheck2" checked>
-                <a href="#!" onClick="document.getElementById('dislikebutton').submit()"><label class="star glyphicon glyphicon-star" for="toCheck2"></label></a>
-              </div>
-              <div> <p> Total {{ summary.total_yes }} have lighted the star! Let's fight together. </p></div>
-            </div>
-          {% else %}
-             <div id="tolight">
-              <div>
-                <input type="checkbox" id="toCheck" checked>
-                <a href="#!" onClick="document.getElementById('likebutton').submit()"><label class="star glyphicon glyphicon-star-empty" for="toCheck"></label></a>
-              </div>
-              <div><p> Have you met similar situation? If so, light the star to let others know they are not alone. </p>  </div>
-              
-            </div>
-           {% endif %}
-        </div>    
-    </div>
+          {% include 'blog/post_detail_metoo.html' %}  
+        </div>
     
-     <form id="likebutton" method="POST" action="/post/{{ post.id }}/preference/1/">
-     {% csrf_token %}
-     <input type="hidden">
-     </form>
-
-     <form id="dislikebutton" method="POST" action="/post/{{ post.id }}/preference/2/">
-     {% csrf_token %}
-     <input type="hidden">
-     </form>
+     
     
-   <div class="wrapper"> 
-    <div id="bottombar">
-      <div id ="bottombarCollapseHolder">
-       <li id="bottombarCollapse" class="btn btn-info botnavbar-btn" aria-expanded="false">
-          <i class="glyphicon glyphicon-chevron-up icon_open"></i>
-          <i class="glyphicon glyphicon-chevron-down icon_close"></i>
-          {% if user.is_authenticated %}
-          <div class="bottombar-header">
-            <strong><a class="btn btn-info botnavbar-btn" href="{% url 'add_comment_to_post' pk=post.pk %}">Leave a comment</a></strong>
-          </div>
-          {% endif %}
-       </li>
-      </div>
-       
-       <div id="div1" style="height:500px;position:relative;">
-         <div id="div2" style="max-height:100%;overflow:auto;">
-           <div id="div3" style="height:800px;">
-               {% if user.is_authenticated %}
-                {% for comment in post.comments.all|dictsortreversed:"created_date" %}
-                  {% if comment.approved_comment %}
-                  <div class="comment">
-                    <div class="date">
-                      {{ comment.created_date }}
-                    </div>
-                    <strong>{{ comment.author }}</strong>
-                    <p>{{ comment.text|linebreaks }}</p>
-                  </div>
-                  {% else %}
-                      {% if user.is_superuser %}
-                        <div class="comment">
-                          <div class="date">
-                            {{ comment.created_date }}
-                          </div>
-                          <strong>{{ comment.author }}</strong>
-                          <p>{{ comment.text|linebreaks }}</p>
-                          <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
-                          <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
-                        </div>
-                      {% endif %}
-                  {% endif %}
-                  
-                  <div class="line"></div>  
-                  {% empty %}
-                    <p>No comments here yet. Post the first comment!</p>
-                  
-                {% endfor %}
-              {% else %} 
-                <p> Please log in to view comments.</p>
-              {% endif %}             
-             
-               
-           </div>
-         </div>
-       </div>
-      </div>  
-    </div>
     
-    <!-- jQuery CDN -->
-    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-    <!-- Bootstrap Js CDN -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-      
-<!--      
-    <script type="text/javascript">
-      $(".star.glyphicon").click(function() {
-        $(this).toggleClass("glyphicon-star glyphicon-star-empty");
-      });
-    </script>
--->    
-  
-
-{% endblock %}
