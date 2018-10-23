@@ -1,99 +1,140 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static 'css/alert.css' %}" /> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  
-      {% if user.is_authenticated %}
-      <div id="commentContainer">
-          <input id="button_test" type="submit" value="Post" class="tiny button">
-          
-      <div id="commentDiv">
-            <form action="{% url 'add_comment_to_post' pk=post.pk %}" method="POST" id="comentForm" formUrl="{% url 'add_comment_to_post' pk=post.pk %}">
-            {% csrf_token %}
-             <input id="user_name" type="hidden" name="author" value="{{ user.username }}" >
-             <textarea id="comment_content" name="text" rows="14" cols="10" wrap="soft" style="overflow:auto; resize:none;" placeholder="What do you think?"></textarea>
-             <button type="submit" id="addCommentBtn" class="btn btn-info navbar-btn">
-               <i class="glyphicon glyphicon-send" ></i>
-             </button>
-            </form>           
-                     
-          {% if messages %}
-          <ul class="messages" style="display:none;">
-              {% for message in messages %}
-              <li id="msg" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>   
-              {% endfor %}
-          </ul>
-          {% endif %}
+   
+<div class="comments-area row">   
+    <div class="col-lg-4 posts-list">
+    {% if user.is_authenticated %} 
+      <div id="commentDiv" class="col-lg-4">
+        <div id="commentForm">
+          {% csrf_token %}
+          <input id="user_name" type="hidden" name="author" value="{{ user.username }}" >
+          <input id="id-div" type="hidden" name="pid" value="{{ post.id }}" >
+          <textarea onkeyup="btnsuccess()" id="comment_content" name="text" rows="8" cols="20" wrap="soft" style="overflow:auto; resize:none;" placeholder="{{ user.username }}, what do you think?"></textarea>
+          <div><br></div>
+          <button type="submit" id="addCommentBtn" class="primary-btn submit_btn" disabled>
+            <p>Post</p></i>
+          </button>
+        </div>                     
+                 
+        {% if messages %}
+        <ul class="messages" style="display:none;">
+          {% for message in messages %}
+          <li id="msg" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>   
+          {% endfor %}
+        </ul>
+    {% endif %}
+     </div>
+         
+       {% endif %}
        </div>
        
-       {% endif %}
-             
-       <div id="div1" style="height:500px;position:relative;">
-         <div id="div2" style="max-height:100%;">
-           <div id="div3" style="height:800px;">
-               {% if user.is_authenticated %}
-               
-                {% for comment in post.comments.all|dictsortreversed:"created_date" %}
-                  {% if comment.approved_comment %}
-                  <div class="comment" >
-                    <div class="date">
-                      {{ comment.created_date }}
-                      <button id="replyButton" class="btn btn-info navbar-btn" onClick="replyToCommentFunction({{ comment.pk }})" >Reply</button>
-                      <div id="replyToCommentDiv{{ comment.pk }}" style="display:none;">
-                            <form action="{% url 'add_reply_to_comment' pk=post.pk cpk=comment.pk %}" method="POST" 
-                                  id="replyToCommentForm" >
-                            {% csrf_token %}
-                             <input id="user_name" type="hidden" name="author" value="{{ user.username }}" >
-                             <textarea id="reply_content" name="text" rows="8" cols="40" wrap="soft" style="overflow:auto; resize:none;" placeholder="I also want to say something!?"></textarea>
-             
-                             <button type="submit" id="addCommentBtn" class="btn btn-info navbar-btn">
-                               <i class="glyphicon glyphicon-send" ></i>
-                             </button>
-                            </form>
-                       </div>
-                    </div>
-                    
-                    <strong>{{ comment.author }}</strong>
-                    
-                    <p>{{ comment.text|linebreaks }}</p>
-                    
-                    {% for reply in comment.replyToComment.all|dictsort:"created_date" %}
-                    <div class="replyTocomment">
-                      {{ reply.created_date }} by {{ reply.author }}: 
-                      {{ reply.text }}
-                    </div>
-                    {% endfor %}
-                  
-                  </div>
-                  {% else %}
-                      {% if user.get_username == comment.author %}
-                      <div id="forSensor">[Your comment will be pulished after censoring]</div>
-                      {% endif %}
-                      
-                      {% if user.is_superuser %}
-                        <div class="comment">
-                          <div class="date">
-                            {{ comment.created_date }}
-                          </div>
-                          <strong>{{ comment.author }}</strong>
-                          <p>{{ comment.text|linebreaks }}</p>
-                          <a class="btn btn-info navbar-btn" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
-                          <a class="btn btn-info navbar-btn" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
+    <div class="col-lg-6">
+    {% if user.is_authenticated %}
+    <div class="blog_right_sidebar" id="newComment">
+       {% for comment in post.comments.all|dictsortreversed:"created_date" %}
+       <aside class="single_sidebar_widget popular_post_widget">
+          {% if comment.approved_comment %}
+          
+              <div class="comment-list">
+                <div class="single-comment justify-content-between d-flex">
+                    <div class="user justify-content-between d-flex">
+                        <div class="thumb">
+                           <img src="{% static 'img/blog/c1.jpg' %}" alt="">
+                           <div><br><button id="replyButton{{ comment.pk }}" class="btn blog_btn" onClick="replyToCommentFunction({{ comment.pk }})" >Reply</button>
+                           </div>
                         </div>
-                      {% endif %}
-                  {% endif %}
-                  
-                  <div class="line"></div>  
-                  {% empty %}
-                    <p>No comments here yet. Post the first comment!</p>
-                  
-                {% endfor %}
-              {% else %} 
-                <p> Please log in to view comments.</p>
-              {% endif %}                           
-           </div>
-         </div>
-       </div>
-      </div>  
+                      
+                        <div class="desc">
+                           <h5>{{ comment.author }}</h5> 
+                           <p class="date">{{ comment.created_date }}</p>
+                           
+                           <p class="comment">
+                           {{ comment.text|linebreaks }}
+                           </p>
+                           
+                        </div>
+                        
+                    </div>
+                    
+                    <input id="cid" type="hidden" value="{{ comment.pk }}"/>
+                    <div id="replyToCommentDiv{{ comment.pk }}" style="display:none;">
+                        <div id="replyToCommentForm{{ comment.pk }}" >
+                            {% csrf_token %}
+                            <input id="user_name_r" type="hidden" name="author" value="{{ user.username }}" >
+                            <input id="commentpid{{ comment.pk }}" type="hidden" value="{{ post.pk }}"/>
+                            <textarea onkeyup="rpybtnsuccess({{ comment.pk }})" id="reply_content{{ comment.pk }}" name="text" rows="5" cols="50" wrap="soft" style="overflow:auto; resize:none;" placeholder="Reply to {{ comment.author }}"></textarea>
+                            <button type="submit" id="addReplyBtn{{ comment.pk }}" class="submit_btn" onClick="addReply({{ comment.pk }})" disabled>
+                              Reply <i class="glyphicon glyphicon-send" ></i>
+                            </button>
+                         </div>
+                    </div>
+                 </div>
+             </div>
+             
+             {% for reply in comment.replyToComment.all|dictsortreversed:"created_date" %}
+             <div class="comment-list left-padding" id="replies{{ comment.pk }}">
+                 <div class="single-comment justify-content-between d-flex">
+                     <div class="user justify-content-between d-flex">
+                         <div class="thumb">
+                             <img src="{% static 'img/blog/c3.jpg' %}" alt="">
+                         </div>
+                         <div class="desc">
+                             <h5>{{ reply.author }}</h5>
+                             <p class="date">{{ reply.created_date }}</p>
+                             <p class="comment">
+                                {{ reply.text }}
+                             </p>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             {% endfor %}
+             
+          {% else %}
+          
+          {% if user.get_username == comment.author %}
+          <div id="forCensor">[Your comment will be pulished after censoring]</div>
+          {% endif %}
+                         
+          {% if user.is_superuser %}
+          <div class="single-comment justify-content-between d-flex">
+               <div class="user justify-content-between d-flex">
+                   <div class="thumb">
+                        <img src="{% static 'img/blog/c1.jpg' %}" alt="">
+                   </div>
+                   <div class="desc">
+                        <h5>{{ comment.author }}</h5>
+                        <p class="date">{{ comment.created_date }}</p>
+                        <p class="comment">
+                           {{ comment.text|linebreaks }}
+                        </p>
+                        <a class="btn blog_btn" href="{% url 'comment_remove' pk=comment.pk %}"> Remove </a>
+                        <a class="btn blog_btn" href="{% url 'comment_approve' pk=comment.pk %}"> Approve </a>
+                   </div>
+               </div>
+          </div>
+          {% endif %}
+            
+          {% endif %}
+          
+        
+          <div class="br"></div>
+        </aside>
+        
+        {% empty %}
+          <p>No comments here yet. Post the first one!</p>
+          
+        {% endfor %}
+        </div>  
+        
+      {% else %} 
+      <p> Please <a href="{% url 'signup' %}">log in or sign up</a> to leave or view comments.</p>
+      {% endif %}
+        	
+    </div>
+
+   </div>       
     
     <!-- jQuery CDN -->
     <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
@@ -101,15 +142,18 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <script> 
-         function replyToCommentFunction(id) {
+      function replyToCommentFunction(id) {
            var divId = String(id);  
            var reply = document.getElementById("replyToCommentDiv" + divId);
+           var replyBtn = document.getElementById("replyButton" + divId);
            if (reply.style.display === "none") {
                //reply.style.display = "block";
                $(reply).fadeIn("slow");
+               $(replyBtn).html("Close");
            } else {
                //reply.style.display = "none";
                $(reply).fadeOut();
+               $(replyBtn).html("Reply");
            }
         }
        
@@ -123,30 +167,78 @@
       alert(mesg.innerHTML);
     });
     
+    function btnsuccess() {
+     if(document.getElementById("comment_content").value==="") { 
+              document.getElementById('addCommentBtn').disabled = true; 
+          } else { 
+              document.getElementById('addCommentBtn').disabled = false;
+          }
+    }
+    
+    function rpybtnsuccess(cid) {
+     var divcid = String(cid);
+     var btnid = document.getElementById("addReplyBtn" + divcid);
+     var replydivcid = document.getElementById("reply_content" + divcid);
+     
+     if(replydivcid.value==="") { 
+              btnid.disabled = true; 
+          } else { 
+              btnid.disabled = false;
+          }
+    }
   </script>
   
-  <!-- For testing ajax only -->
-  <script>
-  $("#button_test").on("click", function(event){
-      event.preventDefault();
-      var div = document.getElementById("comment_content");
-      var form = $(div).closest("form");
-      var result = document.getElementById("forSensor");
-      var formData = form.serializeArray()
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+<script type="text/javascript"> 
+  $('#addCommentBtn').click(function(){
+      var pid = document.getElementById("id-div").value;
+      var author = document.getElementById("user_name").value;
+      var content = document.getElementById("comment_content").value;
+      $.ajax(
+      {
+          type:"GET",
+          url: "/add_comment",
+          data:{
+               pid: pid,
+               author: author,
+               text: content,
+          },
+          success: function( data ) 
+          {
+              $("#newComment").hide().fadeIn();
+              $("#newComment").load(" #newComment");
+              $("#comment_content").val("");
+              alert("Thank you. Your comment will be open to public after censoring.");
+          }
+       })
+});  
+</script>  
+
+<script type="text/javascript"> 
+
+function addReply(id) {
+    var commentId = String(id);
+    var pid = document.getElementById("commentpid" + commentId).value;
+    var author = document.getElementById("user_name_r").value;
+    var content = document.getElementById("reply_content" + commentId).value;
+    var replies = document.getElementById("replies" + commentId);
           
-      $.ajax({
-        url: form.attr("formUrl"),
-        data: formData,
-        type: "GET",
-        dataType: 'json',
-        success: function (data) {
-          form[0].reset();
-          $(result).load(location.href + result); 
-        }
-      });
-      
-      result.innerHTML = form.attr("formUrl");
-      //alert(form.serialize() + form.attr("formUrl"));      
-      
-  });  
-  </script>
+   $.ajax({
+         type:"GET",
+         url: "/add_reply_to_comment",
+         data:{
+                pid: pid,
+                cid: commentId,
+                author: author,
+                text: content,
+         },
+         success: function( data ){
+                
+                $(replies).hide().fadeIn('slow');
+                $("#newComment").load(" #newComment");
+               
+         }
+   })
+}  
+</script>   

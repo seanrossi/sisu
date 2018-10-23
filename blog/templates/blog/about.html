@@ -2,72 +2,91 @@
 {% load staticfiles %}
 
 {% block content %}
-<!--================Offcanvus Side Menu Area =================-->
-        <div class="side_menu">
-			<a class="logo" href="#"><img src="{% static 'img/logo.png'%}" alt=""></a>
-      
-			<ul class="list menu_right">   
-        <li><a href="/">Home</a></li>      
-        
-        {% include 'blog/post_category.html' %}                    
-       
-				<li><a href="{% url 'about_us' %}">About Us</a></li>
-				<li><a href="{% url 'contact_us' %}">Contact Sisu</a></li>
-			</ul>
-			
-        
-      <ul class="list menu_right">
-      
-      {% if user.is_authenticated %}
-        <li>{{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></li>
-        <li><a href="{% url 'user_settings' %}" >Settings</a> </li>
-        {% else %}
-        <li><i class="glyphicon glyphicon-lock"></i> <a href="{% url 'signup' %}">Sign in / Sign up </a></li>
-        {% endif %}
-      </ul>
-		</div>
-        <!--================End Offcanvus Side Menu Area =================-->
 
-        <!--================Canvus Menu Area =================-->
-        <div class="canvus_menu">
-        	<div class="container">
-        		<div class="float-left">
-        			<div class="toggle_icon">
-        				<span></span>
-        			</div>
-        		</div>
-        	</div>
-        </div>
-        <!--================End Canvus Menu Area =================-->
-        
-        <!--================Home Banner Area =================-->
-        <section class="home_slider">
-			<div class="swiper-container">
-				<div class="swiper-wrapper">
-					<div class="swiper-slide"><img src="{% static 'img/slider/slider-1.jpg' %}" alt="">
-						<div class="slider_text">
-							<img src="{% static 'img/slider/slider-content.png' %}" alt="">
-						</div>
-					</div>
-					<div class="swiper-slide"><img src="{% static 'img/slider/slider-2.jpg' %}" alt="">
-						<div class="slider_text">
-							<img src="{% static 'img/slider/slider-content.png' %}" alt="">
-						</div>
-					</div>
-					<div class="swiper-slide"><img src="{% static 'img/slider/slider-3.jpg' %}" alt="">
-						<div class="slider_text">
-							<img src="{% static 'img/slider/slider-content.png" alt="">
-						</div>
-					</div>
+<!--================Home Banner Area =================-->
+<section class="home_slider">
+	<div class="swiper-container">
+		<div class="swiper-wrapper">
+			<div class="swiper-slide"><img src="{% static 'img/slider/slider-1.jpg' %}" alt="">
+				<div class="slider_text">
+					<img src="{% static 'img/slider/slider-content.png' %}" alt="">
 				</div>
 			</div>
+			<div class="swiper-slide"><img src="{% static 'img/slider/slider-2.jpg' %}" alt="">
+				<div class="slider_text">
+					<img src="{% static 'img/slider/slider-content-1.png' %}" alt="">
+				</div>
+			</div>
+			<div class="swiper-slide"><img src="{% static 'img/slider/slider-3.jpg' %}" alt="">
+				<div class="slider_text">
+					<img src="{% static 'img/slider/slider-content.png' %}" alt="">
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+        
+<!-- Circular Menu --> 
+<!-- Credit to Mojtaba Seyedi created on June 23, 2015
+https://codepen.io/seyedi/pen/YXEqwB -->
+<div id="circularMenu1" class="circular-menu circular-menu-left">
 
-        </section>
-        <!--================End Home Banner Area =================-->
-        
-        <!--================About Us Area =================-->
-        {% include 'blog/about_us_content.html' %}
-        
-        
-                
+  <a class="floating-btn" onclick="document.getElementById('circularMenu1').classList.toggle('active');">
+    <i class="fa fa-bars" style="color:#fff;"></i>
+  </a>
+
+  <menu class="items-wrapper">
+    {% if user.is_authenticated %}
+    <a href="{% url 'about_us' %}" class="menu-item fa fa-info-circle"></a>
+    <a href="{% url 'post_cases' %}" class="menu-item fa fa-briefcase"></a>
+    <a href="{% url 'user_settings' %}" class="menu-item fa fa-user"></a>
+    <a href="{% url 'logout' %}" class="menu-item fa fa-sign-out"></a>
+    
+    {% else %}
+    <a href="{% url 'about_us' %}" class="menu-item fa fa-info-circle"></a>
+    <a href="{% url 'post_cases' %}" class="menu-item fa fa-briefcase"></a>
+    <a href="{% url 'signup' %}" class="menu-item fa fa-sign-in"></a>
+    
+    {% endif %}
+  </menu>
+
+</div>     
+
+<!--================ start footer Area  =================-->	
+        <footer class="footer-area p_120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4  col-md-6 col-sm-6">
+                     <aside class="f_widget news_widget">
+                        <div class="f_title">
+                          <h3 class="footer_title">Vote For App</h3>
+                        </div>
+                        <div id="mc_embed_signup">
+                        {% include 'blog/vote_for_app.html' %} 
+                        </div>
+                     </aside>
+                    </div>
+                    
+                    <div class="col-lg-4  col-md-6 col-sm-6">
+                        <div class="single-footer-widget tp_widgets">
+                           <h6 class="footer_title">Contacts</h6>
+                            <ul class="list">
+                              <li><i class="glyphicon glyphicon-envelope"></i>&ensp;<a href="{% url 'contact_us' %}">Contact Us</a></li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row footer-bottom d-flex justify-content-between align-items-center">
+                    <p class="col-lg-8 col-md-8 footer-text m-0">Copyright © 2018 All rights reserved   |   This template is made with <i class="lnr lnr-heart"></i> by <a href="#">Colorlib</a></p>
+                    <div class="col-lg-4 col-md-4 footer-social">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-dribbble"></i></a>
+                        <a href="#"><i class="fa fa-behance"></i></a>
+                    </div>
+                </div>
+            </div>
+        </footer>   
 {% endblock %}

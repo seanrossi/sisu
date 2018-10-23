@@ -1,18 +1,11 @@
-{% extends "blog/base_sub.html" %}
+{% extends "blog/base_sub_w_footer.html" %}
 {% load staticfiles %}
 
 {% block header %}
-<ul class="nav navbar-nav menu_nav ml-auto">
-								<li class="nav-item"><a class="nav-link" href="/">Home</a></li> 
-								<li class="nav-item"><a class="nav-link" href="{% url 'about_us' %}">About Us</a></li> 
-								<li class="nav-item submenu dropdown">
-									<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Story Category <span class="caret"></span></a>
-									<ul class="dropdown-menu">
-										{% include 'blog/post_category_header.html'%}
-                    </ul>
-								</li> 
-								<li class="nav-item"><a class="nav-link" href="{% url 'contact_us' %}">Contact Sisu</a></li>
-							</ul>
+<li class="nav-item"><a class="nav-link" href="/">Home</a></li> 
+<li class="nav-item"><a class="nav-link" href="{% url 'about_us' %}">About</a></li> 
+<li class="nav-item"><a class="nav-link" href="{% url 'post_cases' %}">Cases</a></li>
+
 {% endblock %}
 
 {% block sub_content %}  
@@ -21,10 +14,10 @@
             	<div class="overlay bg-parallax" data-stellar-ratio="0.9" data-stellar-vertical-offset="0" data-background=""></div>
 				<div class="container">
 					<div class="banner_content text-center">
-						<h2>Search Results for "{{ query_string }}"</h2>
+						<h2>Search Results for <br> "{{ query_string }}"</h2>
 						<div class="page_link">
 							<a href="/">Home</a>
-							<a href="">Story Category</a>
+							<a href="{% url 'post_cases' %}">Cases</a>
 						</div>
 					</div>
 				</div>
@@ -50,8 +43,8 @@
                                             {{ post.category_name }}
                                         </div>
                                         <ul class="blog_meta list">
-                                            <li>{{ post.published_date }}<i class="lnr lnr-calendar-full"></i></li>
-                                            <li>06 Comments<i class="lnr lnr-bubble"></i></li>                                        </ul>
+                                            <li>{{ post.published_date }} <i class="lnr lnr-calendar-full"></i></li>
+                                            <li>06 Comments <i class="lnr lnr-bubble"></i></li>                                        </ul>
                                     </div>
                                </div>
                                 <div class="col-md-9">

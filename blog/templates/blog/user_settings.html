@@ -1,7 +1,72 @@
-{% extends "blog/base.html" %}
+{% extends "blog/base_sub_w_footer.html" %}
 
-{% block content %}
-<h2>Settings</h2>
-  <p>Edit user profile here</p>
+{% block header %}
+		<li class="nav-item"><a class="nav-link" href="/">Home</a></li> 
+		<li class="nav-item"><a class="nav-link" href="{% url 'about_us' %}">About</a></li> 
+		<li class="nav-item"><a class="nav-link" href="{% url 'post_cases' %}">Cases</a></li>
+{% endblock %}
+
+{% block sub_content %} 
+<section class="banner_area">
+   <div class="banner_inner d-flex align-items-center">
+      <div class="overlay bg-parallax" data-stellar-ratio="0.9" data-stellar-vertical-offset="0" data-background=""></div>
+				<div class="container">
+					<div class="banner_content text-center">
+						<h2>Settings</h2>
+						<div class="page_link">
+							<a href="/">Home</a>
+							<a href="{% url 'user_settings' %}">Settings</a>
+						</div>
+					</div>
+				</div>
+            </div>
+        </section>
+        
+        <!--================Blog Categorie Area =================-->
+        <section class="blog_area">
+          <div class="container">
+           <div class="col-lg-26">
+            <div class="w3-container">
+              <div class="w3-row">
+                <a href="javascript:void(0)" onclick="openTab(event, 'Settings');">
+                  <div id="tProfile" class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding"><h3 style="font-family: 'Roboto', sans-serif; font-weight: bold">Profile</h3></div>
+                </a>
+                <a href="javascript:void(0)" onclick="openTab(event, 'Summary');">
+                  <div id="tActivity" class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding w3-border-blue"><h3 style="font-family: 'Roboto', sans-serif; font-weight: bold">Activity</h3></div>
+                </a>
+              </div>
+
+            </div>
+           </div>
+           <div class="col-lg-26">
+             <div id="Settings" class="w3-container tabName" style="display:none">
+               <br>
+               <p>Configure User Settings here </p>
+             </div>
+
+             <div id="Summary" class="w3-container tabName" style="display:block">
+               <br>
+               <p>Show user commented / metooed posts here</p> 
+             </div>
+           </div>
+          </div>
+        </section>
+        <!--================Blog Categorie Area =================-->
+        
+<script>
+function openTab(evt, tabName) {
+  var i, x, tablinks;
+  x = document.getElementsByClassName("tabName");
+  for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";
+  }
   
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < x.length; i++) {
+     tablinks[i].className = tablinks[i].className.replace(" w3-border-blue", "");
+  }
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.firstElementChild.className += " w3-border-blue";
+}
+</script>        
 {% endblock %}

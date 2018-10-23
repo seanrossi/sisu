@@ -1,19 +1,29 @@
+from __future__ import unicode_literals
+
 from django.shortcuts import render
 from django.utils import timezone
-from .models import Post, Comment, Category, AppPreferrence, PostPreferrence, ReplyToComment
+from .models import Post, Comment, Category, AppPreferrence, PostPreferrence, ReplyToComment,Cluster
 from django.shortcuts import render, get_object_or_404
 from .forms import PostForm, CommentForm, ContactForm, SearchForm, ReplyToCommentForm
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.db import models
 from django.core.mail import send_mail, BadHeaderError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib import auth
 from ipware import get_client_ip
 from django.template import Context
 import re
 from django.db.models import Q
 from django.contrib import messages
+from django.db.models import Count
+from users.models import CustomUser
+from django.template.loader import render_to_string
+
+from hitcount.models import HitCount
+from hitcount.views import HitCountMixin
+
+from .suggestions import update_clusters
 
 # Create your views here.
 
@@ -24,6 +34,83 @@ def category(request):
   categories = Category.__members__.items()
   return {'categories' : categories}
 
+  
+# Popular cases
+# list top 5 cases with the most comments
+# get no. of comments for all posts
+def popular_cases(request):
+  
+  cases = Comment.objects.filter(approved_comment=True).values('post').annotate(dcount=Count('post')).order_by('-dcount')
+
+  size = Post.objects.all().count();
+  
+  count = 0;
+  pop_posts = [];
+  casesparsed = {};
+  
+  for case in cases:
+    casesparsed[case['post']] = case['dcount']
+    
+    if count < 5:
+      #print(case['post'])
+      #print(Post.objects.filter(pk=case['post']))
+      pop_posts.append(Post.objects.filter(pk=case['post']))
+      count = count + 1;
+  
+  #print(casesparsed)
+    
+  return {'pop_cases' : pop_posts, 'cases':casesparsed}
+
+# Recommendation
+def user_recommendation_list(request):
+  post_list = {}
+  
+  if request.user.is_authenticated:
+    # get the user commented:
+    user_commented = Comment.objects.filter(author=request.user.username).prefetch_related('post')
+    user_metooed = PostPreferrence.objects.filter(vote_value=1, username=auth.get_user(request))
+    
+    user_commented_posts = set(map(lambda x: x.post.pk, user_commented))
+    user_metooed_posts = set(map(lambda x: x.postpk.pk, user_metooed))
+    
+    #print (user_commented_posts)
+    #print (user_metooed_posts)
+    
+    # the set of posts this user commented and metooed
+    user_set = user_commented_posts | user_metooed_posts
+    #print (recommend_set)
+    
+    #get user cluster name & get all other cluster members
+    try:
+       user_cluster = CustomUser.objects.get(username=auth.get_user(request)).cluster_set.first().name
+    
+    except: # if no cluster assigned for a user, update clusters
+       update_clusters("true")
+       user_cluster = CustomUser.objects.get(username=auth.get_user(request)).cluster_set.first().name
+    
+    user_cluster_other_members = Cluster.objects.get(name=user_cluster).users.exclude(username=auth.get_user(request)).all()
+    other_members_usernames = set(map(lambda x: x.username, user_cluster_other_members))
+    
+    # get other users' commented and metooed posts from the same clusters
+    other_user_commented_posts = Comment.objects.filter(author__in=other_members_usernames).exclude(post__pk__in=user_set)
+    other_user_metooed_posts =  PostPreferrence.objects.filter(username__username__exact=other_members_usernames, vote_value=1).exclude(postpk__pk__in=user_set)        
+    
+    other_user_commented = set(map(lambda x: x.post.pk, other_user_commented_posts))
+    other_user_metooed = set(map(lambda x: x.postpk.pk, other_user_metooed_posts))
+    
+    other_users_set = other_user_commented | other_user_metooed
+    
+    post_list_1 = list(Post.objects.filter(id__in=other_users_set))
+    post_list_2 = list(Post.objects.exclude(id__in=user_set))
+    
+    post_list = list(set(post_list_1)|set(post_list_2))[:5]
+    
+    #print(post_list)
+    #print(other_users_set)
+    #print(other_members_usernames)
+  
+  return {'rec_post_list': post_list}
+  
 #
 # For About us page
 #
@@ -35,10 +122,13 @@ def about_us(request):
     
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
+    
     return render(request, 'blog/post_list.html', {'posts':posts})
     
 # Post.objects.get(pk=pk)
-
+def post_cases(request):
+    return render(request, 'blog/post_category_main.html')
+    
 def post_list_by_category(request, category_name):
     posts = Post.objects.filter(category_name=category_name).order_by('-published_date')
     cat = Category.get_label(category_name)
@@ -48,7 +138,12 @@ def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     user_name = auth.get_user(request)
     ip = request.session['ip']
-      
+    
+    hit_count = HitCount.objects.get_for_object(post)
+    hit_count_response = HitCountMixin.hit_count(request, hit_count)    
+    
+    #print ("hit---- " + str(hit_count_response.hit_message))
+    
     if request.user.is_authenticated:
         if PostPreferrence.objects.filter(username=user_name, ip_address=ip, postpk=pk, vote_value=1).exists():   
             voted = True
@@ -68,6 +163,7 @@ def post_detail(request, pk):
     summary = ({
       'voted':voted,
       'total_yes': total_yes,
+      
     }) 
     
     return render(request, 'blog/post_detail_index.html', {'post': post, 'summary': summary})
@@ -119,8 +215,9 @@ def post_edit(request, pk):
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
 
+'''
 @login_required     
-def add_comment_to_post(request, pk):
+def add_comment_to_post_orig(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
         form = CommentForm(request.POST)
@@ -133,9 +230,9 @@ def add_comment_to_post(request, pk):
     else:
         form = CommentForm()
     return render(request, 'blog/add_comment_to_post.html', {'form': form})
-    
+
 @login_required     
-def add_reply_to_comment(request, pk, cpk):
+def add_reply_to_comment_orig(request, pk, cpk):
     post = get_object_or_404(Post, pk=pk)
     comment = get_object_or_404(Comment, post=post, pk=cpk)
     if request.method == "POST":
@@ -149,6 +246,54 @@ def add_reply_to_comment(request, pk, cpk):
     else:
         form = CommentForm()
     return render(request, 'blog/add_comment_to_post.html', {'form': form})
+'''
+
+@login_required     
+def add_comment_to_post(request):
+  
+  if request.method == "GET":
+     pid = request.GET['pid']
+     author = request.GET['author']
+     content = request.GET['text']
+        
+     commentpost = get_object_or_404(Post, pk=pid)
+       
+     comment = Comment()
+     comment.post = commentpost
+     comment.author = author
+     comment.text = content
+      
+     comment.save()
+     update_clusters("false")
+           
+  else:
+     form = CommentForm()
+    
+  return render(request, 'blog/post_detail_index.html', {'post':commentpost})    
+    
+@login_required     
+def add_reply_to_comment(request):
+    
+    if request.method == "GET":
+        pid = request.GET['pid']
+        cid = request.GET['cid']
+        author = request.GET['author']
+        content = request.GET['text']
+        
+        replypost = get_object_or_404(Post, pk=pid)
+        comment = get_object_or_404(Comment, post=replypost, pk=cid)
+        
+        replyToComment = ReplyToComment()
+        replyToComment.post = replypost
+        replyToComment.comment = comment
+        replyToComment.author = author
+        replyToComment.text = content
+        
+        replyToComment.save()
+           
+    else:
+        form = CommentForm()
+    return render(request, 'blog/post_detail_index.html', {'post':replypost})
     
 @login_required
 def comment_approve(request, pk):
@@ -210,7 +355,7 @@ def check_voted(request):
   
    
   if request.user.is_authenticated:
-     if AppPreferrence.objects.filter(username=user_name).exists() or AppPreferrence.objects.filter(ip_address=ip).exists():   
+     if AppPreferrence.objects.filter(username=user_name).exists():   
         voted = True
         
   else:
@@ -224,8 +369,9 @@ def check_voted(request):
     })     
   return ({'summary': summary}) 
 
+'''
 # save the vote if never voted
-def vote_for_app(request, voted_value):
+def vote_for_app_orig(request, voted_value):
    
    if request.method == "POST":     
       user_preference = int(voted_value)
@@ -248,8 +394,40 @@ def vote_for_app(request, voted_value):
    app_voted.save()
      
    return render(request, "blog/about.html")
+'''
+
+def vote_for_app(request):
+   
+   if request.method == "GET":     
+      user_preference = request.GET['voted_value']
+      #user_ip = get_client_ip(request)
+      user_name = auth.get_user(request)
+      ip = request.session['ip']
   
-def on_off_star(request, postid, on_off_value):
+      app_voted = AppPreferrence() 
+      app_voted.ip_address = ip
+      
+      #print("==" + user_preference)
+      
+      if user_preference == "1":
+          app_voted.vote_yes = 1
+          
+          
+      elif user_preference == "2":
+          app_voted.vote_no =1
+      
+      #print("=====" + str(app_voted.vote_yes))
+      
+      if request.user.is_authenticated:
+         #print("===================================" + str(user_preference) + str(ip) + str(user_name))
+         app_voted.username = user_name
+              
+   app_voted.save()
+     
+   return render(request, "blog/about.html")
+   
+''' 
+def on_off_star_orig(request, postid, on_off_value):
    
    if request.method == "POST":     
           
@@ -260,7 +438,11 @@ def on_off_star(request, postid, on_off_value):
       post = get_object_or_404(Post, pk=postid)   
       
       try:
-        postpreferrence_obj = PostPreferrence.objects.get(username=request.user, postpk=post, ip_address=ip)     
+        if request.user.is_authenticated:
+          postpreferrence_obj = PostPreferrence.objects.get(username=user_name, postpk=post, ip_address=ip)     
+        else:
+          postpreferrence_obj = PostPreferrence.objects.get(postpk=post, ip_address=ip)
+        
         postpreferrence_obj.vote_value = post_preference
         postpreferrence_obj.save()       
         
@@ -278,7 +460,9 @@ def on_off_star(request, postid, on_off_value):
         if request.user.is_authenticated:
           #print("===================================" + str(user_preference) + str(ip) + str(user_name))
           post_voted.username = user_name
-                 
+        else:
+          post_voted.username = None
+          
         post_voted.save()   
         voted = True
    
@@ -288,6 +472,51 @@ def on_off_star(request, postid, on_off_value):
       })
       
    return render(request, 'blog/post_detail_index.html', {'post':post, 'summary':summary})
+'''
+   
+def on_off_star(request):
+
+   if request.method == 'GET':
+      post_id = request.GET['postid']
+      post_preference = request.GET['on_off_value']
+      user_name = auth.get_user(request)
+      ip = request.session['ip']
+      likedpost = get_object_or_404(Post, pk=post_id)
+   
+      voted = True
+      try:
+        if request.user.is_authenticated:
+          postpreferrence_obj = PostPreferrence.objects.get(username=user_name, postpk=likedpost, ip_address=ip)     
+        else:
+          postpreferrence_obj = PostPreferrence.objects.get(postpk=likedpost, ip_address=ip)
+        
+        postpreferrence_obj.vote_value = post_preference
+        postpreferrence_obj.save()    
+                
+        
+      except PostPreferrence.DoesNotExist:
+        post_voted = PostPreferrence()
+        post_voted.ip_address = ip
+        post_voted.postpk = likedpost
+        post_voted.vote_value = post_preference 
+      
+        if request.user.is_authenticated:
+          #print("===================================" + str(user_preference) + str(ip) + str(user_name))
+          post_voted.username = user_name
+        else:
+          post_voted.username = None
+          
+        post_voted.save()   
+        voted = True
+   
+      summary = ({
+         'voted':voted,
+         'total_yes': PostPreferrence.objects.filter(vote_value=1, postpk=post_id).count(),
+      })
+      
+      update_clusters("false")
+      
+   return render(request, 'blog/post_detail_index.html', {'post':likedpost, 'summary':summary})   
  
 # Search Functionality
 def normalize_query(query_string,
@@ -330,3 +559,6 @@ def search(request):
        search_form = SearchForm()
     
     return render(request, 'blog/post_search_res.html',{ 'query_string': query_string, 'found_entries': found_entries })
+###
+
+         

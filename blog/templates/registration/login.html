@@ -1,6 +1,46 @@
 {% extends "blog/base.html" %}
+{% load staticfiles %}
 
 {% block content %}
+<!-- Trigger/Open The Login Modal --> <!-- TBD -->
+          <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+          <div class="w3-container">
+            <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-green w3-large">Login</button>
+
+            <div id="id01" class="w3-modal">
+              <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+
+                <div class="w3-center"><br>
+                  <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
+                </div>
+                  
+                  <form method="post" action="{% url 'login' %}">
+                  {% csrf_token %}
+                      <table>
+                      <tr>
+                          <td>Username</td>
+                          <td>{{ form.username }}</td>
+                      </tr>
+                      <tr>
+                          <td>Password</td>
+                          <td>{{ form.password }}</td>
+                      </tr>
+                      </table>
+
+                      <input type="submit" value="login" />
+                      <input type="hidden" name="next" value="{{ next }}" />
+                  </form>
+
+                <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+                  <button onclick="document.getElementById('id01').style.display='none'" type="button" class="w3-button w3-red">Cancel</button>
+                  <span class="w3-right w3-padding w3-hide-small">Forgot <a href="#">password?</a></span>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <!-- TBD -->
+          
     <div class="separator_line"></div>
     {% if form.errors %}
         <p>Your username and password didn't match. Please try again.</p>

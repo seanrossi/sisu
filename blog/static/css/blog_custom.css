@@ -5,59 +5,15 @@
 
 <a href="https://en.wikipedia.org/wiki/Django" class="external_link" id="link_to_wiki_page">
 
-body {
-    font-family: 'Poppins', sans-serif;
-    background: #fafafa;
-}
-
-p {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.1em;
-    font-weight: 300;
-    line-height: 1.7em;
-    color: #999;
-}
-
-
 .separator_line {
     width: 100%;
     height: 1px;
     border-bottom: 1px dashed #fff;
     margin: 10px 0;
 }
-
-
-.sticky {
-  padding:0px;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 751;
-}
-
-
-/* ---------------------------------------------------
-    CONTENT STYLE
------------------------------------------------------ */
-#content {
-    width: 100%;
-    padding: 20px;
-    min-height: 100vh;
-    transition: all 0.3s;
-    position: absolute;
-    top: 5%;
-    left: 0;
-    z-index: 750;
-    overflow:auto;
-}
-
 /* ---------------------------------------------------
     POST STYLE
 ----------------------------------------------------- */
-.date {
-    margin: 100px 0
-    color: #828282;
-}
 
 .save {
     float: right;
@@ -80,10 +36,6 @@ p {
 
 .post h1 a, .post h1 a:visited {
     color: #000000;
-}
-
-.comment {
-    margin: 20px 0px 20px 20px;
 }
 
 .wrapper {
@@ -306,11 +258,11 @@ label {
 * Search bar
 */
 #searchDiv {
-  width: 250px;
+  width: 350px;
   height: 50px;
-  position: fixed;
-  top: 0;
-  right: 0;
+  position: relative;
+  top: 10px;
+  right: 10px;
   text-align: left;
   vertical-align: middle !important;
 }
@@ -319,8 +271,8 @@ label {
 * Comments related
 */
 #comment_content {
-  width: 270px;
-  height: 250px;
+  width: 400px;
+  height: 300px;
   vertical-align: bottom !important;
   color: #999;
 }
@@ -329,3 +281,419 @@ label {
   vertical-align: bottom !important;
   color: #999;
 }
+
+/*
+* Fixed Left Bar
+*/
+.sidenav {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    background: #04091e;
+    overflow-x: hidden;
+    padding-top: 20px;
+    vertical-align: middle !important;
+    
+}
+        
+.sidediv {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    z-index: 20;
+    top: 100px;
+    left: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+    padding-left: 20px;
+    vertical-align: middle !important;
+    font-size: 1.3em;
+    line-height: 2.5;
+    font-weight: 400;
+}
+        
+ .sidediv .menu_left {
+    margin-top: 20px;
+    max-height: 500px; 
+    height: 200px;
+    background:#04091e;}
+    .sidediv .menu_left li {
+      margin-bottom: 0px; }
+      .sidediv .menu_left li a {
+        font-size: 18px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: normal;
+        color: #fff;
+        }
+        .sidediv .menu_left h2 {
+          font-family: 'Poppins', sans-serif;
+          font-weight: 500;}
+
+          #left_menu_list {
+            color: #FFE265;} 
+          
+          #left_menu_list a {
+            color: #fff;} 
+          
+          #left_menu_list a:hover{
+            color: #288FB4;}
+          
+          #left_user_area  a:hover{
+            color: #EFE4B0;}
+/*
+* Comments Area
+*/
+
+/* The Modal (background) */
+.comment-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 20; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    -webkit-animation-name: fadeIn; /* Fade in the background */
+    -webkit-animation-duration: 0.4s;
+    animation-name: fadeIn;
+    animation-duration: 0.4s;
+    
+}
+
+/* Modal Content */
+.comment-modal-content {
+    position: fixed;
+    bottom: 0;
+    background-color: #fefefe;
+    width: 88%;
+    height: 50%;
+    left:250px;
+    -webkit-animation-name: slideIn;
+    -webkit-animation-duration: 0.4s;
+    animation-name: slideIn;
+    animation-duration: 0.4s;
+    max-height: calc(100vh - 210px);
+    overflow: auto; /* Enable scroll if needed */
+    
+}
+
+/* The Close Button */
+.comment-close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.comment-close:hover,
+.comment-close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.comment-modal-header {
+    padding: 2px 16px;
+    background-color: #f42f2c;
+    color: white;
+}
+
+.comment-modal-body {padding: 2px 16px;}
+
+.comment-modal-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+}
+
+/* Add Animation */
+@-webkit-keyframes slideIn {
+    from {bottom: -300px; opacity: 0} 
+    to {bottom: 0; opacity: 1}
+}
+
+@keyframes slideIn {
+    from {bottom: -300px; opacity: 0}
+    to {bottom: 0; opacity: 1}
+}
+
+@-webkit-keyframes fadeIn {
+    from {opacity: 0} 
+    to {opacity: 1}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0} 
+    to {opacity: 1}
+}
+
+@media (max-width: 1500px) {
+    .sidenav {display: none;}
+    .comment-modal-content {left:0; width: 100%;}
+    #comment_content {width: 300px;}
+}
+
+@media (max-width: 900px) {
+    #tProfile {width: 150px;}
+    #tActivity {width: 150px;}
+    
+    #mySearchbar {
+      padding-top:0;
+      padding-bottom:0;
+  }
+}
+
+/* The Modal (sign up) */
+.sign-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.sign-modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0} 
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.sign-close:hover,
+.sign-close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.sign-modal-header {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+}
+
+.sign-modal-body {padding: 2px 16px;}
+
+.sign-modal-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+}
+
+/*  test *********************/
+.circular-menu {
+  position: fixed;
+  bottom: 1em;
+  right: 1em;
+  z-index:100;
+}
+
+.circular-menu .floating-btn {
+  display: block;
+  width: 3.5em;
+  height: 3.5em;
+  border-radius: 50%;
+  background-color: hsl(4, 98%, 60%);
+  box-shadow: 0 2px 5px 0 hsla(0, 0%, 0%, .26);  
+  color: #fff;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle !important;
+  line-height: 3.9;
+  cursor: pointer;
+  outline: 0;
+}
+
+.circular-menu.active .floating-btn {
+  box-shadow: inset 0 0 3px hsla(0, 0%, 0%, .3);
+}
+
+.circular-menu .floating-btn:active {
+  box-shadow: 0 4px 8px 0 hsla(0, 0%, 0%, .4);
+}
+
+.circular-menu .floating-btn i {
+  font-size: 1.3em;
+  transition: transform .2s;  
+}
+
+.circular-menu.active .floating-btn i {
+  transform: rotate(-45deg);
+}
+
+.circular-menu:after {
+  display: block;
+  content: ' ';
+  width: 3.5em;
+  height: 3.5em;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: -2;
+  background-color: hsl(4, 98%, 60%);
+  transition: all .3s ease;
+}
+
+.circular-menu.active:after {
+  transform: scale3d(5.5, 5.5, 1);
+  transition-timing-function: cubic-bezier(.68, 1.55, .265, 1);
+}
+
+.circular-menu .items-wrapper {
+  padding: 0;
+  margin: 0;
+}
+
+.circular-menu .menu-item {
+  position: absolute;
+  top: .2em;
+  right: .2em;
+  z-index: -1;
+  display: block;
+  text-decoration: none;
+  color: hsl(0, 0%, 100%);
+  font-size: 1em;
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 3;
+  background-color: hsla(0,0%,0%,.1);
+  transition: transform .3s ease, background .2s ease;
+}
+
+.circular-menu .menu-item:hover {
+  background-color: hsla(0,0%,0%,.3);
+}
+
+.circular-menu.active .menu-item {
+  transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.circular-menu.active .menu-item:nth-child(1) {
+  transform: translate3d(1em,-7em,0);
+}
+
+.circular-menu.active .menu-item:nth-child(2) {
+  transform: translate3d(-3.5em,-6.3em,0);
+}
+
+.circular-menu.active .menu-item:nth-child(3) {
+  transform: translate3d(-6.5em,-3.2em,0);
+}
+
+.circular-menu.active .menu-item:nth-child(4) {
+  transform: translate3d(-7em,1em,0);
+}
+
+/**
+ * The other theme for this menu
+ */
+
+.circular-menu.circular-menu-left {
+  right: auto; 
+  left: 1em;
+}
+
+.circular-menu.circular-menu-left .floating-btn {
+  background-color: hsl(217, 89%, 61%);
+}
+
+.circular-menu.circular-menu-left:after {
+  background-color: hsl(217, 89%, 61%);
+}
+
+.circular-menu.circular-menu-left.active .floating-btn i {
+  transform: rotate(90deg);
+}
+
+.circular-menu.circular-menu-left.active .menu-item:nth-child(1) {
+  transform: translate3d(-1em,-7em,0);
+}
+
+.circular-menu.circular-menu-left.active .menu-item:nth-child(2) {
+  transform: translate3d(3.5em,-6.3em,0);
+}
+
+.circular-menu.circular-menu-left.active .menu-item:nth-child(3) {
+  transform: translate3d(6.5em,-3.2em,0);
+}
+
+.circular-menu.circular-menu-left.active .menu-item:nth-child(4) {
+  transform: translate3d(7em,1em,0);
+}
+
+/* navigation bar */
+
+  .affix {
+      top:0;
+      width: 100%;
+      z-index: 9999 !important;
+  }
+
+  .navbar {
+      margin-bottom: 0px;
+      background: #04091e;
+      z-index: 900;
+      font-family: "Poppins", sans-serif;
+  }
+
+  .navbar .navbar-nav > .active > a, .navbar .navbar-nav > .active > a:hover, .navbar .navbar-nav > .active > a:focus {
+    background-color: grey;
+    color: #FFFFFF;
+    font-weight:bold;
+  }
+
+  .navbar .navbar-nav > li > a:hover, .navbar .navbar-nav > li > a:focus {
+      background-color: #1D556F;
+      color: #FFFFFF;
+  }
+  
+  .affix ~ .container-fluid {
+     position: relative;
+     top: 50px;
+  }
+
+  #mySearchbar {
+    padding-top:5px;
+    padding-bottom:5px;
+  }

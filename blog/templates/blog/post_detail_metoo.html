@@ -1,6 +1,9 @@
 {% load staticfiles %}
 
-  {% if summary.voted %}           
+  <b id="like_count">Total {{ summary.total_yes }} met similar situation. Let's fight together.</b>    
+
+  <!--    
+  
   <div id="lighted">
     <div>
       <input type="checkbox" id="toCheck2" checked>
@@ -9,18 +12,26 @@
     
     <div> <p> Total {{ summary.total_yes }} have lighted the star! Let's fight together. </p></div>
 
-  </div>
+  </div> -->
+  {% if summary.voted %}    
+  <button id ="likes" data-catid="{{ post.id }}" class="btn btn-mini blog_btn" type="button" style="display:none;">
+  Me too!</button>
+  
   {% else %}
-  <div id="tolight">
+  <b id="no_vote"><br>If you met similar situation, let others know they are not alone. -> </b>
+  <button id ="likes" data-catid="{{ post.id }}" class="btn btn-mini blog_btn" type="button">Me too!</button>
+
+<!--  <div id="tolight">
     <div>
       <input type="checkbox" id="toCheck" checked>
         <a href="#" onClick="document.getElementById('likebutton').submit()"><label class="star glyphicon glyphicon-star-empty" for="toCheck"></label></a>
     </div>
     <div><p> Have you met similar situation? If so, light the star to let others know they are not alone. </p>  </div>
           
-  </div>
+  </div> -->
  {% endif %}
- 
+
+<!-- 
   <form id="likebutton" method="POST" action="/post/{{ post.id }}/preference/1/">
      {% csrf_token %}
      <input type="hidden">
@@ -30,3 +41,28 @@
      {% csrf_token %}
      <input type="hidden">
   </form> 
+  -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script type="text/javascript"> 
+    $('#likes').click(function(){
+    var catid = $(this).attr("data-catid");
+    var value = 1;
+    $.ajax(
+    {
+        type:"GET",
+        url: "/likepost",
+        data:{
+                 postid: catid,
+                 on_off_value: value
+        },
+        success: function( data ) 
+        {
+            $('#likes').hide();
+            $('#no_vote').hide();
+            $("#like_count").load(" #like_count");
+            
+        }
+     })
+});  
+</script>  

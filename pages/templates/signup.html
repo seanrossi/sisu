@@ -1,8 +1,16 @@
+{% extends "blog/base.html" %}
 <!-- templates/signup.html -->
 {% load staticfiles %}
 
-<link rel="stylesheet" href="{% static 'css/stylish-portfolio.css' %}" />
-<script src="js/stylish-portfolio.js"></script>
+{% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!--<link rel="stylesheet" href="{% static 'css/stylish-portfolio.css' %}" /> -->
+<link rel="stylesheet" href="{% static 'css/blog_custom.css' %}" />
+
+<!-- <script src="js/stylish-portfolio.js"></script> -->
+
+<h2>Log in</h2>
+<p><a href="{% url 'login' %}">Log In </a></p>
 
 <h2>Sign up</h2>
 <form method="post">
@@ -10,3 +18,5 @@
   {{ form.as_p }}
   <button type="submit">Sign up</button>
 </form>
+
+{% endblock %}

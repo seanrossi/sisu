@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from django.db import models
 from django.utils import timezone
 from enumfields import EnumField
@@ -5,21 +7,27 @@ from enumfields import Enum
 from django.conf import settings
 #from django.contrib.auth.models import User
 
+from django.utils.encoding import python_2_unicode_compatible
+from django.contrib.contenttypes.fields import GenericRelation
+from hitcount.models import HitCount, HitCountMixin
+
+from users.models import CustomUser
+
 # Create your models here.
 class Category(Enum):
   Harassment = 'Harassment'; 
   Discrimination = 'Discrimination'; 
   Politics = 'Politics';
-  Imagination = 'Imagination';
   Worklife = 'Worklife';
+  Conflict = 'Conflict';
   Miscellaneous = 'Miscellaneous';
   
   class Labels:
-    Harassment = 'Struggling with harassment?';
-    Discrimination = 'Feeling unfair due to discrimination?'; 
-    Politics = 'Politics around you';
-    Imagination = 'Is it your imagination?';
-    Worklife = 'Do you have a healthy worklife?';
+    Harassment = 'Harassment';
+    Discrimination = 'Discrimination'; 
+    Politics = 'Politics';
+    Conflict = 'Colleagues Conflict';
+    Worklife = 'Worklife Balance';
     Miscellaneous = 'Other issues';
     
   def get_label(cat_name):
@@ -32,8 +40,8 @@ class Category(Enum):
       if cat_name == "Politics":
         return Category.Politics
       
-      if cat_name == "Imagination":
-        return Category.Imagination
+      if cat_name == "Conflict":
+        return Category.Conflict
       
       if cat_name == "Worklife":
         return Category.Worklife
@@ -43,16 +51,19 @@ class Category(Enum):
     
     
   
-class Post(models.Model):
+@python_2_unicode_compatible  
+class Post(models.Model, HitCountMixin):
   author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
   title = models.CharField(max_length=200)
   text = models.TextField()
   short_desc = models.TextField()
   published_date = models.DateTimeField(blank=True, null=True)
   created_date = models.DateTimeField(default=timezone.now)
-  category_name = EnumField(Category, max_length=30, default=Category.Harassment)#models.CharField(max_length=200)
-  #EnumField(Category, max_length=30, default=Category.Harassment)
-  
+  category_name = EnumField(Category, max_length=30, default=Category.Harassment)
+  hit_count_generic = GenericRelation(
+        HitCount, object_id_field='object_pk',
+        related_query_name='hit_count_generic_relation')
+        
   def publish_post(self):
     self.published_date = timezone.now()
     self.save()
@@ -68,6 +79,7 @@ class Comment(models.Model):
   text = models.TextField()
   created_date = models.DateTimeField(default=timezone.now)
   approved_comment = models.BooleanField(default=False)
+  rec_value = models.IntegerField(default=2)
   
   def approve(self):
     self.approved_comment = True
@@ -119,3 +131,11 @@ class ReplyToComment(models.Model):
     
   def __str__(self):
     return self.text
+
+#For recommendation
+class Cluster(models.Model):
+  name = models.CharField(max_length=200)
+  users = models.ManyToManyField(CustomUser)
+  
+  def get_members(self):
+        return "\n".join([u.username for u in self.users.all()])
