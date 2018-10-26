@@ -93,31 +93,31 @@
              
           {% else %}
           
-          {% if user.get_username == comment.author %}
-          <div id="forCensor">[Your comment will be pulished after censoring]</div>
-          {% endif %}
-                         
-          {% if user.is_superuser %}
-          <div class="single-comment justify-content-between d-flex">
-               <div class="user justify-content-between d-flex">
-                   <div class="thumb">
-                        <img src="{% static 'img/blog/c1.jpg' %}" alt="">
-                   </div>
-                   <div class="desc">
-                        <h5>{{ comment.author }}</h5>
-                        <p class="date">{{ comment.created_date }}</p>
-                        <p class="comment">
-                           {{ comment.text|linebreaks }}
-                        </p>
-                        <a class="btn blog_btn" href="{% url 'comment_remove' pk=comment.pk %}"> Remove </a>
-                        <a class="btn blog_btn" href="{% url 'comment_approve' pk=comment.pk %}"> Approve </a>
-                   </div>
-               </div>
-          </div>
-          {% endif %}
+            {% if user.get_username == comment.author or user.is_superuser %}
+            <div id="forCensor">[Your comment will be pulished after censoring]</div>
             
+            <div class="single-comment justify-content-between d-flex">
+                 <div class="user justify-content-between d-flex">
+                     <div class="thumb">
+                          <img src="{% static 'img/blog/c1.jpg' %}" alt="">
+                     </div>
+                     <div class="desc">
+                          <h5>{{ comment.author }}</h5>
+                          <p class="date">{{ comment.created_date }}</p>
+                          <p class="comment">
+                             {{ comment.text|linebreaks }}
+                          </p>
+                          {% if user.is_superuser %}
+                          <a class="btn blog_btn" href="{% url 'comment_remove' pk=comment.pk %}"> Remove </a>
+                          <a class="btn blog_btn" href="{% url 'comment_approve' pk=comment.pk %}"> Approve </a>
+                          {% endif %}
+                     </div>
+                 </div>
+            </div>
+            {% endif %}
+            
+              
           {% endif %}
-          
         
           <div class="br"></div>
         </aside>
@@ -130,8 +130,19 @@
         
       {% else %} 
       <p> Please <a href="{% url 'signup' %}">log in or sign up</a> to leave or view comments.</p>
+      <p> Please 
+          <a href="" data-toggle="modal" data-target="#signinModal">log in or sign up</a> to leave or view comments.</p>
       {% endif %}
         	
+          <!-- Sign-in/up Modal -->
+  <div class="modal fade" id="signinModal" role="dialog" style="overflow-y:hidden;">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        {% include 'blog/login_modal.html' %}
+      </div>
+    </div>
+  </div>
+   
     </div>
 
    </div>       

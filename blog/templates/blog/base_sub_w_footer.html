@@ -78,12 +78,21 @@ https://codepen.io/seyedi/pen/YXEqwB -->
     <a></a>
     <a></a>
     <a href="{% url 'contact_us' %}" class="menu-item fa fa-envelope"></a>
-    <a href="{% url 'signup' %}" class="menu-item fa fa-sign-in"></a>
+    <a href="" class="menu-item fa fa-sign-in" data-toggle="modal" data-target="#signinModal"></a>
     
     {% endif %}
   </menu>
 
-</div>    
+</div> 
+<!-- Sign-in/up Modal -->
+  <div class="modal fade" id="signinModal" role="dialog" style="overflow-y:hidden;">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        {% include 'blog/login_modal.html' %}
+      </div>
+    </div>
+  </div>
+   
         {% block sub_content %}
         {% endblock %}
      

@@ -1,0 +1,47 @@
+{% load staticfiles %}
+
+<div id="act_chart" style="font-family: 'Roboto', sans-serif; font-weight: bold">
+  {% if cat_chart %}
+  <h3>Your Activity in Different Categories </h3> 
+    <div id="userChart">           
+    {{ cat_chart|safe }}
+    </div>
+    <script type="text/javascript" src="http://kozea.github.com/pygal.js/latest/pygal-tooltips.min.js"></script> 
+  {% else %}
+    <h4>Below are the top picks for you. Alternatively, you can view all the cases by category here: <a href="{% url 'post_cases' %}" class="menu-item fa fa-briefcase"></a></h4>  
+    
+    <section class="testimonials_area">
+  <div class="container">
+    <div class="testi_slider owl-carousel">
+     {% for post in pop_cases %}
+       {% for p in post %}
+       <div class="item">
+         <div class="row">
+           <div class="col-lg-4">
+             <img src="{% static 'img/testimonials/testi-1.jpg' %}" alt="">
+           </div>
+           <div class="col-lg-8">
+            <div class="testi_text">
+              <h4> {{ p.title }} </h4>
+              <h5>{{ p.category_name }}</h5>
+              <p>{{ p.short_desc }}</p>
+              <br>
+              <br>
+              <a href="{% url 'post_detail' pk=p.pk %}" class="main_btn">Read More... </a>
+            </div>
+              
+            </div>
+           </div>
+         </div>
+         
+        {% endfor %}
+       {% endfor %}   
+      </div>       
+   </div>
+</section>
+
+  {% endif %}  
+  
+</div>  
+
+           

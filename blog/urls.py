@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from . import views
+from .views import IndexView
 
 urlpatterns = [
     url(r'^$', views.about_sisu, name='about'),
@@ -16,11 +17,12 @@ urlpatterns = [
     url(r'^post/category/(?P<category_name>\w+)$', views.post_list_by_category, name='post_list_by_category'),
     url(r'^cases$', views.post_cases, name='post_cases'),
     url(r'^contact_us/$', views.contact_us, name='contact_us'),
-    url(r'^settings/$', views.user_settings, name='user_settings'),
+    #url(r'^settings/$', views.user_settings, name='user_settings'),
     url(r'^voteforapp/$', views.vote_for_app, name='vote_for_app'),
     url(r'^likepost/$', views.on_off_star, name='on_off_star'),
     url(r'^add_comment/$', views.add_comment_to_post, name='add_comment_to_post'),
     url(r'^add_reply_to_comment$', views.add_reply_to_comment, name='add_reply_to_comment'),
     url(r'^search$', views.search, name='search'),
-    
+    #url(r'^settings/activity$', IndexView.as_view(), name='act_pie_chart'),
+    url(r'^settings/$', IndexView.as_view(), name='user_settings'),
 ]

@@ -1,47 +1,14 @@
 {% load staticfiles %}
 
-  <b id="like_count">Total {{ summary.total_yes }} met similar situation. Let's fight together.</b>    
+  <b id="like_count_after"></b>    
 
-  <!--    
-  
-  <div id="lighted">
-    <div>
-      <input type="checkbox" id="toCheck2" checked>
-        <a href="#" onClick="document.getElementById('dislikebutton').submit()"><label class="star glyphicon glyphicon-star" for="toCheck2"></label></a>
-    </div>
-    
-    <div> <p> Total {{ summary.total_yes }} have lighted the star! Let's fight together. </p></div>
-
-  </div> -->
   {% if summary.voted %}    
-  <button id ="likes" data-catid="{{ post.id }}" class="btn btn-mini blog_btn" type="button" style="display:none;">
-  Me too!</button>
-  
+  <b id="like_count"><span class='metoo_icon_filled'></span> Total {{ summary.total_yes }} (including you) met similar situation. Let's fight together.</b>    
+
   {% else %}
-  <b id="no_vote"><br>If you met similar situation, let others know they are not alone. -> </b>
-  <button id ="likes" data-catid="{{ post.id }}" class="btn btn-mini blog_btn" type="button">Me too!</button>
-
-<!--  <div id="tolight">
-    <div>
-      <input type="checkbox" id="toCheck" checked>
-        <a href="#" onClick="document.getElementById('likebutton').submit()"><label class="star glyphicon glyphicon-star-empty" for="toCheck"></label></a>
-    </div>
-    <div><p> Have you met similar situation? If so, light the star to let others know they are not alone. </p>  </div>
-          
-  </div> -->
+  <b id="no_vote"><span class='metoo_icon' id ="likes" data-catid="{{ post.id }}"></span> {{ summary.total_yes }} others met similar situation. If you too, let them know they are not alone. </b>
+  
  {% endif %}
-
-<!-- 
-  <form id="likebutton" method="POST" action="/post/{{ post.id }}/preference/1/">
-     {% csrf_token %}
-     <input type="hidden">
-  </form>
-
-  <form id="dislikebutton" method="POST" action="/post/{{ post.id }}/preference/2/">
-     {% csrf_token %}
-     <input type="hidden">
-  </form> 
-  -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script type="text/javascript"> 
@@ -60,7 +27,7 @@
         {
             $('#likes').hide();
             $('#no_vote').hide();
-            $("#like_count").load(" #like_count");
+            $("#like_count_after").load(" #like_count");
             
         }
      })

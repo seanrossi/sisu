@@ -5162,12 +5162,13 @@ button.close {
 }
 
 .modal-open {
-    overflow: hidden
+   overflow: hidden;
+   padding:0 !important;
 }
 
 .modal-open .modal {
     overflow-x: hidden;
-    overflow-y: auto
+    overflow-y: hidden;
 }
 
 .modal {

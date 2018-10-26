@@ -15,9 +15,9 @@ class CommentForm(forms.ModelForm):
         fields = ('author', 'text',)
         
 class ContactForm(forms.Form):
-    your_name = forms.CharField(max_length=50, required=True)
-    your_email = forms.EmailField(required=True)
-    subject = forms.CharField(max_length=100, required=True)
+    your_name = forms.CharField(max_length=50, required=True, widget=forms.TextInput(attrs={'class' : 'contactusfield'}))
+    your_email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'class' : 'contactusfield'}))
+    subject = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={'class' : 'contactusfield'}))
     message = forms.CharField(widget=forms.Textarea, required=True)
 
 class SearchForm(forms.Form):

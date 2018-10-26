@@ -73,7 +73,8 @@ TEMPLATES = [
                 'blog.views.category',
                 'blog.views.check_voted',
                 'blog.views.popular_cases',
-                'blog.views.user_recommendation_list'
+                'blog.views.user_recommendation_list',
+                
             ],
         },
     },

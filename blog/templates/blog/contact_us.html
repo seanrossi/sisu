@@ -46,14 +46,24 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-9">
-                    <form method="post">
+                    
+                    <div class="col-lg-5">
+                     <form method="post" class="contact_form">
+                      <table style="font-family:'Roboto', sans-serif;font-size: 16px; color:#222222">
                       {% csrf_token %}
-                      {{ form.as_p }}  
-                        <div class="form-actions">
-                          <button type="submit" class="blog_btn">Send</button>
-                        </div>
-                      </form>
+                      {{ form.as_table }}  
+                      </table>
+                      <br>
+                      <div class="form-actions">
+                        <button type="submit" class="main_btn"><i class="fa fa-envelope" ></i>  Send Message</button>
+                      </div>
+                      
+                     </form>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="table_img">
+                        <img src="{% static 'img/Sisu_Logo_2.png' %}" alt="">
+                      </div>
                     </div>
                 </div>
             </div>

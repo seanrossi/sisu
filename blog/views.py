@@ -18,12 +18,17 @@ from django.db.models import Q
 from django.contrib import messages
 from django.db.models import Count
 from users.models import CustomUser
+from users.forms import CustomUserCreationForm
 from django.template.loader import render_to_string
 
 from hitcount.models import HitCount
 from hitcount.views import HitCountMixin
 
 from .suggestions import update_clusters
+
+from .chart import CatPieChart
+from django.views.generic import TemplateView
+from pygal.style import DarkStyle
 
 # Create your views here.
 
@@ -115,7 +120,11 @@ def user_recommendation_list(request):
 # For About us page
 #
 def about_sisu(request):
-    return render(request, 'blog/about.html')
+    context = {
+        'signup_form': CustomUserCreationForm()
+    }
+    
+    return render(request, 'blog/about.html', context)
     
 def about_us(request):
     return render(request, 'blog/about_us.html')
@@ -561,4 +570,41 @@ def search(request):
     return render(request, 'blog/post_search_res.html',{ 'query_string': query_string, 'found_entries': found_entries })
 ###
 
-         
+## Pie chart
+class IndexView(TemplateView):
+      template_name = 'blog/user_settings.html'
+      
+      def get_context_data(self, **kwargs):
+          context = super(IndexView, self).get_context_data(**kwargs)
+          user = self.request.user
+          
+          user_comments_approve = Comment.objects.filter(approved_comment=True, author=user).order_by('-created_date')
+          user_comments_pending = Comment.objects.filter(approved_comment=False, author=user).order_by('-created_date')
+          user_metooed = PostPreferrence.objects.filter(vote_value=1, username=user).order_by('-vote_date')
+    
+          user_comments = user_comments_approve | user_comments_pending
+          
+          user_data = []
+          for comment in user_comments:
+            user_data.append(comment.post)
+          
+          for metoo in user_metooed:
+            user_data.append(metoo.postpk)
+          
+          if len(user_data) != 0:
+            cat_chart = CatPieChart(
+                          height = 600,
+                          width = 800,
+                          explicit_size=True,
+                          )
+                          
+            context['cat_chart'] = cat_chart.generate(user_data)
+          
+          else:
+            context['cat_chart'] = None
+            
+          context['user_commented'] = user_comments_approve[:20]
+          context['user_pending'] = user_comments_pending[:20]
+          context['user_metooed'] = user_metooed
+          
+          return context
