@@ -47,7 +47,7 @@
           
             <div class="col-md-9">
              <div class="blog_post">
-              <img src="{% static 'img/blog/main-blog/m-blog-1.jpg' %}" alt="">
+                <img src="{% static '/img/blog/main-blog/' %}{{ post.pk }}.png" alt="">
                 <div class="blog_details">
                   <a href="{% url 'post_detail' pk=post.pk %}"><h2>{{ post.title }}</h2></a>
                   <p>{{ post.short_desc|linebreaksbr }}</p>

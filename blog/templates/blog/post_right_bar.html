@@ -8,8 +8,8 @@
         {% for p in post %}
         <div class="media post_item">
           <a href="{% url 'post_detail' pk=p.pk %}">
-            <img src="{% static 'img/blog/popular-post/post1.jpg' %}" alt="post"> </a>
-          
+            <img src="{% static '/img/blog/popular-post/' %}{{ p.pk }}.png" alt="post"> </a>
+                
           <div class="media-body">
                   <a href="{% url 'post_detail' pk=p.pk %}"><h3>{{ p.title }} </h3></a>
                   <p><i class="lnr lnr-bubble"></i> {{ cases|dict_key:p.pk }} Comments </p>
@@ -28,7 +28,7 @@
            {% for post in rec_post_list %}  
            <div class="media post_item">
             <a href="{% url 'post_detail' pk=post.pk %}">
-            <img src="{% static 'img/blog/popular-post/post3.jpg' %}" alt="post"> </a>
+            <img src="{% static '/img/blog/popular-post/' %}{{ post.pk }}.png" alt="post"> </a>
             
             <div class="media-body">
               <a href="{% url 'post_detail' pk=post.pk %}"><h3>{{ post.title }}</h3></a>
