@@ -1,8 +1,13 @@
 from __future__ import unicode_literals
 
+import sendgrid
+import os
+from sendgrid.helpers.mail import *
+
 from django.shortcuts import render
 from django.utils import timezone
 from .models import Post, Comment, Category, AppPreferrence, PostPreferrence, ReplyToComment,Cluster
+from .models import PollQuestions, PollAnswer
 from django.shortcuts import render, get_object_or_404
 from .forms import PostForm, CommentForm, ContactForm, SearchForm, ReplyToCommentForm
 from django.shortcuts import redirect
@@ -17,18 +22,22 @@ import re
 from django.db.models import Q
 from django.contrib import messages
 from django.db.models import Count
-from users.models import CustomUser
-from users.forms import CustomUserCreationForm
+from users.models import CustomUser, UserProfile
+from users.forms import CustomUserCreationForm, UserProfileForm
 from django.template.loader import render_to_string
+from django.forms.models import inlineformset_factory
+from django.core.exceptions import PermissionDenied
 
 from hitcount.models import HitCount
 from hitcount.views import HitCountMixin
 
 from .suggestions import update_clusters
 
-from .chart import CatPieChart
+import pygal
+from .chart import CatPieChart, PollHorizontalBarChart
 from django.views.generic import TemplateView
 from pygal.style import DarkStyle
+
 
 # Create your views here.
 
@@ -169,13 +178,37 @@ def post_detail(request, pk):
     except PostPreferrence.DoesNotExist:
         total_yes = 0;
     
+    #Polling questions and stats
+    if(PollAnswer.objects.filter(post=pk, user=user_name)).exists():
+       pollquestion = get_object_or_404(PollQuestions, post=pk)
+       polled = True
+       
+       bar_chart = PollHorizontalBarChart(print_values=True,value_formatter=lambda x: '{}%'.format(x),
+                                          legend_at_bottom=True,
+                                          legend_box_size=30,
+                                          style=pygal.style.styles['default'](legend_font_size=30, 
+                                                                              value_font_size=30, 
+                                                                              label_font_size=25,
+                                                                              ))
+       chart = bar_chart.generate(pollquestion)
+    
+    else:
+       pollquestion = get_object_or_404(PollQuestions, post=pk)
+       polled = False
+       chart = None
+    
     summary = ({
-      'voted':voted,
-      'total_yes': total_yes,
-      
+        'voted':voted,
+        'total_yes': total_yes,
+        'polled': polled,
+        'pollquestion': pollquestion,
     }) 
     
-    return render(request, 'blog/post_detail_index.html', {'post': post, 'summary': summary})
+    return render(request, 'blog/post_detail_index.html', 
+                  {'post': post, 
+                   'summary': summary,
+                   'barchart': chart,
+                  })
     
 @login_required
 def post_new(request):
@@ -264,15 +297,21 @@ def add_comment_to_post(request):
      pid = request.GET['pid']
      author = request.GET['author']
      content = request.GET['text']
-        
+     
      commentpost = get_object_or_404(Post, pk=pid)
-       
+     
      comment = Comment()
      comment.post = commentpost
      comment.author = author
+     comment.user = request.user
+     
+     userprofile = get_object_or_404(UserProfile, user=comment.user)
+     comment.userprofile = userprofile
+     
      comment.text = content
-      
+     
      comment.save()
+    
      update_clusters("false")
            
   else:
@@ -297,6 +336,10 @@ def add_reply_to_comment(request):
         replyToComment.comment = comment
         replyToComment.author = author
         replyToComment.text = content
+        replyToComment.user = request.user
+     
+        userprofile = get_object_or_404(UserProfile, user=replyToComment.user)
+        replyToComment.userprofile = userprofile
         
         replyToComment.save()
            
@@ -330,23 +373,29 @@ def contact_us(request):
             else:
               sender = sender + "_(PUB_User)_"
               
+            sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
+            from_email = Email(form.cleaned_data['your_email'])
+            to_email = Email("sisu.contact.us@gmail.com")
             subject = sender + form.cleaned_data['subject']
+            content = Content("text/plain", form.cleaned_data['message'])
+            
+            mail = Mail(from_email, subject, to_email, content)
+            response = sg.client.mail.send.post(request_body=mail.get())
+            '''print(response.status_code)
+            print(response.body)
+            print(response.headers) 
+            '''
+            '''
             from_email = form.cleaned_data['your_email']
             message = form.cleaned_data['message']
             try:
                 send_mail(subject, message, from_email, ['admin@example.com'])
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
+                '''
             return render(request, 'blog/contact_us_success.html')
     return render(request, "blog/contact_us.html", {'form': form})
-    
-#
-# For User Settings
-#
-@login_required
-def user_settings(request):
-    return render(request, 'blog/user_settings.html')
-       
+           
 #
 # For voting app
 #
@@ -434,6 +483,42 @@ def vote_for_app(request):
    app_voted.save()
      
    return render(request, "blog/about.html")
+   
+def participate_poll(request):
+   if request.method == 'GET':
+      post_id = request.GET['postid']
+      poll_value = request.GET['selected']
+      user_name = auth.get_user(request)
+      
+      post = get_object_or_404(Post, pk=post_id)
+      
+      polledpost = PollAnswer()
+      polledpost.post = post
+      polledpost.user = user_name
+      polledpost.choiceval = poll_value
+      
+      polledpost.save()
+      
+      pollquestion = get_object_or_404(PollQuestions, pk=post_id)
+        
+      if(poll_value == '1'):
+         pollquestion.choice1stat += 1
+      elif(poll_value == '2'):
+         pollquestion.choice2stat += 1
+      elif(poll_value == '3'): 
+         pollquestion.choice3stat += 1
+      elif(poll_value == '4'): 
+         pollquestion.choice3stat += 1
+        
+      pollquestion.total += 1  
+      pollquestion.save()            
+        
+      summary = ({
+         'pollquestion':pollquestion,
+      })
+      
+   return render(request, 'blog/post_detail_index.html', {'post':post, 'summary':summary})   
+
    
 ''' 
 def on_off_star_orig(request, postid, on_off_value):
@@ -570,6 +655,41 @@ def search(request):
     return render(request, 'blog/post_search_res.html',{ 'query_string': query_string, 'found_entries': found_entries })
 ###
 
+#
+# For User Settings
+#
+@login_required
+def user_profile(request, pk):
+    user = CustomUser.objects.get(pk=pk)
+    user_form = UserProfileForm(instance=user)
+
+    ProfileInlineFormset = inlineformset_factory(CustomUser, UserProfile, fields=('photo',))
+    formset = ProfileInlineFormset(instance=user)
+
+    if request.user.is_authenticated and request.user.id == user.id:
+        if request.method == "POST":
+            user_form = UserProfileForm(request.POST, request.FILES, instance=user)
+            formset = ProfileInlineFormset(request.POST, request.FILES, instance=user)
+
+            if user_form.is_valid():
+                created_user = user_form.save(commit=False)
+                formset = ProfileInlineFormset(request.POST, request.FILES, instance=created_user)
+
+                if formset.is_valid():
+                    created_user.save()
+                    formset.save()
+                    return render(request, "blog/user_settings_profile_upd.html")
+            
+            
+        return render(request, "blog/user_settings.html", {
+            "noodle": pk,
+            "noodle_form": user_form,
+            "formset": formset,
+        })
+    else:
+        raise PermissionDenied
+    #return render(request, 'blog/user_settings.html')
+    
 ## Pie chart
 class IndexView(TemplateView):
       template_name = 'blog/user_settings.html'
@@ -583,6 +703,13 @@ class IndexView(TemplateView):
           user_metooed = PostPreferrence.objects.filter(vote_value=1, username=user).order_by('-vote_date')
     
           user_comments = user_comments_approve | user_comments_pending
+          
+          # Get user profile info
+          cus_user = CustomUser.objects.get(pk=user.pk)
+          user_form = UserProfileForm(instance=cus_user)
+
+          ProfileInlineFormset = inlineformset_factory(CustomUser, UserProfile, fields=('photo',))
+          formset = ProfileInlineFormset(instance=cus_user)
           
           user_data = []
           for comment in user_comments:
@@ -606,5 +733,7 @@ class IndexView(TemplateView):
           context['user_commented'] = user_comments_approve[:20]
           context['user_pending'] = user_comments_pending[:20]
           context['user_metooed'] = user_metooed
+          context['noodle_form'] = user_form
+          context['formset'] = formset
           
           return context

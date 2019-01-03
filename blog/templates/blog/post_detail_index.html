@@ -17,6 +17,10 @@
 {% endblock %}
 
 {% block post_content %}
+
+{% with "http://sisu.com" as host %}
+{% with "Share in" as share_txt %}
+
 <div><br></div>
 <section class="blog_area single-post-area"> 
   <div class="container" style="overflow:auto">
@@ -47,10 +51,25 @@
                                     
                                     </ul>
                                     <ul class="social-links">
-                                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-github"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                                        <li>{% with "facebook" as service %}
+                                            <a href="http://www.facebook.com/share.php?u={{ host }}{% url 'post_detail' pk=post.pk %}&amp;t={{ post.title }}" target="_blank" title="{{ share_txt }} {{ service }}">
+                                              <i class="fa fa-facebook"></i>
+                                            </a>
+                                            {% endwith %}
+                                        </li>
+                                        
+                                        <li>{% with "twitter" as service %}
+                                            <a href="http://twitter.com/share?url={{ host }}{% url 'post_detail' pk=post.pk %}&amp;text={{ post.title }}" target="_blank" title="{{ share_txt }} {{ service }}">
+                                              <i class="fa fa-twitter"></i>
+                                            </a>
+                                            {% endwith%}
+                                        </li>
+                                        <li>{% with "linkedin" as service %}
+                                            <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{ host }}{% url 'post_detail' pk=post.pk %}&amp;title={{ post.title }}&amp;ro=false&amp;summary=&amp;source=" target="_blank" title="{{ share_txt }} {{ service }}">
+                                              <i class="fa fa-linkedin"></i>
+                                            </a> 
+                                            {% endwith %}
+                                        </li>
                                     </ul>
                                     <!-- Trigger/Open The Modal -->
                                     <button id="myBtn" class='main_btn'>Show Comments</button>
@@ -65,25 +84,7 @@
                          <div> <br> </div>
                      </div>
                     <div class="col-lg-4">
-                      <div class="blog_right_sidebar">
-                        <aside class="single_sidebar_widget popular_post_widget">
-                          <h3 class="widget_title">Suggest Solutions</h3>
-                            <div class="media post_item">
-                              <img src="{% static 'img/blog/popular-post/post1.jpg' %}" alt="post">
-                              <div class="media-body">
-                                      <a href="#"><h3>Space The Final Frontier</h3></a>
-                                      
-                              </div>
-                             </div>
-                             
-                             <div class="media post_item">
-                               <img src="{% static 'img/blog/popular-post/post2.jpg' %}" alt="post">
-                                <div class="media-body">
-                                <a href="#"><h3>The Amazing Hubble</h3></a>
-                                </div>
-                             </div>
-                        </aside>
-                        </div>
+                      {% include 'blog/post_right_bar_index.html' %}
                         
                       <div id="myModal" class="comment-modal">
 
@@ -134,4 +135,6 @@
   }
 </script>
         
+{% endwith %}
+{% endwith %}
 {% endblock %}

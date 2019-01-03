@@ -71,7 +71,7 @@ https://codepen.io/seyedi/pen/YXEqwB -->
     {% if user.is_authenticated %}
     <a></a>
     <a href="{% url 'contact_us' %}" class="menu-item fa fa-envelope"></a>
-    <a href="{% url 'user_settings' %}" class="menu-item fa fa-user"></a>
+    <a href="{% url 'user_settings' pk=user.pk %}" class="menu-item fa fa-user"></a>
     <a href="{% url 'logout' %}" class="menu-item fa fa-sign-out"></a>
     
     {% else %}

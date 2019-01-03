@@ -31,7 +31,7 @@
           <ul class="list menu_left" id="left_user_area">
           {% if user.is_authenticated %}
             <li><i class="glyphicon glyphicon-user"></i> {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></li>
-            <li><i class="glyphicon glyphicon-cog"></i> <a href="{% url 'user_settings' %}" >Settings</a> </li>
+            <li><i class="glyphicon glyphicon-cog"></i> <a href="{% url 'user_settings' pk=user.pk %}" >Settings</a> </li>
           {% else %}
             <li><i class="glyphicon glyphicon-lock"></i> <a href="{% url 'signup' %}">Sign in / Sign up </a></li>
           {% endif %}

@@ -1,6 +1,8 @@
 {% extends "blog/base_sub.html" %}
+{% load staticfiles %}
 
 {% block header %}
+
 		<li class="nav-item"><a class="nav-link" href="/">Home</a></li> 
 		<li class="nav-item"><a class="nav-link" href="{% url 'about_us' %}">About</a></li> 
 		<li class="nav-item"><a class="nav-link" href="{% url 'post_cases' %}">Cases</a></li>
@@ -15,7 +17,7 @@
 						<h2>Settings</h2>
 						<div class="page_link">
 							<a href="/">Home</a>
-							<a href="{% url 'user_settings' %}">Settings</a>
+							<a href="{% url 'user_settings' pk=user.pk %}">Settings</a>
 						</div>
 					</div>
 				</div>
@@ -44,6 +46,49 @@
                <br>
                <p>Hello, {{ request.user }}</p>
                <p>Configure User Settings here </p>
+               
+               <div class="section-top-border">
+                  <h3 class="mb-30 title_color">Your Profile:</h3>
+                    <div class="progress-table-wrap">
+                      <div class="progress-table">
+                          <div class="table-head">
+                            <div class="country">Profile Picture</div>
+                            <div class="country">First Name </div>
+                            <div class="country">Last Name </div>
+                            <div class="country">Email Address </div>
+                          </div>
+                              
+                         <div class="table-row">
+                         {{ formset.management_form }}
+                         {% for form in formset.forms %}
+                            <div class="country"> <img src="{% static '/img/icon/' %}{{ form.instance.photo }}.png" alt="Avatar" class="avatar_big" /> </div>
+                         {% endfor %}
+                         
+                         
+                         {% if noodle_form.instance.first_name %}
+                            <div class="country"> {{noodle_form.instance.first_name}} </div>
+                         {% else %}
+                            <div class="country"> Please update. </div>
+                         {% endif %}
+                            
+                         {% if noodle_form.instance.last_name %}
+                            <div class="country"> {{noodle_form.instance.last_name}} </div>
+                         {% else %}
+                            <div class="country"> Please update. </div>
+                         {% endif %}
+                            
+                         <div class="country"> {{ noodle_form.instance.email }} </div>
+                        </div>
+                        <div class="table-row">
+                          <a href="{% url 'display_profile' pk=user.pk %}" class="blog_btn">Edit Profile</a>
+                          <a href="{% url 'change_password' %}" class="blog_btn">Reset Password</a>
+                          <a href="{% url 'delete_profile' pk=user.pk %}" class="blog_btn">Delete Account</a>
+                          <a href="{% url 'password_reset' %}" class="blog_btn">Test Reset Password Email</a>
+                          
+                        </div>
+                    </div>
+                  </div>
+                </div>               
              </div>
 
              <div id="Summary" class="w3-container tabName" style="display:block">

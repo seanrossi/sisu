@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-'''
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -103,7 +103,7 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '',
     }
-}
+}'''
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -143,6 +143,13 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+#EMAIL_HOST = 'smtp.sendgrid.net'
+#EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = 'sisu.contact.us@gmail.com'
+SERVER_EMAIL = 'sisu.contact.us@gmail.com'
+#EMAIL_HOST_USER = 'apikey'
+#EMAIL_HOST_PASSWORD = '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'
+#EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # demo_project/settings.py

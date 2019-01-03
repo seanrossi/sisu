@@ -42,7 +42,7 @@ https://codepen.io/seyedi/pen/YXEqwB -->
     {% if user.is_authenticated %}
     <a href="{% url 'about_us' %}" class="menu-item fa fa-info-circle"></a>
     <a href="{% url 'post_cases' %}" class="menu-item fa fa-briefcase"></a>
-    <a href="{% url 'user_settings' %}" class="menu-item fa fa-user"></a>
+    <a href="{% url 'user_settings' pk=user.pk %}" class="menu-item fa fa-user"></a>
     <a href="{% url 'logout' %}" class="menu-item fa fa-sign-out"></a>
     
     {% else %}

@@ -33,3 +33,30 @@ class CatPieChart():
         self.chart.add(key, value, formatter=lambda x: '%s' % x)
         
       return self.chart.render(is_unicode=True)  
+      
+class PollHorizontalBarChart():
+  def __init__(self, **kwargs):
+      self.chart = pygal.HorizontalBar(**kwargs)
+      self.chart.print_values = True
+      #self.chart.title = 'You Activity'
+        
+  def get_data(self, poll_data):
+      
+      choices = {}
+      choices[poll_data.choice1] = (poll_data.choice1stat / poll_data.total) * 100
+      choices[poll_data.choice2] = (poll_data.choice2stat / poll_data.total) * 100
+      choices[poll_data.choice3] = (poll_data.choice3stat / poll_data.total) * 100
+      choices[poll_data.choice4] = (poll_data.choice4stat / poll_data.total) * 100
+           
+      return choices
+  
+  def generate(self, poll_data):
+      chart_data = self.get_data(poll_data)
+      
+      print(chart_data)
+      
+      for key, value in chart_data.items():
+        self.chart.add(key, value)
+        #self.chart.add(key, value, formatter=lambda x: '%s' % x)
+      
+      return self.chart.render(is_unicode=True)      

@@ -71,10 +71,28 @@ class Post(models.Model, HitCountMixin):
   def __str__(self):
     return self.title
     
+class PollQuestions(models.Model):
+  post = models.ForeignKey('Post', default=1, on_delete=models.CASCADE)
+  question = models.CharField(max_length=200)
+  choice1 = models.CharField(max_length=100)
+  choice1stat = models.IntegerField(default=0)
+  choice2 = models.CharField(max_length=100)
+  choice2stat = models.IntegerField(default=0)
+  choice3 = models.CharField(max_length=100)
+  choice3stat = models.IntegerField(default=0)
+  choice4 = models.CharField(max_length=100)
+  choice4stat = models.IntegerField(default=0)
+  total = models.IntegerField(default=0)
 
-    
+class PollAnswer(models.Model):
+  post = models.ForeignKey('Post', default=1, on_delete=models.CASCADE)
+  user = models.CharField(max_length=200)
+  choiceval = models.IntegerField(default=0)
+  
 class Comment(models.Model):
   post = models.ForeignKey('Post', related_name='comments', on_delete=models.CASCADE)
+  user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
+  userprofile = models.ForeignKey('users.UserProfile', default=1, on_delete=models.CASCADE)
   author = models.CharField(max_length=200)
   text = models.TextField()
   created_date = models.DateTimeField(default=timezone.now)
@@ -118,6 +136,8 @@ class ReplyToComment(models.Model):
   post = models.ForeignKey('Post', related_name='commentPost', on_delete=models.CASCADE)
   comment = models.ForeignKey('Comment', related_name='replyToComment', on_delete=models.CASCADE)
   author = models.CharField(max_length=200)
+  user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
+  userprofile = models.ForeignKey('users.UserProfile', default=1, on_delete=models.CASCADE)
   text = models.TextField()
   created_date = models.DateTimeField(default=timezone.now)
   approved_comment = models.BooleanField(default=False)

@@ -1,0 +1,18 @@
+{% extends "blog/base_sub.html" %}
+{% load staticfiles %}
+
+{% block header %}
+		<li class="nav-item"><a class="nav-link" href="/">Home</a></li> 
+		<li class="nav-item"><a class="nav-link" href="{% url 'about_us' %}">About</a></li> 
+		<li class="nav-item"><a class="nav-link" href="{% url 'post_cases' %}">Cases</a></li>
+{% endblock %}
+
+{% block sub_content %} 
+  <form method="post">
+    {% csrf_token %}
+    <button class="btn btn-danger">Confirm delete {{ object }}?</button>
+    
+  </form>
+<a href="{% url 'user_settings' pk=user.id %}">Go Back</a>
+    
+{% endblock %}

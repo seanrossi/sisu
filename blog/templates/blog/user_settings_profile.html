@@ -1,0 +1,119 @@
+{% extends "blog/base_sub.html" %}
+{% load staticfiles %}
+
+{% block header %}
+		<li class="nav-item"><a class="nav-link" href="/">Home</a></li> 
+		<li class="nav-item"><a class="nav-link" href="{% url 'about_us' %}">About</a></li> 
+		<li class="nav-item"><a class="nav-link" href="{% url 'post_cases' %}">Cases</a></li>
+{% endblock %}
+
+{% block sub_content %} 
+      
+<section id="user_profile_table">
+  <div class="section-top-border">
+    <input type="text" id="first-name-div" name="first_name"
+           value="{{ context.f_name }}" 
+           placeholder="Your First Name">
+             
+    <input type="text" id="last-name-div" name="last_name"
+           value="{{ context.l_name }}"
+           placeholder="Your Last Name"> 
+             
+    <div id="my-icon-select"></div>
+    <input type="text" id="selected-text" name="photo" style="display:none;">
+    <input type="text" id="profile-id" data="{{ context.photo }}"
+           value="{% static '/img/icon/' %}{{ context.photo }}.png"
+           style="display:none;">
+    
+  </div>
+  <button type="submit" id="updateButton" class="primary-btn submit_btn">
+    Update
+  </button> 
+  <button type="submit" class="primary-btn submit_btn">
+    <a href="{% url 'user_settings' pk=user.id %}">Go Back</a>
+  </button>
+  <div id="results" style="display:none"><p>Updated Successfully</p></p>
+</section>
+    
+<script>
+  var iconSelect;
+  var selectedText;
+  var profile;
+  var profiletag;
+  
+  window.onload = function(){
+
+    selectedText = document.getElementById('selected-text');
+            
+    document.getElementById('my-icon-select').addEventListener('changed', function(e){
+               selectedText.value = iconSelect.getSelectedValue();
+    });
+          
+    profile = document.getElementById('profile-id').value;
+    profiletag = document.getElementById('profile-id').getAttribute("data");
+    
+    iconSelect = new IconSelect("my-icon-select", 
+                 {'selectedIconWidth':95,
+                  'selectedIconHeight':110,
+                  'selectedBoxPadding':5,
+                  'iconsWidth':95,
+                  'iconsHeight':110,
+                  'boxIconSpace':5,
+                  'vectoralIconNumber':5,
+                  'horizontalIconNumber':5});
+
+    var icons = [];
+    icons.push({'iconFilePath':profile, 'iconValue':profiletag});
+    icons.push({'iconFilePath':"{% static 'img/icon/female_user_1.png' %}", 'iconValue':'female_user_1'});
+    icons.push({'iconFilePath':"{% static 'img/icon/female_user_2.png' %}", 'iconValue':'female_user_2'});
+    icons.push({'iconFilePath':"{% static 'img/icon/female_user_3.png' %}", 'iconValue':'female_user_3'});
+    icons.push({'iconFilePath':"{% static 'img/icon/female_user_4.png' %}", 'iconValue':'female_user_4'});
+    icons.push({'iconFilePath':"{% static 'img/icon/female_user_5.png' %}", 'iconValue':'female_user_5'});
+    icons.push({'iconFilePath':"{% static 'img/icon/female_user_6.png' %}", 'iconValue':'female_user_6'});
+    icons.push({'iconFilePath':"{% static 'img/icon/female_user_7.png' %}", 'iconValue':'female_user_7'});
+    icons.push({'iconFilePath':"{% static 'img/icon/female_user_8.png' %}", 'iconValue':'female_user_8'});
+    icons.push({'iconFilePath':"{% static 'img/icon/female_user_9.png' %}", 'iconValue':'female_user_9'});
+    icons.push({'iconFilePath':"{% static 'img/icon/female_user_10.png' %}", 'iconValue':'female_user_10'});
+    icons.push({'iconFilePath':"{% static 'img/icon/female_user_11.png' %}", 'iconValue':'female_user_11'});
+    icons.push({'iconFilePath':"{% static 'img/icon/female_user_12.png' %}", 'iconValue':'female_user_12'});
+    icons.push({'iconFilePath':"{% static 'img/icon/male_user_1.png' %}", 'iconValue':'male_user_1'});
+    icons.push({'iconFilePath':"{% static 'img/icon/male_user_2.png' %}", 'iconValue':'male_user_2'});
+    icons.push({'iconFilePath':"{% static 'img/icon/male_user_3.png' %}", 'iconValue':'male_user_3'});
+    icons.push({'iconFilePath':"{% static 'img/icon/male_user_4.png' %}", 'iconValue':'male_user_4'});
+    icons.push({'iconFilePath':"{% static 'img/icon/male_user_5.png' %}", 'iconValue':'male_user_5'});
+    icons.push({'iconFilePath':"{% static 'img/icon/male_user_6.png' %}", 'iconValue':'male_user_6'});
+    icons.push({'iconFilePath':"{% static 'img/icon/male_user_7.png' %}", 'iconValue':'male_user_7'});
+    icons.push({'iconFilePath':"{% static 'img/icon/male_user_8.png' %}", 'iconValue':'male_user_8'});
+    icons.push({'iconFilePath':"{% static 'img/icon/male_user_9.png' %}", 'iconValue':'male_user_9'});
+    icons.push({'iconFilePath':"{% static 'img/icon/male_user_10.png' %}", 'iconValue':'male_user_10'});
+    icons.push({'iconFilePath':"{% static 'img/icon/male_user_11.png' %}", 'iconValue':'male_user_11'});
+    icons.push({'iconFilePath':"{% static 'img/icon/male_user_12.png' %}", 'iconValue':'male_user_12'});
+              
+    iconSelect.refresh(icons);
+ };
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script type="text/javascript"> 
+  $('#updateButton').click(function(){
+      var first_name  = document.getElementById("first-name-div").value;
+      var last_name = document.getElementById("last-name-div").value;
+      var profile_photo = document.getElementById("selected-text").value;
+      $.ajax(
+      {
+          type:"GET",
+          url: "{% url 'update_profile' pk=user.id %}",
+          data:{
+               f_name: first_name,
+               l_name: last_name,
+               profile_photo: profile_photo,
+          },
+          success: function( data ) 
+          {
+            $("#results").show();
+          }
+       })
+});  
+</script>  
+
+
+{% endblock %}
