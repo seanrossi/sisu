@@ -1,0 +1,112 @@
+.navbar-brand {
+    padding: 5px;
+    padding-left: 65px;
+}
+.navbar-brand > img {
+    height: 100%;
+}
+.navbar {
+    background: white;
+    border-color: white;
+    display: flex;
+    border: none;
+}
+
+#signup-button {
+    border-radius: 20px;
+    padding: 5px 15px;
+    color: gold;
+}
+
+.story-carousel a {
+    width: 5%;
+}
+
+#story-carousel-blur {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background-color: rgba(128, 0, 128, 0.65);
+}
+
+.story-carousel-item {
+    height: 800px;
+}
+
+.story-carousel-item img {
+    position: relative;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.story-carousel-caption {
+    position: absolute;
+    top: 10%;
+    /* left: 15%; */
+    z-index: 10;
+    padding: 20px;
+    text-align: left;
+}
+
+.story-carousel-caption {
+    width: 45%;
+    left: 4%;
+}
+
+.story-carousel-caption p {
+    color: rgb(167, 165, 165);
+    font-size: 32px;
+}
+
+.story-carousel-caption > h3 {
+    color: yellow;
+    font-size: 40px;
+}
+
+.story-carousel-caption > h1 {
+    color: white;
+    font-size: 110px;
+}
+
+.about-info {
+    text-align: center;
+    padding: 30px;
+}
+.about-info > h1 {
+    color: purple;
+    margin: 20px;
+}
+.about-info > p {
+    margin: 20px;
+}
+.about-info > button{
+    margin: 15px;
+    border-color: grey;
+    background-color: plum;
+    border-radius: 15px;
+    padding: 5px 30px;
+}
+.about-info a {
+    color: purple;
+}
+
+.about-us-upper-panel > div{
+    justify-content: space-between;
+    padding: 20px 0;
+}
+.about-us-upper-panel img {
+    border-radius: 50%;
+    height: 300px;
+    width: 300px;
+}
+.about-us-upper-panel h1 {
+    color: purple;
+}
+.about-us-upper-panel > div > span{
+    padding: 0;
+    margin: auto 0;
+    text-align: center;
+    max-width: 700px;
+}
