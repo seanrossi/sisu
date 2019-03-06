@@ -1,0 +1,49 @@
+{% load staticfiles %}
+
+<div id="carouselExampleControls" class="carousel slide story-carousel" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item story-carousel-item active">
+            <img class="d-block w-100" src="https://images.pexels.com/photos/597909/pexels-photo-597909.jpeg?cs=srgb&dl=buildings-city-city-view-597909.jpg&fm=jpg" alt="First slide">
+            <div class="story-carousel-blur"></div>
+            <div class="story-carousel-caption carousel-caption d-none d-md-block">
+                <h3>HIGHLIGHT STORY</h3>
+                <h1>Hello </h1>
+                <p>some text</p>
+            </div>
+        </div>
+        <div class="carousel-item story-carousel-item">
+            <img class="d-block w-100" src="https://cdnb.artstation.com/p/assets/images/images/011/201/215/large/geovani-angelo-ponte-background-anime.jpg?1528341661" alt="Second slide">
+            <div class="story-carousel-blur"></div>
+            <div class="story-carousel-caption carousel-caption d-none d-md-block">
+                <h3>HIGHLIGHT STORY</h3>
+                <h1>Hello </h1>
+                <p>some text</p>
+            </div>
+        </div>
+        <div class="carousel-item story-carousel-item">
+            <img class="d-block w-100" src="https://athensservices.com/wp-content/uploads/2016/11/city-of-LA-final.jpg" alt="Third slide">
+            <div class="story-carousel-blur"></div>
+            <div class="story-carousel-caption carousel-caption d-none d-md-block">
+                <h3>HIGHLIGHT STORY</h3>
+                <h1>Hello </h1>
+                <p>some text</p>
+            </div>
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+<div class="about-info">
+    <h1>What is SISU?</h1>
+    <p>Grit, bravery, resilence for the everyday woman</p>
+    <button>
+        <a href="{% url 'about_us' %}">More About SISU</a>
+    </button>
+</div>
