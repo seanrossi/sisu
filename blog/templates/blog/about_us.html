@@ -1,13 +1,6 @@
 {% extends "blog/base_sub_w_footer.html" %}
 {% load staticfiles %}
 
-{% block header %}
-	<li class="nav-item"><a class="nav-link" href="/">Home</a></li> 
-	<li class="nav-item"><a class="nav-link" href="{% url 'about_us' %}">Stories</a></li> 
-	<li class="nav-item active"><a class="nav-link" href="{% url 'about_us' %}">About</a></li> 
-	<li class="nav-item"><a class="nav-link" href="{% url 'post_cases' %}">Cases</a></li>
-{% endblock %}
-
 {% block sub_content %}  
 
 <!--================End Home Banner Area =================-->

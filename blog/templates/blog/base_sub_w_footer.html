@@ -13,9 +13,19 @@
     </div>
     <div class="row" style="display: inherit;">
       <div class="collapse navbar-collapse" id="myNavbar" style="float: left;">
-        <ul class="nav navbar-nav" style="overflow-x: hidden;">
-          {% block header %}
-          {% endblock %}
+        <ul class="nav navbar-nav">
+          <li class="nav-item">
+              <div class="dropdown nav-dropdown">
+                  <a class="nav-link" id="nav-dropdown-header">Stories</a>
+                  <div class="dropdown-menu">
+                      <a class="dropdown-item" href="{% url 'story' %}">Discrimination</a>
+                      <a class="dropdown-item" href="{% url 'story' %}">Politics</a>
+                      <a class="dropdown-item" href="{% url 'story' %}">SOme</a>
+                  </div>
+              </div>
+          </li> 
+          <li class="nav-item"><a class="nav-link" href="{% url 'about_us' %}">About</a></li> 
+          <li class="nav-item"><a class="nav-link" href="{% url 'contact_us' %}">Contribute to SISU</a></li>
         </ul>
                
       </div>

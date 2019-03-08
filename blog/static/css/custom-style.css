@@ -12,6 +12,26 @@
     border: none;
 }
 
+.navbar .navbar-nav > li > a:hover, .navbar .navbar-nav > li > a:focus, .nav-dropdown > a:hover{
+    background-color: plum;
+}
+#nav-dropdown-header {
+    color: #9d9d9d;
+}
+#nav-dropdown-header:hover {
+    color: white;
+}
+.nav-dropdown:hover > div {
+    display: block;
+    margin-top: -1px;
+    margin-left: -3px;
+    border-width: 0;
+}
+
+.nav-dropdown > a {
+    padding: 15px;
+    line-height: 20px;
+}
 #signup-button {
     border-radius: 20px;
     padding: 5px 15px;
@@ -22,7 +42,7 @@
     width: 5%;
 }
 
-#story-carousel-blur {
+.story-carousel-blur {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -40,7 +60,9 @@
     width: 100%;
     height: 100%;
 }
-
+.custom-row {
+    display: flex;
+}
 .story-carousel-caption {
     position: absolute;
     top: 10%;
@@ -57,7 +79,7 @@
 
 .story-carousel-caption p {
     color: rgb(167, 165, 165);
-    font-size: 32px;
+    font-size: 20px;
 }
 
 .story-carousel-caption > h3 {
@@ -73,20 +95,31 @@
 .about-info {
     text-align: center;
     padding: 30px;
+    min-height: 500px;
+}
+.left-text {
+    text-align: left;
+}
+
+.right-text {
+    text-align: right;
 }
 .about-info > h1 {
     color: purple;
     margin: 20px;
 }
 .about-info > p {
-    margin: 20px;
+    margin: 10px 20px 30px 20px;
 }
-.about-info > button{
-    margin: 15px;
+
+.sisu-button{
     border-color: grey;
     background-color: plum;
     border-radius: 15px;
     padding: 5px 30px;
+}
+.sisu-button, .sisu-button a {
+    color: purple;
 }
 .about-info a {
     color: purple;
@@ -96,17 +129,210 @@
     justify-content: space-between;
     padding: 20px 0;
 }
-.about-us-upper-panel img {
-    border-radius: 50%;
+.circle-img {
     height: 300px;
     width: 300px;
+    margin: 0;
+    position: relative;
 }
-.about-us-upper-panel h1 {
+.circle-img img {
+    position: relative;
+    border-radius: 50%;
+    height: 100%; 
+    width: 100%;
+    object-fit: cover;
+}
+
+.img-blur {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    background-color: rgba(128, 0, 128, 0.65);
+    margin: 0;
+    padding: 0;
+}
+
+.about-us h1{
     color: purple;
+}
+.about-us h4 {
+    color: gold;
+    font-size: 20px;
+}
+.about-us p {
+    font-size: 12px;
 }
 .about-us-upper-panel > div > span{
     padding: 0;
     margin: auto 0;
+    max-width: 50%;
+    position: relative;
+}
+
+.about-us-lower-panel {
     text-align: center;
-    max-width: 700px;
+    margin: 70px auto;
+    max-width: 600px;
+}
+
+.about-us-lower-panel-block {
+    padding: 30px;
+}
+
+.about-us-footer {
+    text-align: center;
+}
+.about-us-footer > div {
+    justify-content: space-between;
+    padding: 0 200px;
+}
+
+.about-us-footer-profile {
+    max-width: 110px;
+    text-align: left;
+}
+.about-us-footer-profile img{
+    height: 85px;
+    width: 85px;
+    border-radius: 50%;
+}
+.contact-us-content {
+    max-width: 900px;
+}
+.contact-us-content h1 {
+    font-size: 50px;
+}
+.sisu-header {
+    background-image: url('http://starbridgepartners.com/wp-content/uploads/2017/06/linkedin-banner.jpg');
+    height: 250px;
+    position: relative;
+    text-align: center;
+}
+.sisu-header-container {
+    position: relative;
+    height: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: left;
+}
+.sisu-header-text {
+    position: relative;
+    text-align: inherit;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    z-index: 10;
+    padding: 0 50px;
+}
+.sisu-header-text h1 {
+    font-size: 55px;
+}
+.sisu-header-text h4 {
+    color: gold;
+}
+.sisu-header p {
+    font-size: 11px;
+    color: #9d9d9d;
+}
+.contact-us-panel {
+    position: relative;
+    margin-top: 30px;
+    margin-bottom: 80px;
+}
+.contact-us-left-panel {
+    max-width: 50%;
+}
+.contact-us-left-panel > div {
+    width: 250px;
+}
+.contact-us-right-panel {
+    position: relative;
+    margin-left: auto;
+    max-width: 50%;
+}
+.contact-us-text-panel {
+    max-width: 350px;
+}
+.contact_form input {
+    margin-bottom: 20px;
+    border-width: 0 0 3px 0;
+    border-color: gold;
+}
+.contact_form textarea {
+    border-width: 1px;
+    padding: 5px;
+    resize: none;
+}
+.form-actions {
+    margin-left: auto;
+    text-align: end;
+}
+
+.story-content {
+    max-width: 900px;
+    position: relative;
+    margin: 0 auto;
+}
+.story-content-entry {
+    position: relative;
+    padding: 50px 50px;
+}
+.story-text {
+    max-width: 70%;
+    padding-right: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+.story-text h4 {
+    color: gold;
+    font-size: 30px;
+}
+.story-text p {
+    font-size: 11px;
+}
+.story-entry {
+    max-width: 900px;
+    position: relative;
+    margin: 0 auto;
+}
+.story-entry h4 {
+    color: gold;
+}
+.story-entry p {
+    font-size: 12px;
+}
+.story-entry-left {
+    position: absolute;
+}
+.story-entry-content {
+    position: relative;
+    padding: 50px 50px;
+    min-height: 800px;
+}
+.story-entry-conent-center {
+    padding-right: 300px;
+}
+.story-entry-center-filler {
+    width: 1200px;
+}
+.story-entry-right {
+    margin-top: 50px;
+    margin-right: -50px;
+    width: 170px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.story-entry-right img {
+    width: 100%;
+    padding-bottom: 5px;
+}
+.story-entry-right-content {
+    padding-bottom: 30px;
+}
+.story-entry-right-content p {
+    font-size: 11px;
 }

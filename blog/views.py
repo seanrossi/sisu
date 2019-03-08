@@ -137,7 +137,13 @@ def about_sisu(request):
     
 def about_us(request):
     return render(request, 'blog/about_us.html')
+
+def story(request):
+    return render(request, 'blog/story.html')
     
+def story_entry(request):
+    return render(request, 'blog/story_entry.html')
+
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
     
