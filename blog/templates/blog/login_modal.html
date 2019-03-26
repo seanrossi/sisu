@@ -5,59 +5,84 @@ https://codepen.io/khadkamhn/pen/ZGvPLo -->
 
 <div class="login-wrap">
 	<div class="login-html">
-		<input id="tab-1" type="radio" name="tab" class="sign-in" checked><label id="label-tab-1" for="tab-1" class="tab">Sign In</label>
-		<input id="tab-2" type="radio" name="tab" class="sign-up"><label id="label-tab-2" for="tab-2" class="tab">Sign Up</label>
+		<input id="tab-1" type="radio" name="tab" class="sign-in"><label id="label-tab-1" for="tab-1" class="tab">Sign In</label>
+		<input id="tab-2" type="radio" name="tab" class="sign-up" checked><label id="label-tab-2" for="tab-2" class="tab">Sign Up</label>
 		<div class="login-form">
-    <div class="sign-in-htm">
-      <form id="signinForm" method="post" action="{% url 'login' %}">
-      {% csrf_token %}
-		  <div class="group">
-					<label for="user" class="loginlabel">Username</label>
-					<input id="user" type="text" class="input" name="username">
+			<div class="sign-in-htm">
+				<div class="group">
+					<h3>
+						Welcome Back!
+					</h3>
 				</div>
 				<div class="group">
-					<label for="pass" class="loginlabel">Password</label>
-					<input id="pass" type="password" class="input" name="password">
+					<button<>GOOGLE</button>
 				</div>
 				<div class="group">
-					<input id="check" type="checkbox" class="check" checked>
-					<label for="check" class="loginCheck"><span class="icon"></span> Keep me Signed in</label>
+					<button<>FACEBOOK</button>
 				</div>
 				<div class="group">
-					<input type="submit" class="button" value="Sign In">
+					<h4>
+						- or -
+					</h4>
 				</div>
-        <input type="hidden" name="next" value="{{ request.path }}" />
-        </form>
-        <div class="hr"></div>
+				<form id="signinForm" method="post" action="{% url 'login' %}">
+					{% csrf_token %}
+					<div class="group">
+						<input id="user" type="text" class="input" name="username" placeholder="Username">
+					</div>
+					<div class="group">
+						<input id="pass" type="password" class="input" name="password" placeholder="Password">
+					</div>
+					<div class="group">
+						<input id="check" type="checkbox" class="check" checked>
+						<label for="check" class="loginCheck"><span class="icon"></span> Keep me Signed in</label>
+					</div>
+					<div class="group">
+						<input type="submit" class="sisu-button" value="Sign In">
+					</div>
+					<input type="hidden" name="next" value="{{ request.path }}" />
+				</form>
 				<div class="foot-lnk">
-					<a href="#forgot">Forgot Password?</a>
-          
+						Don't have an account?  <label for="tab-2" class="switchLabel">Sign up</label>
 				</div>
 			</div>
-      
+     
       <div class="sign-up-htm">
-        <form method="post" action="{% url 'signup' %}">
-        {% csrf_token %}
-        {% for field in signup_form %}
 				<div class="group">
-					<label for='{{ forloop.counter }}' class="loginlabel" title='{{ field.help_text }}'>{{ field.label_tag }}</label>
-          <!--<input id='{{ forloop.counter }}' type="text" class="input" name='{{ field }}' /> -->
-          {{ field }}
+					<h3>
+						Welcome to SISU!
+					</h3>
 				</div>
+				<div class="group">
+					<button<>GOOGLE</button>
+				</div>
+				<div class="group">
+					<button<>FACEBOOK</button>
+				</div>
+				<div class="group">
+					<h4>
+						- or -
+					</h4>
+				</div>
+        <form method="post" action="{% url 'signup' %}">
+				{% csrf_token %}
+        {% for field in signup_form %}
+					<div class="group">
+						<input name="{{ field.html_name }}" maxlength="150" class="input" required="" id="{{ field.id_for_label }}" placeholder="{{ field.label }}">
+					</div>
         
-        {% for error in field.errors %}
-          <p style="color: red">{{ error }}</p>
-        {% endfor %}
+					<!-- {% for error in field.errors %}
+						<p style="color: red">{{ error }}</p>
+					{% endfor %} -->
         {% endfor %}
         
         <div class="group">
-					<input type="submit" class="button" value="Sign Up">
+					<input type="submit" class="sisu-button" value="Sign Up">
 				</div>
       </form>
       
-      <div class="hr-1"></div>
 			<div class="foot-lnk">
-					<label for="tab-1" class="switchLabel">Already Member?</label>
+					Already have an account?  <label for="tab-1" class="switchLabel">Sign in</label>
 			</div>
 			</div>
 		</div>

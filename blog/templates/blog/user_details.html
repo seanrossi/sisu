@@ -1,0 +1,82 @@
+{% extends "blog/base_sub_w_footer.html" %}
+{% load staticfiles %}
+
+{% block sub_content %}  
+<div class="user-details">
+    <div class="user-details-header">
+        <div class="user-details-header-avatar">
+            <img src="{% static 'img/icon/default_user_orig.png' %}">
+        </div>
+        <div class="user-details-header-content">
+            <div class="custom-row">
+                <h1>
+                    Faustine Crane
+                </h1>
+                {% if isUserLoggedIn == True %} 
+                    <button class="sisu-button edit-button">
+                        <a class="sisu-button" href="{% url 'user_edit' 1 %}">
+                            EDIT PROFILE
+                        </a>
+                    </button>
+                    
+                {% endif %}
+            </div>
+            <div>
+                <span class="user-details-icon">
+                    <span class="fa fa-lightbulb-o"></span>
+                    <span>
+                        100 lights
+                    </span>
+                </span>
+                <span class="user-details-icon">
+                    <span class="glyphicon glyphicon-comment"></span>
+                    <span>
+                        50 comments
+                    </span>
+                </span>
+                <span class="user-details-icon">
+                    <span class="glyphicon glyphicon-bookmark"></span>
+                    <span>
+                        6 bookmarks
+                    </span>
+                </span>
+            </div>
+            <p>
+                sfuianfas fuasnf asunf asifnuas fiunas fiun asuifn asiufn asiufn asiufn asiu
+                asiufnsuai fasnf asifu asiuf sauifn asiuf siuf nasiu fiuasn fiuas fniu 
+                sfuianfas fuasnf asunf asifnuas fiunas fiun asuifn asiufn asiufn asiufn asiu
+                asiufnsuai fasnf asifu asiuf sauifn asiuf siuf nasiu fiuasn fiuas fniu
+                sfuianfas fuasnf asunf asifnuas fiunas fiun asuifn asiufn asiufn asiufn asiu
+                asiufnsuai fasnf asifu asiuf sauifn asiuf siuf nasiu fiuasn fiuas fniu
+                sfuianfas fuasnf asunf asifnuas fiunas fiun asuifn asiufn asiufn asiufn asiu
+                asiufnsuai fasnf asifu asiuf sauifn asiuf siuf nasiu fiuasn fiuas fniu
+            </p>
+        </div>
+
+
+    </div>
+    <div class="sisu-nav-tabs user-details-content">
+        <input id="user-details-tab1" type="radio" name="tabs" checked>
+        <label for="user-details-tab1">Lights</label>
+        
+        <input id="user-details-tab2" type="radio" name="tabs">
+        <label for="user-details-tab2">Comments</label>
+        
+        <input id="user-details-tab3" type="radio" name="tabs">
+        <label for="user-details-tab3">Bookmarks</label>
+        <section id="user-details-lights">
+            {% include 'blog/story_content.html' %}
+        </section>
+        <section id="user-details-comments">
+            <p>
+                Comments
+            </p>
+        </section>
+        <section id="user-details-bookmarks">
+            Bookmarks
+        </section>
+    </div>
+
+</div>
+
+{% endblock %}       
