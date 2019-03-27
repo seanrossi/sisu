@@ -66,10 +66,11 @@ def pretty_request(request):
 # 
 def category(request):
   categories = Category.__members__.items()
+  
   return {
       'categories' : categories,
       'signup_form': CustomUserCreationForm(),
-      'isLoggedIn': request.user.is_authenticated
+      'isLoggedIn': request.user.is_authenticated,
       }
 
   
@@ -165,7 +166,19 @@ def about_us(request):
 def story(request, category_name):
     # print(pretty_request(request))
     posts = Post.objects.filter(category_name=category_name).order_by('-published_date')
-    return render(request, 'blog/story.html')
+    cat = Category.get_label(category_name)   
+    mapping = {}
+  
+    # Bad hard codes...
+    mapping[Category.Harassment] = "the unjust or prejudicial treatment of different categories of people or things, especially on the grounds of race, age, sex, or intellectual capability"
+    mapping[Category.Discrimination] = "harassment (typically of a woman) in a workplace, or other professional or social situation, involving the making of unwanted sexual advances or obscene remarks"
+    mapping[Category.Politics] = "activities within an organization aimed at improving someone's status and are typically considered to be devious or divisive"
+    mapping[Category.Conflict] = "a serious disagreement or argument between persons of similar age, status, or abilities"
+    mapping[Category.ConflictEM] = "a serious disagreement or argument between a person responsible for controlling part of an organization and a person under the aforementioned's authority "
+    mapping[Category.Worklife] = "lack of proportion between an individual's time allocated for work, and personal interests, family, or social activities"
+    mapping[Category.Miscellaneous] = "many other issues can happen to an individual..."   
+      
+    return render(request, 'blog/story.html', {'posts':posts, 'cat':cat, 'description': mapping[cat]})
     
 def story_entry(request):
     return render(request, 'blog/story_entry.html')
