@@ -20,14 +20,16 @@ class Category(Enum):
   Politics = 'Politics';
   Worklife = 'Worklife';
   Conflict = 'Conflict';
+  ConflictEM = 'ConflictEM' 
   Miscellaneous = 'Miscellaneous';
   
   class Labels:
-    Harassment = 'Harassment';
     Discrimination = 'Discrimination'; 
+    Harassment = 'Sexual Harassment';
     Politics = 'Politics';
-    Conflict = 'Colleagues Conflict';
-    Worklife = 'Worklife Balance';
+    Conflict = 'Conflict Between Peers';
+    ConflictEM = 'Employee-Manager Conflict'
+    Worklife = 'Worklife Imbalance';
     Miscellaneous = 'Other issues';
     
   def get_label(cat_name):
@@ -42,7 +44,10 @@ class Category(Enum):
       
       if cat_name == "Conflict":
         return Category.Conflict
-      
+        
+      if cat_name =="ConflictEM":
+        return Category.ConflictEM
+        
       if cat_name == "Worklife":
         return Category.Worklife
       

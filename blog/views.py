@@ -69,7 +69,7 @@ def category(request):
   return {
       'categories' : categories,
       'signup_form': CustomUserCreationForm(),
-      'isLoggedIn': True
+      'isLoggedIn': request.user.is_authenticated
       }
 
   
