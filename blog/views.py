@@ -38,7 +38,27 @@ from .chart import CatPieChart, PollHorizontalBarChart
 from django.views.generic import TemplateView
 from pygal.style import DarkStyle
 
+def pretty_request(request):
+    headers = ''
+    for header, value in request.META.items():
+        if not header.startswith('HTTP'):
+            continue
+        header = '-'.join([h.capitalize() for h in header[5:].lower().split('_')])
+        headers += '{}: {}\n'.format(header, value)
 
+    return (
+        '{method} HTTP/1.1\n'
+        'Content-Length: {content_length}\n'
+        'Content-Type: {content_type}\n'
+        '{headers}\n\n'
+        '{body}'
+    ).format(
+        method=request.method,
+        content_length=request.META['CONTENT_LENGTH'],
+        content_type=request.META['CONTENT_TYPE'],
+        headers=headers,
+        body=request.body,
+    )
 # Create your views here.
 
 #
@@ -46,7 +66,11 @@ from pygal.style import DarkStyle
 # 
 def category(request):
   categories = Category.__members__.items()
-  return {'categories' : categories}
+  return {
+      'categories' : categories,
+      'signup_form': CustomUserCreationForm(),
+      'isLoggedIn': True
+      }
 
   
 # Popular cases
@@ -138,7 +162,9 @@ def about_sisu(request):
 def about_us(request):
     return render(request, 'blog/about_us.html')
 
-def story(request):
+def story(request, category_name):
+    # print(pretty_request(request))
+    posts = Post.objects.filter(category_name=category_name).order_by('-published_date')
     return render(request, 'blog/story.html')
     
 def story_entry(request):
@@ -695,7 +721,15 @@ def user_profile(request, pk):
     else:
         raise PermissionDenied
     #return render(request, 'blog/user_settings.html')
-    
+
+def user_details(request, pk):
+
+    return render(request, "blog/user_details.html", { 'isUserLoggedIn': True })
+
+def user_edit(request, pk): 
+
+    return render(request, "blog/user_edit.html", { 'isValid': True })
+
 ## Pie chart
 class IndexView(TemplateView):
       template_name = 'blog/user_settings.html'

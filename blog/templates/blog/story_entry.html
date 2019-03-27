@@ -18,41 +18,103 @@
 </div>
 <section class="story-entry">
     <div class="story-entry-left">
-        
+        <!-- Plug in post_details for each sharing functionality -->
+        <div class="story-icons">
+            <a href="#"><i class="fa fa-lightbulb-o">100</i></a>
+            <a href="#"><i class="fa fa-bookmark-o"></i></a>
+            <a href="#"><i class="fa fa-facebook-square"></i></a>
+            <a href="#"><i class="fa fa-linkedin-square"></i></a>
+            <a href="#"><i class="fa fa-twitter"></i></a>
+        </div>
     </div>
     <div class="story-entry-content custom-row">
         <div class="story-entry-center">
-            <p>
-                Computers have become ubiquitous in almost every facet of our lives. At work,
-                desk jockeys spend hours in front of their desktops, while delivery people scan
-                bar codes with handhelds and workers in the field stay in touch with the central
-                office via their notebooks. At home, we rely on our desktops and notebooks to do
-                our shopping, to entertain us, and to keep us abreast of world events. We may
-                not see our email servers, but we count on them to deliver our email whenever
-                and wherever we want it. Our PDAs keep track of our hectic schedules, our to-do
-                lists, our contact lists, and even entertain us with games while we’re waiting for
-                an appointment or to board a plane. Computer hardware weaves itself through
-                the fabric of our lives.
-            </p>
-            <p>    
-                Even though computer hardware is central to almost everything we do, it’s easy
-                to lag behind in the advances made in both hardware and software. Desktops
-                that are four or five years old, for example, become obsolete. You may be able to
-                upgrade operating systems or buy computer add-ons to extend the life of your
-                desktop, but at some point the software, applets, and plug-ins you need to get
-                the most out of your computer simply won’t support your old machine. If it’s time
-                to get new computer hardware – whether desktops, notebooks, or PDAs – you’ll
-                be amazed at the computing power and the crisp displays that are available, as
-                well as the incredible low prices. Take some time to shop around, and you’ll soon
-                discover that online computer hardware sources will save you money over
-                traditional retail stores. When you think about it, it makes sense. According to
-                logic, direct sales cut out the middleman and can pass along the savings to the
-                consumer.
-            </p>
-            <p>
-                If you’re in the market for new desktops, notebooks, or PDAs, there are a myriad
-                of choices. Here’s a rundown of some of the best systems available:
-            </p>
+            <section>
+                <p>
+                    Computers have become ubiquitous in almost every facet of our lives. At work,
+                    desk jockeys spend hours in front of their desktops, while delivery people scan
+                    bar codes with handhelds and workers in the field stay in touch with the central
+                    office via their notebooks. At home, we rely on our desktops and notebooks to do
+                    our shopping, to entertain us, and to keep us abreast of world events. We may
+                    not see our email servers, but we count on them to deliver our email whenever
+                    and wherever we want it. Our PDAs keep track of our hectic schedules, our to-do
+                    lists, our contact lists, and even entertain us with games while we’re waiting for
+                    an appointment or to board a plane. Computer hardware weaves itself through
+                    the fabric of our lives.
+                </p>
+                <p>    
+                    Even though computer hardware is central to almost everything we do, it’s easy
+                    to lag behind in the advances made in both hardware and software. Desktops
+                    that are four or five years old, for example, become obsolete. You may be able to
+                    upgrade operating systems or buy computer add-ons to extend the life of your
+                    desktop, but at some point the software, applets, and plug-ins you need to get
+                    the most out of your computer simply won’t support your old machine. If it’s time
+                    to get new computer hardware – whether desktops, notebooks, or PDAs – you’ll
+                    be amazed at the computing power and the crisp displays that are available, as
+                    well as the incredible low prices. Take some time to shop around, and you’ll soon
+                    discover that online computer hardware sources will save you money over
+                    traditional retail stores. When you think about it, it makes sense. According to
+                    logic, direct sales cut out the middleman and can pass along the savings to the
+                    consumer.
+                </p>
+                <p>
+                    If you’re in the market for new desktops, notebooks, or PDAs, there are a myriad
+                    of choices. Here’s a rundown of some of the best systems available:
+                </p>
+            </section>
+            <section class="story-entry-comment">
+                <!-- dynamic comment numbers -->
+                <h5>1 comment</h5>
+                <!-- run for loop for each user comment -->
+                <div class="story-entry-comment-entry">
+                    <div class="story-entry-comment-entry-avatar">
+                        <!-- dynamic user_id and image -->
+                        <a href="{% url 'user_details' 1 %}">
+                            <img src="{% static 'img/icon/default_user_orig.png' %}">
+                        </a>
+                    </div>
+                    <div class="story-entry-comment-entry-content">
+                        <h5>Dollie Owens</h5>
+                        <p>Some comments Hello worksldsi asfiujasf asfiojsafsafs asfasf.</p>
+                    </div>
+                    <div class="story-entry-comment-entry-timeline">
+                        <h5>
+                            1 week ago
+                        </h5>
+                    </div>
+                </div>
+                <div class="story-entry-comment-entry">
+                    <div class="story-entry-comment-entry-avatar">
+                        <a href="{% url 'user_details' 1 %}">
+                            <img src="{% static 'img/icon/default_user_orig.png' %}">
+                        </a>
+                    </div>
+                    <div class="story-entry-comment-entry-content">
+                        <h5>Helow Worlls</h5>
+                        <p>Some comments Hello worksldsi asfiujasf asfiojsafsafs asfasf.</p>
+                    </div>
+                    <div class="story-entry-comment-entry-timeline">
+                        <h5>
+                            2 weeks ago
+                        </h5>
+                    </div>
+                </div>
+                {% if isLoggedIn == True %}
+                    <div class="story-entry-comment-entry">
+                        <div class="story-entry-comment-entry-avatar">
+                            <!-- dynamic user id and img -->
+                            <a href="{% url 'user_details' 1 %}">
+                                <img src="{% static 'img/icon/default_user_orig.png' %}">
+                            </a>
+                        </div>
+                        <div class="story-entry-comment-entry-content">
+                            <input placeholder="Type your comment here"> </input>
+                        </div>
+                    </div>
+                {% else %}
+                    <h5>Like this story? <i data-toggle="modal" data-target="#signinModal" class="underline">Sign up</i> to comment!</h5>
+                {% endif %}
+            </section>
         </div>
         <div class="story-entry-center-filler"></div>
     </div>

@@ -14,16 +14,16 @@
     <div class="row" style="display: inherit;">
       <div class="collapse navbar-collapse" id="myNavbar" style="float: left;">
         <ul class="nav navbar-nav">
-          <li class="nav-item">
-              <div class="dropdown nav-dropdown">
-                  <a class="nav-link" id="nav-dropdown-header">Stories</a>
-                  <div class="dropdown-menu">
-                      <a class="dropdown-item" href="{% url 'story' %}">Discrimination</a>
-                      <a class="dropdown-item" href="{% url 'story' %}">Politics</a>
-                      <a class="dropdown-item" href="{% url 'story' %}">SOme</a>
-                  </div>
-              </div>
-          </li> 
+          <li class="nav-item dropdown nav-dropdown">
+            <a class="nav-link">
+              Stories
+            </a>
+            <div class="dropdown-menu">
+              {% for name, member in categories %}
+                <a class="dropdown-item" href="{% url 'story' category_name=member.value %}">{{ member.label }}</a>
+              {% endfor %}
+            </div>
+          </li>
           <li class="nav-item"><a class="nav-link" href="{% url 'about_us' %}">About</a></li> 
           <li class="nav-item"><a class="nav-link" href="{% url 'contact_us' %}">Contribute to SISU</a></li>
         </ul>
@@ -42,9 +42,31 @@
             </div> 
             </form>
           </aside>
-          <button type="submit" id="signup-button">
-            Sign Up
-          </button>
+          {% if isLoggedIn == True %}
+            <div class="header-avatar custom-row">
+              <!-- This should be dynamically code based on user profile
+              correct user_id for href
+              correct user profile for img
+              Name
+             -->
+                <a href="/user_details/user_id/1/">
+                    <img src="/static/img/icon/default_user_orig.png">
+                </a>
+                <span class="nav-item dropdown nav-dropdown">
+                  <span class="nav-link">
+                    Hi Faustine!
+                  </span>
+                  <div class="dropdown-menu">
+                      <a class="dropdown-item" href="/user_details/user_id/1/edit">Settings</a>
+                      <a class="dropdown-item">Log Out</a>
+                  </div>
+                </span>
+            </div>
+          {% else %}
+            <button type="submit" id="signup-button" data-toggle="modal" data-target="#signinModal">
+              Sign Up
+            </button>
+          {% endif %}
         </ul>
         </div>
          
@@ -72,42 +94,5 @@
         {% block sub_content %}
         {% endblock %}
      
-<!--================ start footer Area  =================-->	
-        <footer class="footer-area p_120">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4  col-md-6 col-sm-6">
-                     <aside class="f_widget news_widget">
-                        <div class="f_title">
-                          <h3 class="footer_title">Vote For App</h3>
-                        </div>
-                        <div id="mc_embed_signup">
-                        {% include 'blog/vote_for_app.html' %} 
-                        </div>
-                     </aside>
-                    </div>
-                    
-                    <div class="col-lg-4  col-md-6 col-sm-6">
-                        <div class="single-footer-widget tp_widgets">
-                           <h6 class="footer_title">Contacts</h6>
-                            <ul class="list">
-                              <li><i class="glyphicon glyphicon-envelope"></i>&ensp;<a href="{% url 'contact_us' %}">Contact Us</a></li>
-
-                            </ul>
-                        </div>
-                    </div>
-                    
-                </div>
-                <div class="row footer-bottom d-flex justify-content-between align-items-center">
-                    <p class="col-lg-8 col-md-8 footer-text m-0">Copyright © 2018 All rights reserved   |   This template is made with <i class="lnr lnr-heart"></i> by <a href="#">Colorlib</a></p>
-                    <div class="col-lg-4 col-md-4 footer-social">
-                        <a href="#"><i class="fa fa-facebook"></i></a>
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-dribbble"></i></a>
-                        <a href="#"><i class="fa fa-behance"></i></a>
-                    </div>
-                </div>
-            </div>
-        </footer>        
 {% endblock %}
         

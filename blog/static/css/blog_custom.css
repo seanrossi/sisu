@@ -443,7 +443,7 @@ label {
     #comment_content {width: 300px;}
 }
 
-@media (max-width: 900px) {
+/* @media (max-width: 900px) {
     #tProfile {width: 150px;}
     #tActivity {width: 150px;}
     
@@ -455,7 +455,7 @@ label {
     #userChart {
       overflow-x: scroll;
     }
-}
+} */
 
 /* The Modal (sign up) */
 .sign-modal {
