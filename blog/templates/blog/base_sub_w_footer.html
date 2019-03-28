@@ -49,9 +49,13 @@
               correct user profile for img
               Name
              -->
+                {{ formset.management_form }}
+                {% for form in userprofile.forms %}
                 <a href="{% url 'user_details' pk=user.pk %}">
-                    <img src="{% static '/img/icon/' %}{{ user.userprofile.photo }}.png">
+                    <img src="{% static '/img/icon/' %}{{ form.instance.photo }}.png">
                 </a>
+                {% endfor %}
+
                 <span class="nav-item dropdown nav-dropdown">
                   <span class="nav-link">
                     Hi, {{ request.user }}!

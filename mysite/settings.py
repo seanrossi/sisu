@@ -45,7 +45,6 @@ INSTALLED_APPS = [
 
 AUTH_USER_MODEL = 'users.CustomUser' # new
 
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -74,7 +73,7 @@ TEMPLATES = [
                 'blog.views.check_voted',
                 'blog.views.popular_cases',
                 'blog.views.user_recommendation_list',
-                
+                            
             ],
         },
     },

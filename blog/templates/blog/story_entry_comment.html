@@ -106,16 +106,19 @@
     <div class="story-entry-comment-entry">
         <div class="story-entry-comment-entry-avatar">
             <!-- dynamic user id and img -->
-            <a href="{% url 'user_details' 1 %}">
-                <img src="{% static '/img/icon/' %}{{ user.userprofile.photo }}.png">
+            {{ formset.management_form }}
+            {% for form in userprofile.forms %}
+            <a href="{% url 'user_details' pk=user.pk %}">
+                <img src="{% static '/img/icon/' %}{{ form.instance.photo }}.png">
             </a>
+            {% endfor %}
         </div>
         <div class="story-entry-comment-entry-content">
             {% csrf_token %}
             <input id="user_name" type="hidden" name="author" value="{{ user.username }}" >
             <input id="id-div" type="hidden" name="pid" value="{{ post.id }}" >
             <div><br></div>
-            <textarea onkeyup="btnsuccess()" id="comment_content" name="text" rows="5" cols="100" wrap="soft" style="overflow:auto; resize:none;" placeholder="{{ user.username }}, what do you think?"> </textarea>
+            <input onkeyup="btnsuccess()" id="comment_content" name="text" rows="5" cols="100" wrap="soft" style="overflow:auto; resize:none;" placeholder="{{ user.username }}, what do you think?"> </input>
             <button type="submit" id="addCommentBtn" class="sisu-button" disabled>
                 Post
             </button>

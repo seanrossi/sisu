@@ -67,13 +67,30 @@ def pretty_request(request):
 def category(request):
   categories = Category.__members__.items()
   
-  return {
-      'categories' : categories,
-      'signup_form': CustomUserCreationForm(),
-      'isLoggedIn': request.user.is_authenticated,
-      }
+  if request.user.is_authenticated: 
+    user = CustomUser.objects.get(pk=request.user.pk)
+    user_form = UserProfileForm(instance=user)
 
-  
+    ProfileInlineFormset = inlineformset_factory(CustomUser, UserProfile, fields=('photo',))
+    formset = ProfileInlineFormset(instance=user)
+
+    if request.user.id == user.id:
+        if request.method == "POST":
+            formset = ProfileInlineFormset(request.POST, request.FILES, instance=user)
+            
+    return {
+        'categories' : categories,
+        'signup_form': CustomUserCreationForm(),
+        'isLoggedIn': True,
+        'userprofile': formset,
+    }
+  else :
+    return {
+        'categories' : categories,
+        'signup_form': CustomUserCreationForm(),
+        'isLoggedIn': False,
+    }
+        
 # Popular cases
 # list top 5 cases with the most comments
 # get no. of comments for all posts
@@ -149,7 +166,7 @@ def user_recommendation_list(request):
     #print(other_members_usernames)
   
   return {'rec_post_list': post_list}
-  
+
 #
 # For About us page
 #
