@@ -180,8 +180,43 @@ def story(request, category_name):
       
     return render(request, 'blog/story.html', {'posts':posts, 'cat':cat, 'description': mapping[cat]})
     
-def story_entry(request):
-    return render(request, 'blog/story_entry.html')
+def story_entry(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    user_name = auth.get_user(request)
+    ip = request.session['ip']
+    
+    hit_count = HitCount.objects.get_for_object(post)
+    hit_count_response = HitCountMixin.hit_count(request, hit_count)    
+    
+    #print ("hit---- " + str(hit_count_response.hit_message))
+    
+    if request.user.is_authenticated:
+        if PostPreferrence.objects.filter(username=user_name, ip_address=ip, postpk=pk, vote_value=1).exists():   
+            voted = True
+        else:
+            voted = False
+        
+    else:
+        if PostPreferrence.objects.filter(ip_address=ip, postpk=pk, vote_value=1).exists(): 
+            voted = True
+        else:
+            voted = False   
+    try:
+        total_yes = PostPreferrence.objects.filter(vote_value=1, postpk=pk).count()
+    except PostPreferrence.DoesNotExist:
+        total_yes = 0;
+        
+    
+    summary = ({
+        'voted':voted,
+        'total_yes': total_yes,
+
+    }) 
+    
+    return render(request, 'blog/story_entry.html', 
+                  {'post': post, 
+                   'summary': summary,
+                  })
 
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
@@ -362,7 +397,7 @@ def add_comment_to_post(request):
   else:
      form = CommentForm()
     
-  return render(request, 'blog/post_detail_index.html', {'post':commentpost})    
+  return render(request, 'blog/story_entry.html', {'post':commentpost})    
     
 @login_required     
 def add_reply_to_comment(request):
@@ -390,19 +425,19 @@ def add_reply_to_comment(request):
            
     else:
         form = CommentForm()
-    return render(request, 'blog/post_detail_index.html', {'post':replypost})
+    return render(request, 'blog/story_entry.html', {'post':replypost})
     
 @login_required
 def comment_approve(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
     comment.approve()
-    return redirect('post_detail', pk=comment.post.pk)
+    return redirect('story_entry', pk=comment.post.pk)
 
 @login_required
 def comment_remove(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
     comment.delete()
-    return redirect('post_detail', pk=comment.post.pk)
+    return redirect('story_entry', pk=comment.post.pk)
 #
 # For contact us page
 #
@@ -655,7 +690,8 @@ def on_off_star(request):
       
       update_clusters("false")
       
-   return render(request, 'blog/post_detail_index.html', {'post':likedpost, 'summary':summary})   
+   return render(request, 'blog/story_entry.html', {'post':likedpost, 'summary':summary})   
+   #return render(request, 'blog/post_detail_index.html', {'post':likedpost, 'summary':summary})   
  
 # Search Functionality
 def normalize_query(query_string,
@@ -735,9 +771,36 @@ def user_profile(request, pk):
         raise PermissionDenied
     #return render(request, 'blog/user_settings.html')
 
+@login_required
 def user_details(request, pk):
+    user = CustomUser.objects.get(pk=pk)
+    user_form = UserProfileForm(instance=user)
 
-    return render(request, "blog/user_details.html", { 'isUserLoggedIn': True })
+    ProfileInlineFormset = inlineformset_factory(CustomUser, UserProfile, fields=('photo',))
+    formset = ProfileInlineFormset(instance=user)
+
+    if request.user.is_authenticated and request.user.id == user.id:
+        if request.method == "POST":
+            user_form = UserProfileForm(request.POST, request.FILES, instance=user)
+            formset = ProfileInlineFormset(request.POST, request.FILES, instance=user)
+
+            if user_form.is_valid():
+                created_user = user_form.save(commit=False)
+                formset = ProfileInlineFormset(request.POST, request.FILES, instance=created_user)
+
+                if formset.is_valid():
+                    created_user.save()
+                    formset.save()
+                    return render(request, "blog/user_settings_profile_upd.html")
+            
+            
+        return render(request, "blog/user_details.html", {
+            "noodle": pk,
+            "noodle_form": user_form,
+            "formset": formset,
+        })
+    else:
+        raise PermissionDenied
 
 def user_edit(request, pk): 
 

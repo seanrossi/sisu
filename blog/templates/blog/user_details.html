@@ -4,22 +4,34 @@
 {% block sub_content %}  
 <div class="user-details">
     <div class="user-details-header">
+        {{ formset.management_form }}
+        {% for form in formset.forms %}
         <div class="user-details-header-avatar">
-            <img src="{% static 'img/icon/default_user_orig.png' %}">
+            <img src="{% static '/img/icon/' %}{{ form.instance.photo }}.png">
         </div>
+        {% endfor %}
+        
         <div class="user-details-header-content">
+            
             <div class="custom-row">
-                <h1>
-                    Faustine Crane
-                </h1>
-                {% if isUserLoggedIn == True %} 
-                    <button class="sisu-button edit-button">
-                        <a class="sisu-button" href="{% url 'user_edit' 1 %}">
-                            EDIT PROFILE
-                        </a>
-                    </button>
-                    
+                {% if noodle_form.instance.first_name %}
+                    <h1> {{noodle_form.instance.first_name}}  </h1> 
+                {% else %}
+                    <h5> Your first name,   </h5>
                 {% endif %}
+                
+                {% if noodle_form.instance.last_name %}
+                    <h1> {{noodle_form.instance.last_name}} </h1>
+                {% else %}
+                    <h5>  Your last name </h5>
+                {% endif %}
+                
+                <button class="sisu-button edit-button">
+                    <a class="sisu-button" href="{% url 'user_edit' pk=user.pk %}">
+                            EDIT PROFILE
+                    </a>
+                </button>
+                    
             </div>
             <div>
                 <span class="user-details-icon">
@@ -43,11 +55,6 @@
             </div>
             <p>
                 sfuianfas fuasnf asunf asifnuas fiunas fiun asuifn asiufn asiufn asiufn asiu
-                asiufnsuai fasnf asifu asiuf sauifn asiuf siuf nasiu fiuasn fiuas fniu 
-                sfuianfas fuasnf asunf asifnuas fiunas fiun asuifn asiufn asiufn asiufn asiu
-                asiufnsuai fasnf asifu asiuf sauifn asiuf siuf nasiu fiuasn fiuas fniu
-                sfuianfas fuasnf asunf asifnuas fiunas fiun asuifn asiufn asiufn asiufn asiu
-                asiufnsuai fasnf asifu asiuf sauifn asiuf siuf nasiu fiuasn fiuas fniu
                 sfuianfas fuasnf asunf asifnuas fiunas fiun asuifn asiufn asiufn asiufn asiu
                 asiufnsuai fasnf asifu asiuf sauifn asiuf siuf nasiu fiuasn fiuas fniu
             </p>
@@ -63,7 +70,7 @@
         <label for="user-details-tab2">Comments</label>
         
         <input id="user-details-tab3" type="radio" name="tabs">
-        <label for="user-details-tab3">Bookmarks</label>
+        <label for="user-details-tab3">Activities</label>
         <section id="user-details-lights">
             {% include 'blog/story_content.html' %}
         </section>

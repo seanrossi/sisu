@@ -427,6 +427,7 @@
 }
 .story-entry-comment-entry-timeline {
     float: right;
+    font-size: 14px;
 }
 .story-entry-comment-entry-content input {
     background: none;

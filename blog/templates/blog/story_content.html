@@ -3,7 +3,7 @@
 <div class="story-content">
     <!-- story entry insert story id -->
     {% for post in posts %}
-    <a href="{% url 'story_entry' %}">
+    <a href="{% url 'story_entry' pk=post.pk %}">
         <div class="story-content-entry custom-row">
             <div class="story-text">
                 <h4>

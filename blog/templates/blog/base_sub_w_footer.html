@@ -49,15 +49,15 @@
               correct user profile for img
               Name
              -->
-                <a href="/user_details/user_id/1/">
-                    <img src="/static/img/icon/default_user_orig.png">
+                <a href="{% url 'user_details' pk=user.pk %}">
+                    <img src="{% static '/img/icon/' %}{{ user.userprofile.photo }}.png">
                 </a>
                 <span class="nav-item dropdown nav-dropdown">
                   <span class="nav-link">
-                    Hi Faustine!
+                    Hi, {{ request.user }}!
                   </span>
                   <div class="dropdown-menu">
-                      <a class="dropdown-item" href="/user_details/user_id/1/edit">Settings</a>
+                      <a class="dropdown-item" href="{% url 'user_details' pk=user.pk %}">Settings</a>
                       <a class="dropdown-item">Log Out</a>
                   </div>
                 </span>

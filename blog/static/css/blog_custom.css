@@ -276,8 +276,6 @@ label {
 * Comments related
 */
 #comment_content {
-  width: 400px;
-  height: 300px;
   vertical-align: bottom !important;
   color: #999;
 }
