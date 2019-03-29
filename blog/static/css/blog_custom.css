@@ -1,7 +1,7 @@
 /*
     Reference: 
 */
-@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+@import "https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700";
 
 <a href="https://en.wikipedia.org/wiki/Django" class="external_link" id="link_to_wiki_page">
 
@@ -170,7 +170,6 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
     display: block;
     position: absolute;
     right: 20px;
-    font-family: 'Glyphicons Halflings';
     font-size: 0.6em;
 }
 a[aria-expanded="true"]::before {
@@ -327,12 +326,10 @@ label {
       margin-bottom: 0px; }
       .sidediv .menu_left li a {
         font-size: 18px;
-        font-family: 'Poppins', sans-serif;
         font-weight: normal;
         color: #fff;
         }
         .sidediv .menu_left h2 {
-          font-family: 'Poppins', sans-serif;
           font-weight: 500;}
 
           #left_menu_list {
@@ -681,7 +678,7 @@ label {
       margin-bottom: 0px;
       background: #04091e;
       z-index: 900;
-      font-family: "Poppins", sans-serif;
+      
   }
 
   .navbar .navbar-nav > .active > a, .navbar .navbar-nav > .active > a:hover, .navbar .navbar-nav > .active > a:focus {

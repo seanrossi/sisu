@@ -15,7 +15,7 @@
             
             <div class="custom-row">
                 {% if noodle_form.instance.first_name %}
-                    <h1> {{noodle_form.instance.first_name}}  </h1> 
+                    <h1> {{noodle_form.instance.first_name}},&nbsp </h1> 
                 {% else %}
                     <h5> Your first name,   </h5>
                 {% endif %}
@@ -27,8 +27,18 @@
                 {% endif %}
                 
                 <button class="sisu-button edit-button">
-                    <a class="sisu-button" href="{% url 'user_edit' pk=user.pk %}">
+                    <a class="sisu-button" href="{% url 'display_profile' pk=user.pk %}">
                             EDIT PROFILE
+                    </a>
+                </button>
+                <button class="sisu-button edit-button">
+                    <a class="sisu-button" href="{% url 'change_password' %}">
+                            CHANGE PASSWORD
+                    </a>
+                </button>
+                <button class="sisu-button edit-button">
+                    <a class="sisu-button" href="{% url 'delete_profile' pk=user.pk %}">
+                            DELETE ACCOUNT
                     </a>
                 </button>
                     
@@ -53,10 +63,9 @@
                     </span>
                 </span>
             </div>
-            <p>
-                sfuianfas fuasnf asunf asifnuas fiunas fiun asuifn asiufn asiufn asiufn asiu
-                sfuianfas fuasnf asunf asifnuas fiunas fiun asuifn asiufn asiufn asiufn asiu
-                asiufnsuai fasnf asifu asiuf sauifn asiuf siuf nasiu fiuasn fiuas fniu
+            <p> <br>
+                Your Username: {{ noodle_form.instance.username }} <br>
+                Your Email: {{ noodle_form.instance.email }}
             </p>
         </div>
 

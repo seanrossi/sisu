@@ -1,40 +1,47 @@
-{% extends "blog/base_sub.html" %}
+{% extends "blog/base_sub_w_footer.html" %}
 {% load staticfiles %}
 
-{% block header %}
-		<li class="nav-item"><a class="nav-link" href="/">Home</a></li> 
-		<li class="nav-item"><a class="nav-link" href="{% url 'about_us' %}">About</a></li> 
-		<li class="nav-item"><a class="nav-link" href="{% url 'post_cases' %}">Cases</a></li>
-{% endblock %}
-
 {% block sub_content %} 
-      
-<section id="user_profile_table">
-  <div class="section-top-border">
-    <input type="text" id="first-name-div" name="first_name"
-           value="{{ context.f_name }}" 
-           placeholder="Your First Name">
-             
-    <input type="text" id="last-name-div" name="last_name"
-           value="{{ context.l_name }}"
-           placeholder="Your Last Name"> 
-             
-    <div id="my-icon-select"></div>
-    <input type="text" id="selected-text" name="photo" style="display:none;">
-    <input type="text" id="profile-id" data="{{ context.photo }}"
-           value="{% static '/img/icon/' %}{{ context.photo }}.png"
-           style="display:none;">
+<div class="user-details">
+    <div class="user-details-header user-details-header-edit">
+        
+        <div id="my-icon-select"></div>
+            <input type="text" id="selected-text" name="photo" style="display:none;">
+            <input type="text" id="profile-id" data="{{ context.photo }}"
+                value="{% static '/img/icon/' %}{{ context.photo }}.png"
+                style="display:none;">
+        <div class="user-details-header-avatar">
+        </div>
+        
+        <div class="user-details-header-content">
+            <div class="custom-row">
+                <input type="text" id="first-name-div" name="first_name"
+                value="{{ context.f_name }}" 
+                placeholder="Your First Name">
+            </div>
+            <div class="custom-row">
+                <input type="text" id="last-name-div" name="last_name"
+                value="{{ context.l_name }}"
+                placeholder="Your Last Name"> 
+            </div>
+            
+        </div>
+        
+        <div id="results" style="display:none"><p>Updated Successfully. Go Back to see results!</p></div>
+  
+        <div class="user-details-edit-button">
+            <button type="submit" class="sisu-button">
+                <a href="{% url 'user_details' pk=user.id %}">GO BACK</a>
+            </button>
+            
+            <button type="submit" id="updateButton" class="sisu-button">
+                SAVE
+            </button> 
+        </div>
+    </div>
     
-  </div>
-  <button type="submit" id="updateButton" class="primary-btn submit_btn">
-    Update
-  </button> 
-  <button type="submit" class="primary-btn submit_btn">
-    <a href="{% url 'user_settings' pk=user.id %}">Go Back</a>
-  </button>
-  <div id="results" style="display:none"><p>Updated Successfully</p></p>
-</section>
-    
+</div>
+          
 <script>
   var iconSelect;
   var selectedText;

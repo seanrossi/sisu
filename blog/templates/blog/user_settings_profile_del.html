@@ -1,18 +1,23 @@
-{% extends "blog/base_sub.html" %}
+{% extends "blog/base_sub_w_footer.html" %}
 {% load staticfiles %}
 
-{% block header %}
-		<li class="nav-item"><a class="nav-link" href="/">Home</a></li> 
-		<li class="nav-item"><a class="nav-link" href="{% url 'about_us' %}">About</a></li> 
-		<li class="nav-item"><a class="nav-link" href="{% url 'post_cases' %}">Cases</a></li>
-{% endblock %}
-
 {% block sub_content %} 
-  <form method="post">
-    {% csrf_token %}
-    <button class="btn btn-danger">Confirm delete {{ object }}?</button>
+<div class="user-details">
+    <div class="user-details-edit custom-row">
+        <h3>
+            Delete Account from SISU
+        </h3>
+    </div>    
     
-  </form>
-<a href="{% url 'user_settings' pk=user.id %}">Go Back</a>
-    
+    <form method="post">
+        {% csrf_token %}
+        <button class="btn btn-danger">Confirm delete {{ object }}?</button>
+        
+    </form>
+  
+    <button type="submit" class="sisu-button">
+        <a href="{% url 'user_details' pk=user.id %}">GO BACK</a>
+    </button>
+
+</div>    
 {% endblock %}
