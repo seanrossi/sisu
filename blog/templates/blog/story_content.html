@@ -14,7 +14,7 @@
                 </p>
             </div>
             <div class="story-img-list">
-                <img src="{% static '/img/blog/main-blog/' %}{{ post.pk }}.jpg" alt="" align="right">
+                <img src="{% static '/img/blog/main-blog/' %}{{ post.pk }}.jpg" alt="" align="case">
                 
             </div>
         </div>
@@ -22,5 +22,9 @@
     {% empty %}
     <div class="col-md-4"></div>
     <h2> New cases are coming! </h2>
+    <h2> Meanwhile, take a look at these cases. </h2>
+    
+    {% include 'blog/story_popular.html' %}
+    
     {% endfor %}
 </div>

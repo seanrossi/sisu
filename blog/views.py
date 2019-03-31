@@ -92,7 +92,7 @@ def category(request):
     }
         
 # Popular cases
-# list top 5 cases with the most comments
+# list top 3 cases with the most comments
 # get no. of comments for all posts
 def popular_cases(request):
   
@@ -107,7 +107,7 @@ def popular_cases(request):
   for case in cases:
     casesparsed[case['post']] = case['dcount']
     
-    if count < 5:
+    if count < 3:
       #print(case['post'])
       #print(Post.objects.filter(pk=case['post']))
       pop_posts.append(Post.objects.filter(pk=case['post']))
@@ -159,7 +159,7 @@ def user_recommendation_list(request):
     post_list_1 = list(Post.objects.filter(id__in=other_users_set))
     post_list_2 = list(Post.objects.exclude(id__in=user_set))
     
-    post_list = list(set(post_list_1)|set(post_list_2))[:5]
+    post_list = list(set(post_list_1)|set(post_list_2))[:3]
     
     #print(post_list)
     #print(other_users_set)
@@ -825,7 +825,7 @@ def user_edit(request, pk):
 
 ## Pie chart
 class IndexView(TemplateView):
-      template_name = 'blog/user_settings.html'
+      template_name = 'blog/user_details.html'
       
       def get_context_data(self, **kwargs):
           context = super(IndexView, self).get_context_data(**kwargs)
@@ -862,7 +862,10 @@ class IndexView(TemplateView):
           
           else:
             context['cat_chart'] = None
-            
+          
+          context['user_commented_size'] = len(user_comments_approve)
+          context['user_pending_size'] = len(user_comments_pending)
+          context['user_metooed_size'] = len(user_metooed)
           context['user_commented'] = user_comments_approve[:20]
           context['user_pending'] = user_comments_pending[:20]
           context['user_metooed'] = user_metooed

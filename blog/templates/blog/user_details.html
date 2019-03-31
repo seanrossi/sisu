@@ -47,19 +47,19 @@
                 <span class="user-details-icon">
                     <span class="fa fa-lightbulb-o"></span>
                     <span>
-                        100 lights
+                        {{ user_metooed_size }} lights
                     </span>
                 </span>
                 <span class="user-details-icon">
                     <span class="glyphicon glyphicon-comment"></span>
                     <span>
-                        50 comments
+                        {{ user_commented_size }} approved comments
                     </span>
                 </span>
                 <span class="user-details-icon">
-                    <span class="glyphicon glyphicon-bookmark"></span>
+                    <span class="glyphicon glyphicon-lock"></span>
                     <span>
-                        6 bookmarks
+                        {{ user_pending_size }} pending comments
                     </span>
                 </span>
             </div>
@@ -73,23 +73,31 @@
     </div>
     <div class="sisu-nav-tabs user-details-content">
         <input id="user-details-tab1" type="radio" name="tabs" checked>
-        <label for="user-details-tab1">Lights</label>
+        <label for="user-details-tab1">Activities</label>
         
         <input id="user-details-tab2" type="radio" name="tabs">
-        <label for="user-details-tab2">Comments</label>
+        <label for="user-details-tab2">Lights</label>
         
         <input id="user-details-tab3" type="radio" name="tabs">
-        <label for="user-details-tab3">Activities</label>
+        <label for="user-details-tab3">Approved Comments</label>
+        
+        <input id="user-details-tab4" type="radio" name="tabs">
+        <label for="user-details-tab4">Pending Comments</label>
+        
+        <section id="user-details-chart">
+            {% include 'blog/user_settings_chart.html' %}
+        </section>
+        
         <section id="user-details-lights">
-            {% include 'blog/story_content.html' %}
+            {% include 'blog/user_settings_lights.html' %}
         </section>
-        <section id="user-details-comments">
-            <p>
-                Comments
-            </p>
+        
+        <section id="user-details-approve">
+            {% include 'blog/user_settings_com_approve.html' %}
         </section>
-        <section id="user-details-bookmarks">
-            Bookmarks
+        
+        <section id="user-details-pending">
+            {% include 'blog/user_settings_com_pending.html' %}
         </section>
     </div>
 

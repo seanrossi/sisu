@@ -51,13 +51,6 @@
               correct user profile for img
               Name
              -->
-                {{ userprofile.management_form }}
-                {% for form in userprofile.forms %}
-                <a href="{% url 'user_details' pk=user.pk %}">
-                    <img src="{% static '/img/icon/' %}{{ form.instance.photo }}.png">
-                </a>
-                {% endfor %}
-
                 <span class="nav-item dropdown nav-dropdown">
                   <span class="nav-link">
                     Hi, {{ request.user }}!
@@ -65,7 +58,6 @@
                   <div class="dropdown-menu">
                       <a class="dropdown-item" href="{% url 'user_details' pk=user.pk %}">Settings</a>
                       <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
-                      
                   </div>
                 </span>
             </div>

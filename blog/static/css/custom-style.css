@@ -240,7 +240,7 @@
     font-size: 50px;
 }
 .sisu-header {
-    background-image: url('http://starbridgepartners.com/wp-content/uploads/2017/06/linkedin-banner.jpg');
+    
     height: 250px;
     position: relative;
     text-align: center;
@@ -522,9 +522,10 @@
     padding: 20px 0 0;
 }
 
-#user-details-tab1:checked ~ #user-details-lights,
-#user-details-tab2:checked ~ #user-details-comments,
-#user-details-tab3:checked ~ #user-details-bookmarks {
+#user-details-tab1:checked ~ #user-details-chart,
+#user-details-tab2:checked ~ #user-details-lights,
+#user-details-tab3:checked ~ #user-details-approve,
+#user-details-tab4:checked ~ #user-details-pending {
     display: block;
 }
 .sisu-nav-tabs input:checked + label {
