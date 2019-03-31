@@ -470,6 +470,7 @@ def contact_us(request):
             else:
               sender = sender + "_(PUB_User)_"
               
+            print (os.environ.get('SENDGRID_API_KEY'))  
             sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
             from_email = Email(form.cleaned_data['your_email'])
             to_email = Email("sisu.contact.us@gmail.com")
