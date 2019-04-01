@@ -6,8 +6,7 @@ from sendgrid.helpers.mail import *
 
 from django.shortcuts import render
 from django.utils import timezone
-from .models import Post, Comment, Category, AppPreferrence, PostPreferrence, ReplyToComment,Cluster
-from .models import PollQuestions, PollAnswer
+from .models import Post, Comment, Category, PostPreferrence, ReplyToComment,Cluster
 from django.shortcuts import render, get_object_or_404
 from .forms import PostForm, CommentForm, ContactForm, SearchForm, ReplyToCommentForm
 from django.shortcuts import redirect
@@ -36,7 +35,6 @@ from .suggestions import update_clusters
 import pygal
 from .chart import CatPieChart, PollHorizontalBarChart
 from django.views.generic import TemplateView
-from pygal.style import DarkStyle
 
 def pretty_request(request):
     headers = ''
@@ -248,65 +246,7 @@ def post_list_by_category(request, category_name):
     posts = Post.objects.filter(category_name=category_name).order_by('-published_date')
     cat = Category.get_label(category_name)
     return render(request, 'blog/post_list.html', {'posts':posts, 'cat':cat })
-
-def post_detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    user_name = auth.get_user(request)
-    ip = request.session['ip']
-    
-    hit_count = HitCount.objects.get_for_object(post)
-    hit_count_response = HitCountMixin.hit_count(request, hit_count)    
-    
-    #print ("hit---- " + str(hit_count_response.hit_message))
-    
-    if request.user.is_authenticated:
-        if PostPreferrence.objects.filter(username=user_name, ip_address=ip, postpk=pk, vote_value=1).exists():   
-            voted = True
-        else:
-            voted = False
-        
-    else:
-        if PostPreferrence.objects.filter(ip_address=ip, postpk=pk, vote_value=1).exists(): 
-            voted = True
-        else:
-            voted = False   
-    try:
-        total_yes = PostPreferrence.objects.filter(vote_value=1, postpk=pk).count()
-    except PostPreferrence.DoesNotExist:
-        total_yes = 0;
-    
-    #Polling questions and stats
-    if(PollAnswer.objects.filter(post=pk, user=user_name)).exists():
-       pollquestion = get_object_or_404(PollQuestions, post=pk)
-       polled = True
-       
-       bar_chart = PollHorizontalBarChart(print_values=True,value_formatter=lambda x: '{}%'.format(x),
-                                          legend_at_bottom=True,
-                                          legend_box_size=30,
-                                          style=pygal.style.styles['default'](legend_font_size=30, 
-                                                                              value_font_size=30, 
-                                                                              label_font_size=25,
-                                                                              ))
-       chart = bar_chart.generate(pollquestion)
-    
-    else:
-       pollquestion = get_object_or_404(PollQuestions, post=pk)
-       polled = False
-       chart = None
-    
-    summary = ({
-        'voted':voted,
-        'total_yes': total_yes,
-        'polled': polled,
-        'pollquestion': pollquestion,
-    }) 
-    
-    return render(request, 'blog/post_detail_index.html', 
-                  {'post': post, 
-                   'summary': summary,
-                   'barchart': chart,
-                  })
-    
+   
 @login_required
 def post_new(request):
     if request.method == "POST":
@@ -353,39 +293,6 @@ def post_edit(request, pk):
     else:
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
-
-'''
-@login_required     
-def add_comment_to_post_orig(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    if request.method == "POST":
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.post = post
-            comment.save()
-            messages.info(request, 'Thank you for your comment! It will be posted after censoring.')
-            return redirect('post_detail', pk=post.pk)
-    else:
-        form = CommentForm()
-    return render(request, 'blog/add_comment_to_post.html', {'form': form})
-
-@login_required     
-def add_reply_to_comment_orig(request, pk, cpk):
-    post = get_object_or_404(Post, pk=pk)
-    comment = get_object_or_404(Comment, post=post, pk=cpk)
-    if request.method == "POST":
-        form = ReplyToCommentForm(request.POST)
-        if form.is_valid():
-            replyToComment = form.save(commit=False)
-            replyToComment.post = post
-            replyToComment.comment = comment
-            replyToComment.save()
-            return redirect('post_detail', pk=post.pk)
-    else:
-        form = CommentForm()
-    return render(request, 'blog/add_comment_to_post.html', {'form': form})
-'''
 
 @login_required     
 def add_comment_to_post(request):
@@ -494,177 +401,6 @@ def contact_us(request):
             return render(request, 'blog/contact_us_success.html')
     return render(request, "blog/contact_us.html", {'form': form})
            
-#
-# For voting app
-#
-# check if the user / ip_address has voted 
-def check_voted(request):
-  voted = False;
-  user_ip = get_client_ip(request)
-  user_name = auth.get_user(request)
-  ip = user_ip[0]
-  
-  request.session['ip'] = ip
-  
-  total_yes = AppPreferrence.objects.filter(vote_yes=1).count()
-  total_no = AppPreferrence.objects.filter(vote_no=1).count()
-  
-   
-  if request.user.is_authenticated:
-     if AppPreferrence.objects.filter(username=user_name).exists():   
-        voted = True
-        
-  else:
-     if AppPreferrence.objects.filter(ip_address=ip).exists(): 
-        voted = True
-  
-  summary = ({
-      'voted':voted,
-      'total_yes': total_yes,
-      'total_no': total_no,
-    })     
-  return ({'summary': summary}) 
-
-'''
-# save the vote if never voted
-def vote_for_app_orig(request, voted_value):
-   
-   if request.method == "POST":     
-      user_preference = int(voted_value)
-      #user_ip = get_client_ip(request)
-      user_name = auth.get_user(request)
-      ip = request.session['ip']
-  
-      app_voted = AppPreferrence() 
-      app_voted.ip_address = ip
-      
-      if user_preference == 1:
-          app_voted.vote_yes += 1
-      elif user_preference == 2:
-          app_voted.vote_no +=1
-      
-      if request.user.is_authenticated:
-         #print("===================================" + str(user_preference) + str(ip) + str(user_name))
-         app_voted.username = user_name
-              
-   app_voted.save()
-     
-   return render(request, "blog/about.html")
-'''
-
-def vote_for_app(request):
-   
-   if request.method == "GET":     
-      user_preference = request.GET['voted_value']
-      #user_ip = get_client_ip(request)
-      user_name = auth.get_user(request)
-      ip = request.session['ip']
-  
-      app_voted = AppPreferrence() 
-      app_voted.ip_address = ip
-      
-      #print("==" + user_preference)
-      
-      if user_preference == "1":
-          app_voted.vote_yes = 1
-          
-          
-      elif user_preference == "2":
-          app_voted.vote_no =1
-      
-      #print("=====" + str(app_voted.vote_yes))
-      
-      if request.user.is_authenticated:
-         #print("===================================" + str(user_preference) + str(ip) + str(user_name))
-         app_voted.username = user_name
-              
-   app_voted.save()
-     
-   return render(request, "blog/about.html")
-   
-def participate_poll(request):
-   if request.method == 'GET':
-      post_id = request.GET['postid']
-      poll_value = request.GET['selected']
-      user_name = auth.get_user(request)
-      
-      post = get_object_or_404(Post, pk=post_id)
-      
-      polledpost = PollAnswer()
-      polledpost.post = post
-      polledpost.user = user_name
-      polledpost.choiceval = poll_value
-      
-      polledpost.save()
-      
-      pollquestion = get_object_or_404(PollQuestions, pk=post_id)
-        
-      if(poll_value == '1'):
-         pollquestion.choice1stat += 1
-      elif(poll_value == '2'):
-         pollquestion.choice2stat += 1
-      elif(poll_value == '3'): 
-         pollquestion.choice3stat += 1
-      elif(poll_value == '4'): 
-         pollquestion.choice3stat += 1
-        
-      pollquestion.total += 1  
-      pollquestion.save()            
-        
-      summary = ({
-         'pollquestion':pollquestion,
-      })
-      
-   return render(request, 'blog/post_detail_index.html', {'post':post, 'summary':summary})   
-
-   
-''' 
-def on_off_star_orig(request, postid, on_off_value):
-   
-   if request.method == "POST":     
-          
-      post_preference = int(on_off_value)
-      user_name = auth.get_user(request)
-      ip = request.session['ip']
-      
-      post = get_object_or_404(Post, pk=postid)   
-      
-      try:
-        if request.user.is_authenticated:
-          postpreferrence_obj = PostPreferrence.objects.get(username=user_name, postpk=post, ip_address=ip)     
-        else:
-          postpreferrence_obj = PostPreferrence.objects.get(postpk=post, ip_address=ip)
-        
-        postpreferrence_obj.vote_value = post_preference
-        postpreferrence_obj.save()       
-        
-        if post_preference == 2:
-            voted = False
-        else:
-            voted = True
-      
-      except PostPreferrence.DoesNotExist:
-        post_voted = PostPreferrence()
-        post_voted.ip_address = ip
-        post_voted.postpk = post
-        post_voted.vote_value = post_preference 
-      
-        if request.user.is_authenticated:
-          #print("===================================" + str(user_preference) + str(ip) + str(user_name))
-          post_voted.username = user_name
-        else:
-          post_voted.username = None
-          
-        post_voted.save()   
-        voted = True
-   
-      summary = ({
-         'voted':voted,
-         'total_yes': PostPreferrence.objects.filter(vote_value=1, postpk=postid).count(),
-      })
-      
-   return render(request, 'blog/post_detail_index.html', {'post':post, 'summary':summary})
-'''
    
 def on_off_star(request):
 

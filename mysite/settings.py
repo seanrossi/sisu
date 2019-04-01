@@ -70,7 +70,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'blog.views.category',
-                'blog.views.check_voted',
                 'blog.views.popular_cases',
                 'blog.views.user_recommendation_list',
                             
