@@ -7,7 +7,7 @@
     height:100%;
     left:0px;
     z-index:10000;
-    background-image:url(tp.png); /* required by MSIE to prevent actions on lower z-index elements */
+    /* required by MSIE to prevent actions on lower z-index elements */
 }
 
 #alertBox {
