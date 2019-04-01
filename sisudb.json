@@ -1,0 +1,359 @@
+[
+{
+  "model": "users.customuser",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$100000$RXDWYxrQbuSL$JZtJZ+cGI6F2+ihhGwOmzaMhJjY5RbYQQhwC+ev1zo8=",
+    "last_login": "2019-04-01T02:07:48.336Z",
+    "is_superuser": true,
+    "username": "Admin_X",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@admin.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2019-04-01T00:52:21.368Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.customuser",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$100000$ejtNSAb2GAnX$4Bb9OSn6Pvj8WkMFsAGVean8Q1/61EeNvBzemKTLzyU=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "Admin_T",
+    "first_name": "",
+    "last_name": "",
+    "email": "admint@admin.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2019-04-01T00:53:25.456Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.customuser",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$100000$w5kfEC15GuKG$2HbmCL8ukgmLkBF3fQnRGXekyHIBocM+BDsiqvKI0mA=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "SISU",
+    "first_name": "",
+    "last_name": "",
+    "email": "sisu.contact.us@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-04-01T01:28:01.802Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.userprofile",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "photo": "default_user"
+  }
+},
+{
+  "model": "users.userprofile",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "photo": "default_user"
+  }
+},
+{
+  "model": "users.userprofile",
+  "pk": 3,
+  "fields": {
+    "user": 3,
+    "photo": "default_user"
+  }
+},
+{
+  "model": "blog.cluster",
+  "pk": 1,
+  "fields": {
+    "name": "0",
+    "users": [
+      1,
+      2
+    ]
+  }
+},
+{
+  "model": "blog.cluster",
+  "pk": 2,
+  "fields": {
+    "name": "1",
+    "users": []
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 1,
+  "fields": {
+    "author": 3,
+    "title": "To Lead or Not to Lead?",
+    "text": "Cara is a junior electrical engineering employee at Starket Technologies. She has taken on the lead for a new assignment, which has encountered an issue needing timely resolution.  \r\n\r\nOne day, Cara scheduled a meeting with other stakeholders to discuss the issue. She invited the critical attendees, as well as another colleague, Sam, who was indirectly linked to the project.  Fifteen minutes into the meeting, Sam joined the meeting and began to answer questions that had been brought up during the existing conversation.  Sam also began talking incessantly, as if leading the meeting and not giving recognition or acknowledgement to the host.  \r\n\r\nSeveral times during the meeting, Cara tried to interrupt and take back the meeting but was mostly ignored (i.e. Sam continued talking without deferring to her). At the meeting's conclusion, Sam proceeded to delegate instructions to Cara, such as \"can you setup another meeting?\" or \"can you send XYZ file to everyone at this meeting?\"  Cara was bewildered and infuriated.  \r\n\r\nWhat should she do?",
+    "short_desc": "How should Cara respond when she loses control of her own meeting?",
+    "published_date": null,
+    "created_date": "2019-04-01T00:54:40Z",
+    "category_name": "Conflict"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 2,
+  "fields": {
+    "author": 3,
+    "title": "Too Close for Comfort",
+    "text": "Tonya is a mechanical engineering employee and has just joined a new department within her company. A fellow team member, Jack, who was Tonya's senior, approached her one day and hugged her as a greeting.  Tonya was a litle surprised at first as she had never been professionally greeted with a hug before, but thought the act was part of company culture.  \r\n\r\nHowever, Tonya started getting more concerned after Jack starting expressing several questionable statements over the company's messaging network, such as: \"you're my woman crush today\" or \"you look super fine in that dress.\"  \r\n\r\nIn-person, he told Tonya \"you're not ugly\" and, on several occasions, did not make eye contact with her (e.g. his eyes grazed over her clothes and body for more than five seconds).  \r\n\r\nAlthough Tonya did not reciprocate the behavior, she was uncomfortable, especially since she did not see him behave in such a manner with her other colleagues. What should she do?",
+    "short_desc": "How should the main character respond to questionable physical or verbal gestures?",
+    "published_date": null,
+    "created_date": "2019-04-01T00:56:44Z",
+    "category_name": "Harassment"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 3,
+  "fields": {
+    "author": 3,
+    "title": "Coding Callousness",
+    "text": "Maria has been working at Chandler Software Inc. for more than four years.  Although she had been with the company longer than her immediate colleagues, she is the youngest aged member.  She is also the technical lead of a five person, all-male engineering team, whose goal is to deliver a software simulation system with a novel voice capability feature.\r\n\r\nWhen Maria asked one senior team member, Ben, why he had used certain algorithms in his code, Ben became defensive and countered by asking why she had chosen to use a certain C++ library in her code.  Although Maria provided him with a seemingly sufficient answer, Ben was dissatisfied and continued his diatribe, going so far as emailing both Maria and her boss, John, about his concerns.  \r\n\r\nBecause he was not directly involved in the project, John deferred Ben's questions to back to Maria.  Frustrated, vexed, and jaded,  Maria attempted to answer Ben's questions several more times before Ben exasperatedly responded: \"Thanks, I'll figure it out on my own.\"\r\n\r\nMaria was astonished.  Although Ben had been a project lead in the past, she felt he had no reason to question her technical abilities, especially just because she questioned his.   \"Why doesn't he trust my responses?\" she thought.  \"Maybe I'm not good enough to be project lead, or didn't explain well enough.  If I were a guy, maybe my responses and capabilities as a programmer would have been more easily accepted.\"\r\n\r\nHow should Maria address her concerns and prevent an analogous incident from occurring in the future?",
+    "short_desc": "What should you do when a colleague casts intense doubt on your insights?",
+    "published_date": null,
+    "created_date": "2019-04-01T00:58:27Z",
+    "category_name": "Conflict"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 4,
+  "fields": {
+    "author": 3,
+    "title": "Building You \"Down\"",
+    "text": "Marla is a junior engineer at Hartcore Inc., a private civil engineering firm in New York.\u00a0\u00a0She is part of a five member team in charge of drafting the architecture of a new tower located in the East Side of Manhattan.\u00a0\u00a0One day, Marla asked a senior team member, Tally, a question about how to best design a facet of the tower.\u00a0\u00a0Tally responded in exasperation: \"You should know how to do this already. No wonder why girls do not become engineers; it is hard for them to understand difficult concepts or techniques.\"\r\n\u00a0\r\nMarla's jaw dropped.\u00a0\u00a0She then repeated her question and was ultimately able to garner the technical answer she needed; however, for the entire exchange, she was fuming.\u00a0 Marla\u00a0heard stories of her friends having gone through similar incidents, but she couldn't believe one was actually happening to her.\r\n        \u00a0\r\nAs the youngest\u00a0and only female member of her team albeit the most senior (i.e. having the most experience in her company out of all her teammates), Marla felt conflicted on how to best address the situation.\u00a0\u00a0\u00a0\r\n\r\nWhat should Marla do?",
+    "short_desc": "Should gender determine your ability to be a successful in your field?",
+    "published_date": null,
+    "created_date": "2019-04-01T00:59:26Z",
+    "category_name": "Discrimination"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 5,
+  "fields": {
+    "author": 3,
+    "title": "Hello, My Name is...",
+    "text": "Sarah is a structural engineer at Werner and Sons, an Illinois based civil engineering firm.  She had been with the company for three years; most of her teammates were older male engineers who had been with the company for more than ten years.  \r\n\r\nOne day, Sarah overheard one of the company's managers say: \"I don't know any good female structural engineers\" to one of her teammates, Roger.  Roger, a senior structural engineer, immediately agreed, saying: \"Women can't visualize concepts; it's hard for them to see the big picture. That's why they are better off in less difficult roles, like marketing or administration.\"  Instinctively, Sarah's self-confidence dropped and she thought: \"I probably am and won't be a good engineer.\" \r\n \r\nInterestingly, Sarah felt she had a good working relationship with her colleagues and was shocked when she heard both the manager and Roger vocalize such statements. She was also surprised nobody (including herself) said anything to challenge their suspect declarations.  Since her office has an open space floor plan, she was certain almost everyone in the firm heard the exchange.  \r\n\r\nHow should Sarah deal with this incident, if anything at all?",
+    "short_desc": "What should you do if your management or peers do not seem to vouch for your expertise?",
+    "published_date": null,
+    "created_date": "2019-04-01T01:22:45Z",
+    "category_name": "Discrimination"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 6,
+  "fields": {
+    "author": 3,
+    "title": "An (Un)Leveled Playing Field",
+    "text": "Shelly is a mechanical engineer at Bensen Bird, a startup that makes flying drone equipment.  She had been with the company for four years and had always received exemplary performance reviews.  One Monday afternoon, Shelly overheard a breakroom conversation between two, recent college graduate hires.  She was shocked to hear they were making the exact same salary as her with the same educational background (i.e. bachelors degree) albeit less than a year of work experience. \r\n\r\nShelly was in disbelief after subsequently confirming with them what she had overheard .  \"Just because I am a single woman and have no kids, doesn't mean I deserve less money,\" she ruminated, on the verge of tears.  \r\n\r\nAfter confiding in Rick, her technical lead, about her situation, she decided to take his advice by asking her manager, Kevin, for a raise.  Preparing a pitch incorporating personal research results (e.g. Glassdoor) on her comparative market-value, Shelly setup a meeting discuss her proposition with both Kevin and Rick.  After explaining why she deserved a raise, Shelly presented her desired raise amount .  She also gave Kevin a deadline by which to respond to her proposition.\r\n\r\nHowever, Kevin missed the requested deadline, and Shelly had to inquire regarding status, to which he answered: \"It's not possible to give you a raise at this time.\" Although her assistance was sought on a separate occasion, Shelly's Human Resources representative, Myra, also sided with Kevin's decision.  Shelly was infuriated and felt used and manipulated.  Several thoughts ran through her head, such as: \"This is extremely unfair.  If I were a guy, I'd be seen as ambitious to ask for raise, and would certainly get it. However, since I'm a woman, I'm only seen as being greedy.\"\r\n\r\nWhat should Shelly do?",
+    "short_desc": "What do you do when you're not getting paid comparatively to your peers?",
+    "published_date": null,
+    "created_date": "2019-04-01T01:23:14Z",
+    "category_name": "Discrimination"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 7,
+  "fields": {
+    "author": 3,
+    "title": "Scrambled, or Sunny-Side Up?",
+    "text": "Rita is a mechanical engineer at Dremmel Drones, a underwater drone parts manufacturing company.  For the past several months, she had been working closely with a senior engineer, Thomas, on computer-aided design (CAD) drawings for drone propellers. \r\n\r\nAt the beginning of their working relationship, Rita noticed Thomas wore a wedding ring, but at some point later did not.  In addition, she observed when they were alone in a meeting room together, Thomas would make friendly and, even, flirtatious banter.  \"What are you doing tonight?\" he would frequently inquire.  Rita felt only slightly uncomfortable during these exchanges, but her discomfort amplified after one particular encounter.\r\n\r\nAt the end of a desk conversation about the best way to cook eggs, Rita returned to her computer work and thought Thomas was departing her cube, as he usually did.  But, after about a minute, she could still feel his unmoving presence behind her, and, after turning sharply around, caught him looking at her figure.  \r\n\r\n\"What?\" Rita asked, to which Thomas grinned: \"Oh sorry, I was distracted,\" and proceeded to sidle away.  Rita could not help but feel her hands shaking and heart beating between her ears.  \"What just happened there?\" she asked herself, bewildered.  For the rest of the day, she kept replaying the event in her mind and could not concentrate on her work.\r\n\r\nThe following afternoon, Rita asked one of her trustworthy co-workers, James, what he thought about Thomas and if he ever noticed anything curious about his behavior.  \"Even though he is married with kids, I know he is very flirty around girls,\" James laughed.\r\n\r\nEquipped with aforementioned knowledge, Rita attempted to avoid being alone or engaging in non-business interactions with Thomas.  But, since she had to collaborate with him on many project tasks, she realized her circumventive strategy might not be the best solution... \r\n\r\n...or was it?  How should Rita handle this situation?",
+    "short_desc": "Is a co-worker's behavior just friendliness or something more?",
+    "published_date": null,
+    "created_date": "2019-04-01T01:24:19Z",
+    "category_name": "Conflict"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 8,
+  "fields": {
+    "author": 3,
+    "title": "Guidance Backfired",
+    "text": "Ivana is a mechanical engineer at GoLightly Corporation, a notable mid-western aerospace company.  As a structural designer, she frequently works closely with a parts technician, Roberto, to build aircraft prototypes.  Both Ivana and Roberto have good rapport with one another; their exchanges have always been friendly and respectful. \r\n\r\nSix months later, Ivana was working with Roberto on constructing a new wing model to meet a project deadline.  Since a few pieces of her model were not fitting together correctly, the prototype required several iterations.  Ivana and Roberto had agreed to fix the wing using a particular method on the fourth iteration; however, when she noticed him fixing the design using a different technique, Ivana questioned his method.\r\n\r\nThe following day, a HR manager approached Ivana; the manager told her she had been reported for placing unnecessary blame on Roberto because \"he was not doing his job correctly.\"  Ivana was dumbfounded and asked for advice from her technical lead, Steven, on how to rectify the issue.\r\n\r\nPer Steven's recommendation, Ivana decided to make amends and apologize to Roberto for the misunderstanding.  However, although he listened and seemed to accept her apology, Roberto grew increasingly sulky in his interactions  with Ivana, conversing with her in a terse manner.  More alarmingly, he increased his use of swear words, and proceeded to angrily blame and, even, yell at Ivana for proceeding mistakes he found in her designs.  \r\n\r\nIvana felt sad and found she knew she could not no longer be herself around Roberto.  She decided to tell HR about the issue, but, even after doing so, did not notice any disciplinary action taken against him.\r\n\r\nHow should Ivana resolve the issue?",
+    "short_desc": "When good intentions are misperceived, how do you mitigate the fallout?",
+    "published_date": null,
+    "created_date": "2019-04-01T01:39:38Z",
+    "category_name": "Conflict"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 9,
+  "fields": {
+    "author": 3,
+    "title": "Hear Me Out!",
+    "text": "Nancy is a research scientist at Integrated Systems Corporation.  Her role is to optimize the optical efficiency of a satellite transceiver module.   Every week, she gathers with six other male scientists to discuss the team's project progress and results.  \r\n\r\nAt meetings, Nancy could not help but notice an aggressive eagerness exhibited by her cohorts to contribute to  discussions.  For example, whilst she was sharing an idea on how to fix an optical alignment issue, one of her colleagues interjected her mid-sentence to give his opinion on how to resolve the problem.\r\n\r\nUnfortunately, the frequency of interjections made by varying colleagues increased until Nancy became discouraged from speaking up.  More specifically, she felt offended, diminished, and unimportant.   \r\n\r\nSeveral thoughts ran through her head: \"Because I'm a young woman, people won't listen to me, but, if I were a guy, I'd be looked up to.  As a young woman in a company filled with mostly older guys, I feel like an outlier.\"  \r\n\r\nWhat is the best way for Nancy to address her feelings and the interjections?",
+    "short_desc": "What should you do when a colleague incessantly interrupts you?",
+    "published_date": null,
+    "created_date": "2019-04-01T01:40:27Z",
+    "category_name": "Politics"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 10,
+  "fields": {
+    "author": 3,
+    "title": "Pretty Woman",
+    "text": "Katrina is a twenty-five year old systems engineer, recently hired at Trident Software Systems.  While walking down her building's main hallway, she passed two older men (i.e. in their forties) who were having a conversation amongst themselves. \r\n\r\n\"Don't get distracted by the pretty girl,\" one man commented to the other as Katrina passed.  \r\n\r\nKatrina stopped in her tracks and turned around, cheeks flushed by what she had heard.  She observed the man at whom the comment was directed looking embarrassed.  \r\n\r\nWhat should Katrina say to them in this moment, if anything at all?",
+    "short_desc": "A line can be crossed with an unassuming remark.",
+    "published_date": null,
+    "created_date": "2019-04-01T01:41:52Z",
+    "category_name": "Harassment"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 11,
+  "fields": {
+    "author": 3,
+    "title": "Forget-Me-Not",
+    "text": "Jessica has 9+ years of software development experience. she recently joined a new software company because her family had relocated to a new city. Tom, who is the lead software architect at the company, has 20+ years of experience in the same area. \r\n\r\nJessica was not given any work during the first few months, because Tom considered considered her to be a new employee with \"not enough experience\".\r\n\r\nJessica once overheard Tom \"complaining about her in front of a her manager. Specifically, Tom stated: \"No, we cannot allow new comers to work on/lead critical product components because they don't have enough experience and we don't have time to train them. Although Jessica's name was not specifically brought up by Tom, she still felt disrespected.\r\n\r\nEven after Jessica proved her capability to handle complex challenges, Tom continued to give Jessica work unrelated to her expertise. She was also not included in any product design meetings. \r\nFurthermore, Jessica attempted to introduce new ideas and techniques, largely derived from prior experiences, to improve her company's products. Most of the time, Tom shot down her ideas, stating: \"I don't like the idea\" or \"Your idea will not work on our product.\"\r\n\r\nIn 1-on-1 review meetings with her manager, he told Jessica not to confront Tom and only \"do what she was told\" and \"follow the existing design.\" \r\n\r\nWhat should Jessica do?",
+    "short_desc": "Unfortunately, there are many people in the world that try to hinder the talented and ambitious.",
+    "published_date": null,
+    "created_date": "2019-04-01T01:43:14Z",
+    "category_name": "ConflictEM"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 12,
+  "fields": {
+    "author": 3,
+    "title": "Lean On Me",
+    "text": "Elaine has been working for two years as a post-graduate software developer at CliqSoft.  There were quite a number of new projects being initiated within the company; Tony, her team lead, has been very occupied as he is involved in many of these projects.\r\n\r\nOne day, Elaine's manager, Alex, spoke to her on how Tony was overwhelmed with work.  Alex wanted Elaine to share some of Tony's workload and suggested she discuss division of labor with him.  Since her current project was ending and she had the bandwidth to take on new tasks, Elaine was excited about the prospect of being involved with new responsibilities.\r\n \r\nHowever, after speaking with Tony, he told her that everything was under-control and did not need her help.  \"You can concentrate on whatever you're working on right now,\" he told her.  Elaine was frustrated at his response. He knew Elaine was available, but only after Alex held a meeting to \"force\" Tony to share some of his responsibilities with Elaine was Tony able to hand-off a rudimentary task.\r\n\r\nElaine was infuriated she was given such a basic and seemingly administrative assignment. \r\n\r\nWhat should she do?",
+    "short_desc": "What happens if your colleague doesn't accept your offer of support despite being over-loaded?",
+    "published_date": null,
+    "created_date": "2019-04-01T01:44:17Z",
+    "category_name": "Discrimination"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 13,
+  "fields": {
+    "author": 3,
+    "title": "Divergence",
+    "text": "Although she had five years of experience as electrical systems engineering consultant, Anne fell in love with programming and decided to pursue a computer science masters degree.  After graduation, Anne was hired as a software developer at AMR Inc. During her first day of work, her manager introduced her to her new team as if she was a new graduate (i.e. with no prior work experience). \r\n \r\nMore alarmingly, for the first half of the year, Anne was never given any software development related work or received relevant training.  On multiple occasions, Anne requested coding assignments from her manager.  Although her manager promised to assign Anne software development projects, he would eventually assign her with unrelated work, such as updating new product user guides or documentation.\r\n\r\nAnne is frustrated. What should she do?",
+    "short_desc": "What would you do if you were consistently assigned work unrelated to your expertise?",
+    "published_date": null,
+    "created_date": "2019-04-01T01:44:51Z",
+    "category_name": "Discrimination"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 14,
+  "fields": {
+    "author": 3,
+    "title": "Dress to Impress?",
+    "text": "Every year, the CEO of Ranker Tech Inc. a startup developing software for robotics applications,  presents employee dress code etiquette at a townhall.  Specifically, he would demonstrate what to wear in the office as well as when meeting with customers, both on and off-site.  \r\n\r\nNina is a recently hired software engineer, and one of two females in the fifty-person organization.  It was her first time attending a townhall, and she quickly observed the presentation only focused on appropriate attire for men.  A few minutes later, the other woman in the audience raised her hand and asked if the dress code also applied to females and, if not, what they should wear. The CEO replied: \"I have no expertise in the field; whatever women want to wear is fine.\"\r\n\r\nSurprised at his answer, Nina could sense other colleagues looking at her, mostly with amusement.  She suddenly felt singled out.  \r\n\r\nHow should Nina respond?",
+    "short_desc": "Company demographics cause leadership to overlook the minority experience.",
+    "published_date": null,
+    "created_date": "2019-04-01T01:45:35Z",
+    "category_name": "Discrimination"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 15,
+  "fields": {
+    "author": 3,
+    "title": "Shoulder My Secret",
+    "text": "Both Sharon, an early-career mechanical engineer, and Joe, a senior aerospace engineer, are active members of their company's Women in Engineering (WIE) resource group.  The pair were good friends, frequently brainstorming fun events WIE could potentially host during the year. As time passed and they got to know each other better, Sharon observed Joe's behavior towards her becoming significantly more flirtatious. \r\n\r\nOn top of offering to regularly buy her food, Joe would compliment Sharon's appearance and would give her lingering looks. One afternoon, as they were walking back to their office from the cafeteria, Joe said he wanted to give Sharon a back rub, and started touching her shoulders. Although Sharon declined his offer, he continued to insist and touch her.   \r\n\r\nAlarmed, unsettled, and confused, Sharon immediately reached out to a trusted co-worker, Gary, about what happened. Incredulous and upset at Joe's behavior, Gary advised Sharon to report the incident to HR. \"I don't want to cause drama though,\" Sharon thought to herself. \"If I made this situation a big deal, people might become uncomfortable when interacting with me.\"\r\n\r\nAs a result, Sharon decided not to report the event, but rather speak with Joe directly.  \"I feel like you're excessively flirting with me, and your actions, like touching my shoulders, make me uncomfortable. Could you please stop?\" she expressed. Joe apologized, saying he was aware he flirts and promising to cease his advances.  \r\n\r\nThe next day, Sharon discovered Gary had reported her incident to HR without asking for her permission. Sharon was in disbelief. \r\n\r\nHow should she handle this situation?",
+    "short_desc": "Can confiding in someone you trust be a double-edged sword?",
+    "published_date": null,
+    "created_date": "2019-04-01T01:46:02Z",
+    "category_name": "Conflict"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 16,
+  "fields": {
+    "author": 3,
+    "title": "Thrown Under the Bus",
+    "text": "Maggie is a civil engineer at Parsons Prior Group, a seventy-person environmental health and safety consulting firm.  Her role is to configure the graphical user interface of an environmental information systems platform. The multimillion dollar project is headed by both her and her project lead, Bob, who has at least twenty years of experience in software consulting.  \r\n\r\nDuring meetings with their clients, Bob would frequently interrupt Maggie as she was presenting material and sharing her expertise. Specifically, he would contradict and diminish her technically-sound statements. At one point, Maggie observed an issue with data being displayed from a greenhouse gas emissions feature of the application. She attempted to alarm Bob, but, during a phone conversation where Maggie explained how she wanted to address the error, Bob responded impatiently, telling her the error was non-existent and sarcastically concluding:\" You obviously don't need me in this matter\" after which he abruptly hung up the phone.  Generally, Bob would dismiss any of Maggie's concerns, becoming upset when she independently escalated the issue to upper management. \r\n\r\nFrustrated, Maggie ruminated: \"Am I being treated this way because I'm a young woman? Am I being perceived as too vocal or a whiner?\" Maggie shared how she felt with her manager, Rick. \"I know Bob can be difficult, but he has a lot of experience so you should trust his leadership,\" Rick advised. Although unsatisfied with his answer, Maggie obliged with his recommendation.\r\n\r\nHowever, a few weeks later during a product delivery meeting, the customer pointed out the error Maggie had originally discovered. Questioning why the mistake was not caught earlier, Bob explained that \"it was too late; nothing can be changed now, \" and, afterwards, placed blame on Maggie for the mistake. \r\n \r\nFeeling hopeless, infuriated, and exasperated, Maggie felt she had nowhere to turn. \r\n\r\nWhat should she do?",
+    "short_desc": "It can be frustrating when a colleague ignores your suggestions for improvement, only to be blamed when those improvements haven't been made.",
+    "published_date": null,
+    "created_date": "2019-04-01T01:46:42Z",
+    "category_name": "Conflict"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 17,
+  "fields": {
+    "author": 3,
+    "title": "Setting You Up for Failure",
+    "text": "Carissa is one of seven electrical engineering researchers at Marzi University's artificial intelligence lab. Carissa has been feeling increasingly conflicted in recent months; her relationship with one of her teammates, Sean, has been a major contributor to her frustrations.  Specifically, she had an increasing suspicion he had been trying to keep favorable project results to himself. For example, on multiple occasions, when Carissa requested critical experimental data, Sean would counter by asking: \"Why do you need it?\" Carissa was annoyed she always had to justify her requests, but things came to a head after she offered to perform a new technique Sean had taught her in order to achieve a mutual research milestone.\r\n\r\nAfter practicing the novel technique, Carissa presented her promising but imperfect results at her team's weekly research meeting. Soon after the meeting's conclusion, Sean sent an email to both Carissa and their research lead. Sean criticized Carissa's experimental results, stating: \"Carissa performed the experiment incorrectly. I tested the technique myself and managed to obtain perfect results! She should have incorporated another technique to get good results.\"\r\n\r\nCarissa could feel her ears burning. Feeling attacked, several thoughts flew across her mind: \"Aren't we supposed to be a team?  Why is he criticizing me for results I obtained using a technique he himself told me to use?  Secondly, why didn't he teach me the 'other' technique if he knew they would produce the correct results?\" Carissa was also irked because she did not know why Sean would copy their lead in the email message.\r\n\r\n How should Carissa handle this situation?",
+    "short_desc": "Should your team lead be for or against you?",
+    "published_date": null,
+    "created_date": "2019-04-01T01:47:56Z",
+    "category_name": "Politics"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 18,
+  "fields": {
+    "author": 3,
+    "title": "No Girls Allowed",
+    "text": "Avery is an aerospace engineering masters student at University of Bryne. As a National Science Foundation fellow, she was constantly in the lab doing research on rocket fuels, but, like many other students, preferred going out to experience new people and places. Oftentimes, when she and her other lab mates were together in the lab, she could not help but overhear them making plans--some spontaneous, such as trying out a new restaurant for lunch, and others less impulsive, such as going on a holiday-weekend camping trip. \r\n\r\nInterestingly, although her lab mates were of similar backgrounds (e.g. aerospace engineering majors performing research activities on rocket fuels), not once did they invite her to their many outings.  Avery could not help feeling excluded.\r\n\r\nOne day, Avery overheard them discussing plans and decided to speak up: \"You're going to the bar this weekend?\" Jonathan, one of her labmates, paused: \"I don't think it's really your scene.\"  Another researcher, Chris, averted his eyes, mumbling: \"We're not sure yet, we may end up not going after all.\" At that point, the rest of her lab mates decided to excuse themselves. \r\n\r\nAvery felt a sinking feeling in her stomach. \"What happened there?\" she thought. \"Oh I know--maybe it's because I'm a woman.\" \r\n\r\nWhat should Avery do?",
+    "short_desc": "Why can't we work together yet have fun together after office hours?",
+    "published_date": null,
+    "created_date": "2019-04-01T01:48:51Z",
+    "category_name": "Discrimination"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 19,
+  "fields": {
+    "author": 3,
+    "title": "Two-faced",
+    "text": "Mallisia is a newly hired developer at OrniWare, a prominent software company in the Silicon Valley. She was assigned to work under Mike, a senior staff engineer, who has been with the company for over 20 years. Additionally, one of her teammates, Lilly, has been with the firm for over 15 years and is team lead. Mallisia noticed some inefficiencies in a piece of Lilly's code, and wanted to introduce a design pattern to make the application more efficient.  \r\n\r\nMallisia shared her thoughts with Lilly and asked if implementing the particular design pattern would be doable. Lilly concurred, while also suggesting she obtain buy-in from Mike. As a result, Mallisia scheduled a meeting to discuss the idea with Mike and Eric, another project stakeholder. After describing her strategy, Mike immediately replied: \"That may not be practical as it would involve a lot of code changes. It will be especially difficult for Lilly--I don't think she understands the pattern you mentioned. Besides, she is very old-fashioned and will not accept new changes. The best thing to do is to keep the existing design.\" \r\n\r\nShocked at what she just heard albeit not comfortable enough to confront Mike in front of Eric, she could only muster a weak \"OK.\"  After the meeting, Mallisia felt sad: \"Although Lilly is project lead and has worked with Mike for many years, if he can say such inappropriate things about her behind her back, what has or would he say about me?\" \r\n\r\nWhat should Mallisia do as an observer?",
+    "short_desc": "How do you handle belitttling comments from a senior staff member directed at your coworkers?",
+    "published_date": null,
+    "created_date": "2019-04-01T01:53:21Z",
+    "category_name": "Discrimination"
+  }
+},
+{
+  "model": "blog.post",
+  "pk": 20,
+  "fields": {
+    "author": 3,
+    "title": "Rank and File",
+    "text": "Carly has been working as a civil engineer for the City of Newport's Traffic Division for about two years.  One day, she applied for a promotional position within the same organization which entailed undergoing two rounds of interviews.  When interview results were posted, Carly observed selected candidates were not chosen by rank.  Out of the fifteen candidates interviewed, Carly was the only female interviewee and ranked under top five.\r\n \r\nA month later, as the extended job offers were not claimed, the same position and opportunity to interview resurfaced. Carly decided to re-interview.  This time, although she was ranked number one, she heard rumors two other candidates were offered the position but declined the respective offers.\r\n\r\n A few months later, the position was reopened for applications.  Although the Division was short-staffed, Carly was frustrated she was not chosen, despite being highly-ranked twice and meeting all the position's key qualifications.\r\n\r\nHer colleagues advised the hiring manager \"did not like women engineers because they questioned him too much.\"  Recalling she was the last female engineer hired by the Division, Carly wanted to raise her suspicions to HR, but did not want to incur negative repercussions. \r\n \r\n\"If I were a guy, I would not have an issue with asking the manager what was wrong with my application.  But since I am a female engineer, I am fearful confronting him may cause me appear arrogant and condescending. \"\r\n \r\nHow should Carly proceed?",
+    "short_desc": "Despite being highly ranked, the main character cannot seem to secure the job...",
+    "published_date": null,
+    "created_date": "2019-04-01T01:54:25Z",
+    "category_name": "Miscellaneous"
+  }
+}
+]
