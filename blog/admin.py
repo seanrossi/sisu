@@ -2,8 +2,9 @@ from django.contrib import admin
 from .models import Post, Comment, PostPreferrence, ReplyToComment, Cluster
 
 class PostAdmin(admin.ModelAdmin):
-    readonly_fields = ('id', )
-
+    model = Post
+    list_display = ['id', 'category_name', 'title']
+    
 class CommentAdmin(admin.ModelAdmin):
     model = Comment
     list_display = ['id', 'post', 'user']

@@ -64,6 +64,10 @@ def pretty_request(request):
 # 
 def category(request):
   categories = Category.__members__.items()
+  user_ip = get_client_ip(request)
+  ip = user_ip[0]
+  
+  request.session['ip'] = ip
   
   if request.user.is_authenticated: 
     user = CustomUser.objects.get(pk=request.user.pk)
@@ -96,6 +100,9 @@ def popular_cases(request):
   
   cases = Comment.objects.filter(approved_comment=True).values('post').annotate(dcount=Count('post')).order_by('-dcount')
 
+  if cases is None:
+    cases = Post.objects.filter(pk__in=[1, 2, 3])
+    
   size = Post.objects.all().count();
   
   count = 0;
