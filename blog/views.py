@@ -99,9 +99,12 @@ def category(request):
 def popular_cases(request):
   
   cases = Comment.objects.filter(approved_comment=True).values('post').annotate(dcount=Count('post')).order_by('-dcount')
-
-  if cases is None:
-    cases = Post.objects.filter(pk__in=[1, 2, 3])
+  default_cases = []
+  
+  if not cases.first():
+    default_cases = Post.objects.filter(pk__in=[1, 2, 3])
+  else:
+    default_cases = []
     
   size = Post.objects.all().count();
   
@@ -120,7 +123,8 @@ def popular_cases(request):
   
   #print(casesparsed)
     
-  return {'pop_cases' : pop_posts, 'cases':casesparsed}
+  return {'pop_cases' : pop_posts, 'cases':casesparsed, 'default_cases' : default_cases}
+
 
 # Recommendation
 def user_recommendation_list(request):
