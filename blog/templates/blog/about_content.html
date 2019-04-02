@@ -1,6 +1,37 @@
 {% load staticfiles %}
 
 <div id="carouselExampleControls" class="carousel slide story-carousel" data-ride="carousel">
+{% if default_cases %} 
+<div class="carousel-inner">
+    {% for post in default_cases %}  
+        {% if forloop.first %}
+        <div class="carousel-item story-carousel-item active">
+            <img class="d-block w-100" src="{% static 'img/blog/main-blog/' %}{{ post.pk }}.jpg" alt="First slide">
+            <div class="story-carousel-blur"></div>
+            <div class="story-carousel-caption carousel-caption d-none d-md-block">
+                <h3>{{ post.category_name }}</h3>
+                <h1>{{ post.title }}</h1>
+                <p>{{ post.short_desc }}</p>
+                <br>
+                <a href="{% url 'story_entry' pk=post.pk %}" class="sisu-button">Read More... </a>
+            </div>
+        </div> 
+        {% else %} 
+        <div class="carousel-item story-carousel-item">
+            <img class="d-block w-100" src="{% static 'img/blog/main-blog/' %}{{ post.pk }}.jpg" alt="First slide">
+            <div class="story-carousel-blur"></div>
+            <div class="story-carousel-caption carousel-caption d-none d-md-block">
+                <h3>{{ post.category_name }}</h3>
+                <h1>{{ post.title }}</h1>
+                <p>{{ post.short_desc }}</p>
+                <br>
+                <a href="{% url 'story_entry' pk=post.pk %}" class="sisu-button">Read More... </a>
+            </div>
+        </div> 
+        {% endif %}
+    {% endfor %}
+</div>      
+{% else %}
     {% if rec_post_list %}
     <div class="carousel-inner">
         {% for post in rec_post_list %}  
@@ -64,7 +95,7 @@
        {% endfor %} 
     </div> 
     {% endif %}
-    
+{% endif %}    
     <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>

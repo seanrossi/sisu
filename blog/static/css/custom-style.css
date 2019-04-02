@@ -59,6 +59,7 @@
     border-radius: 20px;
     padding: 5px 15px;
     color: #FAC633;
+    background-color: white;
 }
 
 .story-carousel a {
@@ -131,9 +132,12 @@
 .about-info > h1 {
     color: #7D1E62;
     margin: 20px;
+    font-weight: bold;
 }
 .about-info > p {
     margin: 10px 20px 30px 20px;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 .sisu-button{
@@ -180,13 +184,15 @@
 
 .about-us h1{
     color: #7D1E62;
+    font-weight: bold;
 }
 .about-us h4 {
-    color: #FAC633;
-    font-size: 20px;
+    color: #D28D00;
+    font-size: 22px;
+    font-weight: bold;
 }
 .about-us p {
-    font-size: 12px;
+    font-size: 16px;
 }
 .about-us-upper-panel > div > span{
     padding: 0;
@@ -269,7 +275,7 @@
     color: #FAC633;
 }
 .sisu-header p {
-    font-size: 11px;
+    font-size: 15px;
     color: rgba(255, 255, 255, 0.8);
 }
 .contact-us-panel {
@@ -337,7 +343,7 @@
     font-size: 30px;
 }
 .story-text p {
-    font-size: 11px;
+    font-size: 15px;
 }
 .story-entry {
     max-width: 900px;
@@ -348,7 +354,7 @@
     color: #FAC633;
 }
 .story-entry p {
-    font-size: 12px;
+    font-size: 15px;
     color: rgba(0, 0, 0, 0.6);
 }
 .story-entry-left {
