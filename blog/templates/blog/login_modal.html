@@ -7,6 +7,7 @@ https://codepen.io/khadkamhn/pen/ZGvPLo -->
 	<div class="login-html">
 		<input id="tab-1" type="radio" name="tab" class="sign-in"><label id="label-tab-1" for="tab-1" class="tab">Sign In</label>
 		<input id="tab-2" type="radio" name="tab" class="sign-up" checked><label id="label-tab-2" for="tab-2" class="tab">Sign Up</label>
+        
 		<div class="login-form">
 			<div class="sign-in-htm">
 				<div class="group">
@@ -44,11 +45,11 @@ https://codepen.io/khadkamhn/pen/ZGvPLo -->
 				</form>
 				<div class="foot-lnk">
 						Don't have an account?  <label for="tab-2" class="switchLabel">Sign up</label>
-                        <label>Forget Password ? </label>
+                        <br>Forget Password ? <a href="{% url 'password_reset' %}">Reset</a>  
 				</div>
 			</div>
      
-      <div class="sign-up-htm">
+            <div class="sign-up-htm">
 				<div class="group">
 					<h3>
 						Welcome to SISU!
@@ -65,28 +66,33 @@ https://codepen.io/khadkamhn/pen/ZGvPLo -->
 						- or -
 					</h4>
 				</div>
-        <form method="post" action="{% url 'signup' %}">
+                <form method="post" action="{% url 'signup' %}">
 				{% csrf_token %}
-        {% for field in signup_form %}
+                {% for field in signup_form %}
 					<div class="group">
-						<input name="{{ field.html_name }}" maxlength="150" class="input" required="" id="{{ field.id_for_label }}" placeholder="{{ field.label }}">
+                        <input for='{{ forloop.counter }}' name="{{ field.html_name }}" maxlength="150" title='{{ field.help_text }}' class="input" required="" id="{{ field.id_for_label }}" placeholder="{{ field.label }}">
+                    
 					</div>
         
 					<!-- {% for error in field.errors %}
 						<p style="color: red">{{ error }}</p>
 					{% endfor %} -->
-        {% endfor %}
+                {% endfor %}
         
-        <div class="group">
-					<input type="submit" class="sisu-button" value="Sign Up">
-				</div>
-      </form>
+                    <div class="group">
+                        <input type="submit" class="sisu-button" value="Sign Up">
+                    </div>
+                </form>
       
-			<div class="foot-lnk">
+                <div class="foot-lnk">
 					Already have an account?  <label for="tab-1" class="switchLabel">Sign in</label>
-			</div>
+                </div>
 			</div>
 		</div>
 	</div>
   
 </div>
+<script type="text/javascript">
+    document.getElementById('id_password1').type = 'password';
+    document.getElementById('id_password2').type = 'password';
+</script>

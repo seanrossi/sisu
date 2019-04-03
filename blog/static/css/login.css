@@ -23,6 +23,7 @@ a{color:#6a6f8c;text-decoration:none}
 #label-tab-1, #label-tab-2 {
 	display: none;
 }
+
 .loginLabel {
   display: inline-block;
   background: rgba(0,0,0,0);
