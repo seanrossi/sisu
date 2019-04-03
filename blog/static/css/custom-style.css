@@ -58,7 +58,8 @@
 #signup-button {
     border-radius: 20px;
     padding: 5px 15px;
-    color: #FAC633;
+    color: #D28D00;
+    background-color: white;
 }
 
 .story-carousel a {
@@ -135,6 +136,8 @@
 }
 .about-info > p {
     margin: 10px 20px 30px 20px;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 .sisu-button{
@@ -184,7 +187,7 @@
     font-weight: bold;
 }
 .about-us h4 {
-    color: #FAC633;
+    color: #D28D00;
     font-size: 22px;
     font-weight: bold;
 }
@@ -336,11 +339,11 @@
     text-overflow: ellipsis; 
 }
 .story-text h4 {
-    color: #FAC633;
+    color: #D28D00;
     font-size: 30px;
 }
 .story-text p {
-    font-size: 11px;
+    font-size: 15px;
 }
 .story-entry {
     max-width: 900px;
@@ -351,7 +354,7 @@
     color: #FAC633;
 }
 .story-entry p {
-    font-size: 12px;
+    font-size: 15px;
     color: rgba(0, 0, 0, 0.6);
 }
 .story-entry-left {
@@ -396,8 +399,13 @@
 .story-entry-right-content {
     padding-bottom: 30px;
 }
+
+.story-entry-right-content h4 {
+    font-weight: bold;
+}
+
 .story-entry-right-content p {
-    font-size: 11px;
+    font-size: 13px;
 }
 
 .story-entry-comment h5 {
