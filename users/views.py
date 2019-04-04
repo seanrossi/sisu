@@ -97,8 +97,8 @@ class DeleteUser(generic.DeleteView):
         return reverse('contact_us') 
 
 class ResetPasswordRequestView(FormView):
-        template_name = "registration/test_template.html"   
-        success_url = reverse_lazy('login')
+        template_name = "blog/forget_password.html"   
+        success_url = reverse_lazy('password_reset')
         form_class = PasswordResetRequestForm
 
         @staticmethod
