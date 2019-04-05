@@ -1,4 +1,7 @@
-<!-- templates/registration/login.html -->
+{% extends "blog/base_sub_w_footer.html" %}
+{% load staticfiles %}
+
+{% block sub_content %} <!-- templates/registration/login.html -->
 
 <h2>Login</h2>
 <form method="post">
@@ -8,3 +11,4 @@
   <p><a href="{% url 'password_reset' %}">Forgot your password?</a></p>
 
 </form>
+{% endblock %}
