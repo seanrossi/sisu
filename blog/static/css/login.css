@@ -23,6 +23,7 @@ a{color:#6a6f8c;text-decoration:none}
 #label-tab-1, #label-tab-2 {
 	display: none;
 }
+
 .loginLabel {
   display: inline-block;
   background: rgba(0,0,0,0);
@@ -75,6 +76,7 @@ a{color:#6a6f8c;text-decoration:none}
 	max-width:525px;
 	min-height:670px;
 	position:relative;
+	/* background:url(../img/bg.png) no-repeat center; */
 	box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
 }
 .login-html{
@@ -211,7 +213,7 @@ a{color:#6a6f8c;text-decoration:none}
 	margin-top: 30px;
 }
 .login-form h3 {
-	color: #FAC633;
+	color: #D28D00;
 	margin-bottom: 30px;
 }
 .hr{

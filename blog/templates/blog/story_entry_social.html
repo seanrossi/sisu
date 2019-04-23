@@ -8,7 +8,7 @@
     <div class="story-icons">
         {% include 'blog/story_entry_metoo.html' %} 
         
-        <a href="#"><i class="fa fa-eye" ></i> {% get_hit_count for post %}</a>
+        <a href="#" title="Views"><i class="fa fa-bookmark" ></i> {% get_hit_count for post %} </a>
         
         {% with "facebook" as service %}
         <a href="http://www.facebook.com/share.php?u={{ host }}{% url 'story_entry' pk=post.pk %}&amp;t={{ post.title }}" target="_blank" title="{{ share_txt }} {{ service }}">

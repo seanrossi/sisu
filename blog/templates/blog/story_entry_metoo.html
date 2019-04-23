@@ -5,10 +5,10 @@
   <b id="like_count_after"></b>    
 
   {% if summary.voted %}    
-  <b id="like_count"><span class='metoo_icon_filled'></span> {{ summary.total_yes }} </b>    
+  <b id="like_count" title="#MeToo"><span class='metoo_icon_filled'></span> {{ summary.total_yes }} </b>    
 
   {% else %}
-  <b id="no_vote"><span class='metoo_icon' id ="likes" data-catid="{{ post.id }}"></span> {{ summary.total_yes }} </b>
+  <b id="no_vote" title="#MeToo"><span class='metoo_icon' id ="likes" data-catid="{{ post.id }}"></span> {{ summary.total_yes }} </b>
   
  {% endif %}
 
