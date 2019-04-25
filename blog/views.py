@@ -17,7 +17,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib import auth
 from ipware import get_client_ip
 from django.template import Context
-import re
+import re, random
 from django.db.models import Q
 from django.contrib import messages
 from django.db.models import Count
@@ -97,7 +97,6 @@ def category(request):
 # list top 3 cases with the most comments
 # get no. of comments for all posts
 def popular_cases(request):
-  
   cases = Comment.objects.filter(approved_comment=True).values('post').annotate(dcount=Count('post')).order_by('-dcount')
   default_cases = []
   
@@ -122,9 +121,16 @@ def popular_cases(request):
       count = count + 1;
   
   #print(casesparsed)
+  
+  random_cases = []
+  limit = len(Post.objects.all())
+  random_numbers = random.sample(range(1, limit), 3)
+  random_cases = Post.objects.filter(pk__in=random_numbers)
     
-  return {'pop_cases' : pop_posts, 'cases':casesparsed, 'default_cases' : default_cases}
-
+  return {'pop_cases' : pop_posts, 
+          'cases':casesparsed, 
+          'random_cases': random_cases,
+          'default_cases' : default_cases}
 
 # Recommendation
 def user_recommendation_list(request):

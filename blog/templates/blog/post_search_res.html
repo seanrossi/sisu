@@ -33,10 +33,26 @@
         </div>
     </a>
     {% empty %}
-    <div class="col-md-4"></div>
-    <h2> New cases are coming! </h2>
-    <h2> Meanwhile, take a look at these cases. </h2>         
-
+    <br>
+    <div class="col-md-0"></div>
+    <h2><i class="fa fa-info-circle" aria-hidden="true"></i> Sorry, we searched all the Story Titles and Story Contents but couldn't find "{{ query_string }}" in any of SISU stories. 
+    </h2>  
+    <br>
+    <h3><b>Search Tips: </b></h3>
+    <br>
+    <ul class="sq">
+        <li>Check the spelling and try again; </li>
+        <li>Try a similar but different search word(s); </li>
+        <li>Try searching for one or two words; </li>
+        <li>Keep the search word(s) simple and less specific.</li>
+    </ul>   
+    <br>
+    <h3>If you want to share with us about your experiences regarding "{{ query_string }}", <a href="{% url 'contact_us' %}" style="color:#F78C18">contact us!</a></h3>
+    <br style="line-height: 2em">
+    <h3><b>You may want to read: </b></h3>
+    
+    <!-- Provide a suggested reading page -->
+    {% include 'blog/post_random_footer.html' %}
     {% endfor %}
  </div>
                                        

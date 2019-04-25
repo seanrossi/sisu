@@ -1,5 +1,8 @@
  body {
     font-family: Raleway !important;
+    transform: scale(1);
+    transform-origin: 0 0;
+
  }
 
 .navbar-brand {
@@ -58,7 +61,7 @@
 #signup-button {
     border-radius: 20px;
     padding: 5px 15px;
-    color: #FAC633;
+    color: #D28D00;
     background-color: white;
 }
 
@@ -107,7 +110,7 @@
 }
 
 .story-carousel-caption > h3 {
-    color: #FAC633;
+    color: #f8af1b;
     font-size: 40px;
 }
 
@@ -271,7 +274,7 @@
     padding: 0 50px;
 }
 .sisu-header-text h1 {
-    font-size: 55px;
+    font-size: 45px;
 }
 .sisu-header-text h4 {
     color: #FAC633;
@@ -302,7 +305,7 @@
 .contact_form input {
     margin-bottom: 20px;
     border-width: 0 0 3px 0;
-    border-color: #FAC633;
+    border-color: #D28D00;
 }
 .contact_form textarea {
     border-width: 1px;
@@ -341,7 +344,7 @@
     text-overflow: ellipsis; 
 }
 .story-text h4 {
-    color: #FAC633;
+    color: #D28D00;
     font-size: 30px;
 }
 .story-text p {
@@ -353,7 +356,7 @@
     margin: 0 auto;
 }
 .story-entry h4 {
-    color: #FAC633;
+    color: #D28D00;
 }
 .story-entry p {
     font-size: 15px;
@@ -370,7 +373,7 @@
     transform: scale(1.1);
 }
 .story-icons a:first-child {
-    color: #FAC633;
+    color: #D28D00;
 }
 .story-entry-content {
     position: relative;
@@ -402,11 +405,18 @@
     padding-bottom: 30px;
 }
 .story-entry-right-content p {
-    font-size: 11px;
+    font-size: 13px;
+    color: #7D1E62;
+}
+
+.story-entry-right-content h4 {
+    font-weight: bold;
 }
 
 .story-entry-comment h5 {
-    color: #F8AF1B;
+    color: #D28D00;
+    font-weight: bold;
+    line-height: 1.5em;
 }
 .story-entry-comment p {
     color: rgba(0, 0, 0, 0.6);
@@ -511,7 +521,7 @@
 }
 .user-details-header-content input, .user-details-header-content textarea {
     border-width: 0 0 2px 0;
-    border-color: #FAC633;
+    border-color: #D28D00;
     outline: none;
 }
 .user-details-header-content input {
@@ -556,7 +566,7 @@
 }
 
 .user-details-edit h3 {
-    color: #F8AF1B;
+    color: #D28D00;
 }
 
 .user-details-edit input {
@@ -617,7 +627,7 @@
 }
 
 .reply-button {
-    color: #F8AF1B;
+    color: #D28D00;
     margin-bottom: 5px;
     font-size: 14px;
     cursor: pointer;

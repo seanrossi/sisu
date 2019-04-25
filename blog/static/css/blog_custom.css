@@ -43,6 +43,20 @@
     align-items: stretch;
 }
 
+ul.sq {
+    list-style-type: none;
+    font-size: 16px;
+    line-height: 1.5em;
+}
+
+ul.sq li::before {
+  content: "\25AA";
+  color: #7D1E62;
+  font-weight: bold;
+  display: inline-block; 
+  width: 1.5em;
+  margin-left: -1em;
+}
 /*---- Comments Bottom Bar ---- */
 #bottombar {
 	height:25px;
