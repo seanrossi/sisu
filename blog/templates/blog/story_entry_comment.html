@@ -1,13 +1,11 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static 'css/alert.css' %}" /> 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-<section class="story-entry-comment" style="padding-top: 40px;">
+<section class="story-entry-comment">
     <!-- dynamic comment numbers -->
     {% if cases|dict_key:post.pk %}
-    <h5><i class="fa fa-comments"></i> {{ cases|dict_key:post.pk }} Comments </h5>
+    <h5> {{ cases|dict_key:post.pk }} Comments </h5>
     {% else %}
-    <h5><i class="fa fa-comments-o"></i> 0 Comment</h5>
+    <h5>0 Comment</h5>
     {% endif %}
     
     <!-- run for loop for each user comment -->
@@ -55,7 +53,7 @@
     </div>
         {% if comment.replyToComment.all %}
             <div class="story-comment-view">Show All Replies</div>
-            <div class="story-comment-replies">
+            <div class="story-comment-replies" id="comment-replies{{ comment.pk }}">
                 {% for reply in comment.replyToComment.all|dictsortreversed:"created_date" %}
                 <div class="story-entry-comment-entry" id="replies{{ comment.pk }}">
                     <div class="story-entry-comment-entry-avatar">
@@ -65,12 +63,12 @@
                     </div>
                     
                     <div class="story-entry-comment-entry-content">
-                        <h5>{{ reply.author }}</h5>
+                        <h5 id="author">{{ reply.author }}</h5>
                         <p>{{ reply.text }} </p>
                     </div>
                     
                     <div class="story-entry-comment-entry-timeline">
-                        <h5>
+                        <h5 id="date">
                         {{ reply.created_date }}
                         </h5>
                     </div>            
@@ -228,21 +226,29 @@ $('#addCommentBtn').click(function(){
 $('.story-comment-view').click(function() {
     $(this).next('.story-comment-replies').toggle();
     let text = $(this).text();
-    $(this).text(text === "Show All Replies" ? 'Hide' : 'Show All Replies')
+    $(this).text(text == "Show All Replies" ? 'Hide' : 'Show All Replies')
 })
 $('textarea').keyup(function() {
     auto_grow(this);
 });
 </script>  
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://momentjs.com/downloads/moment.js"></script>
 <script type="text/javascript"> 
 function addReply(id) {
     var commentId = String(id);
     var pid = document.getElementById("commentpid" + commentId).value;
     var author = document.getElementById("user_name_r").value;
     var content = document.getElementById("reply_content" + commentId).value;
-    var replies = document.getElementById("replies" + commentId);
-          
+    var textArea = document.getElementById("reply_content" + commentId);
+    var replies = document.getElementById("comment-replies" + commentId);
+    var replyBtn = document.getElementById("addReplyBtn" + commentId);
+    var lastReply = document.getElementById("replies" + commentId);
+    var replyForm = document.getElementById("replyToCommentForm" + commentId);
+    var nextReply = $(lastReply).clone();
+    $(nextReply).find( "p" ).text(content);
+ 
    $.ajax({
          type:"GET",
          url: "/add_reply_to_comment",
@@ -253,9 +259,11 @@ function addReply(id) {
                 text: content,
          },
          success: function( data ){
-                
-                $(replies).hide().fadeIn('slow');
-                $("#newComment").load(" #newComment");
+                $(textArea).val("");
+                $(replies).prepend( $(nextReply) );
+                $("#reply").css("display", "none");
+                $(replyBtn).prop("disabled",true);
+                $(nextReply).find( "#date" ).html(moment(data.replyDate).format('LLL'));
          }
    })
 }  
