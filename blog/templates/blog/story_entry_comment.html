@@ -52,7 +52,7 @@
         </div>
     </div>
         {% if comment.replyToComment.all %}
-            <div class="story-comment-view">Show All Replies</div>
+            <div class="story-comment-view" id="view{{ comment.pk }}">Show All Replies</div>
             <div class="story-comment-replies" id="comment-replies{{ comment.pk }}">
                 {% for reply in comment.replyToComment.all|dictsortreversed:"created_date" %}
                 <div class="story-entry-comment-entry" id="replies{{ comment.pk }}">
@@ -242,6 +242,7 @@ function addReply(id) {
     var author = document.getElementById("user_name_r").value;
     var content = document.getElementById("reply_content" + commentId).value;
     var textArea = document.getElementById("reply_content" + commentId);
+    var view = document.getElementById("view" + commentId);
     var replies = document.getElementById("comment-replies" + commentId);
     var replyBtn = document.getElementById("addReplyBtn" + commentId);
     var lastReply = document.getElementById("replies" + commentId);
@@ -261,6 +262,13 @@ function addReply(id) {
          success: function( data ){
                 $(textArea).val("");
                 $(replies).prepend( $(nextReply) );
+                
+                let text = $(view).text();
+                if(text == "Show All Replies") {
+                    $(view).text("Hide");
+                    $(replies).toggle();
+                }
+                
                 $("#reply").css("display", "none");
                 $(replyBtn).prop("disabled",true);
                 $(nextReply).find( "#date" ).html(moment(data.replyDate).format('LLL'));
