@@ -17,7 +17,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib import auth
 from ipware import get_client_ip
 from django.template import Context
-import re, random
+import re
 from django.db.models import Q
 from django.contrib import messages
 from django.db.models import Count
@@ -121,16 +121,8 @@ def popular_cases(request):
       count = count + 1;
   
   #print(casesparsed)
-  
-  random_cases = []
-  limit = len(Post.objects.all())
-  random_numbers = random.sample(range(1, limit), 3)
-  random_cases = Post.objects.filter(pk__in=random_numbers)
     
-  return {'pop_cases' : pop_posts, 
-          'cases':casesparsed, 
-          'random_cases': random_cases,
-          'default_cases' : default_cases}
+  return {'pop_cases' : pop_posts, 'cases':casesparsed, 'default_cases' : default_cases}
 
 # Recommendation
 def user_recommendation_list(request):
@@ -364,9 +356,14 @@ def add_reply_to_comment(request):
         
         replyToComment.save()
            
+        data = {
+            'success': True,
+            'newReply': replyToComment.created_date
+        }
     else:
         form = CommentForm()
-    return render(request, 'blog/story_entry.html', {'post':replypost})
+    return JsonResponse(data)
+    #return render(request, 'blog/story_entry.html', {'post':replypost})
     
 @login_required
 def comment_approve(request, pk):
