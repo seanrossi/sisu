@@ -1,11 +1,11 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static 'css/alert.css' %}" /> 
-<section class="story-entry-comment">
+<section class="story-entry-comment" style="padding-top: 40px;">
     <!-- dynamic comment numbers -->
     {% if cases|dict_key:post.pk %}
-    <h5> {{ cases|dict_key:post.pk }} Comments </h5>
+    <h5><i class="fa fa-comments"></i> {{ cases|dict_key:post.pk }} Comments </h5>
     {% else %}
-    <h5>0 Comment</h5>
+    <h5><i class="fa fa-comments-o"></i> 0 Comment</h5>
     {% endif %}
     
     <!-- run for loop for each user comment -->
@@ -23,7 +23,7 @@
                     
         <div class="story-entry-comment-entry-content">
             <h5>{{ comment.author }}</h5>
-            <p>{{ comment.text|linebreaks }}</p>
+            <h5>{{ comment.text|linebreaks }}</h5>
         </div>
         <div class="story-entry-comment-entry-timeline">
             <h5>
@@ -64,7 +64,7 @@
                     
                     <div class="story-entry-comment-entry-content">
                         <h5 id="author">{{ reply.author }}</h5>
-                        <p>{{ reply.text }} </p>
+                        <h5>{{ reply.text|linebreaks }} </h5>
                     </div>
                     
                     <div class="story-entry-comment-entry-timeline">
@@ -88,7 +88,7 @@
                       
             <div class="story-entry-comment-entry-content">
                 <h5>{{ comment.author }} <p>[Your comment will be pulished after censoring]</p> </h5>
-                <p>{{ comment.text|linebreaks }}</p>
+                <h5>{{ comment.text|linebreaks }}</h5>
             </div>
             <div class="story-entry-comment-entry-timeline">
                 <h5>
@@ -108,7 +108,7 @@
           
     {% endfor %}
     </div>
-    
+    <br>
     <div class="story-entry-comment-entry custom-row">
         <div class="story-entry-comment-entry-avatar">
             <!-- dynamic user id and img -->
@@ -136,7 +136,7 @@
             Post
         </button>
     {% else %}
-    <h5>What to give some suggestions? <i data-toggle="modal" data-target="#signinModal" class="underline"> Sign in / Sign up</i> to comment!</h5>
+    <h5>Want to give some suggestions? <i data-toggle="modal" data-target="#signinModal" class="underline"> Sign in / Sign up</i> to comment!</h5>
     {% endif %}
 </section>
 
@@ -264,6 +264,7 @@ function addReply(id) {
                 $("#reply").css("display", "none");
                 $(replyBtn).prop("disabled",true);
                 $(nextReply).find( "#date" ).html(moment(data.replyDate).format('LLL'));
+                
          }
    })
 }  

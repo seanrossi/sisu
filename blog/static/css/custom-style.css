@@ -445,8 +445,13 @@
 }
 .story-entry-comment-entry-timeline {
     float: right;
-    font-size: 14px;
 }
+
+.story-entry-comment-entry-timeline h5 {
+    font-size: 12px;
+    font-weight: lighter;
+}
+
 .story-entry-comment-entry-content input {
     background: none;
     border: none;
@@ -454,6 +459,12 @@
     min-height: 30px;
     padding: 0 10px;
 }
+
+.story-entry-comment-entry-content h5 {
+    font-size: 12px;
+    font-weight: lighter;
+}
+
 .user-details {
     max-width: 900px;
     position: relative;
@@ -629,7 +640,7 @@
 .reply-button {
     color: #D28D00;
     margin-bottom: 5px;
-    font-size: 14px;
+    font-size: 12.5px;
     cursor: pointer;
 }
 .story-entry-comment-reply {
@@ -643,6 +654,12 @@
     width: 100% !important;
     outline: none;
     margin: 3px;
+    font-size: 12px;
+}
+
+.story-entry-comment-entry h5 {
+    font-size: 12px;
+    font-weight: lighter;
 }
 
 .shrink-90 {
