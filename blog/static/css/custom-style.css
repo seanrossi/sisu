@@ -196,6 +196,7 @@
 }
 .about-us p {
     font-size: 16px;
+    line-height: 1.5em;
 }
 .about-us-upper-panel > div > span{
     padding: 0;
@@ -251,7 +252,6 @@
     font-size: 50px;
 }
 .sisu-header {
-    
     height: 250px;
     position: relative;
     text-align: center;
@@ -463,6 +463,12 @@
 .story-entry-comment-entry-content h5 {
     font-size: 12px;
     font-weight: lighter;
+}
+
+.story-entry-comment-entry-content h6 {
+    font-size: 13px;
+    font-weight: lighter;
+    color:#7D1E62;
 }
 
 .user-details {
