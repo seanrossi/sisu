@@ -148,10 +148,13 @@
     background-color: #F6E6F0;
     border-radius: 15px;
     padding: 5px 30px;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
 }
 .sisu-button, .sisu-button a {
     color: #7D1E62;
 }
+
 .about-info a {
     color: #7D1E62;
 }
@@ -272,6 +275,7 @@
     color: white;
     z-index: 10;
     padding: 0 50px;
+    line-height:1.5em;
 }
 .sisu-header-text h1 {
     font-size: 45px;
@@ -342,6 +346,7 @@
     padding-right: 50px;
     overflow: hidden;
     text-overflow: ellipsis; 
+    line-height:1.5em;
 }
 .story-text h4 {
     color: #D28D00;
@@ -354,6 +359,7 @@
     max-width: 900px;
     position: relative;
     margin: 0 auto;
+    line-height:1.5em;
 }
 .story-entry h4 {
     color: #D28D00;
@@ -674,4 +680,10 @@
 }
 .shrink-80 {
     transform: scale(0.8);
+}
+
+input:disabled, 
+button:disabled {
+  color: #000000;
+  opacity:0.38;
 }

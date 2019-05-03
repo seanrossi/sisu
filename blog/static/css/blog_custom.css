@@ -760,13 +760,17 @@ label {
    left: 0;
    bottom: 0;
    width: 100%;
-   background-color: white;
+   background-color: #F5F5F5;
    color: black;
    font-size: 12px;
 }
 
 #social_icon_footer a {
   color: black;
+}
+
+#social_icon_footer u {
+    color: #7D1E62;
 }
 
 #social_icon_footer .social:hover {

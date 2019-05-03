@@ -24,4 +24,7 @@ urlpatterns = [
     url(r'^add_reply_to_comment$', views.add_reply_to_comment, name='add_reply_to_comment'),
     url(r'^search$', views.search, name='search'),
     url(r'^settings/user_id(?P<pk>\d+)/$', IndexView.as_view(), name='user_details'),
+    url(r'^terms_conditions/$', views.terms_conditions, name='t_c'),
+    url(r'^privacy_policy/$', views.privacy_policy, name='p_p'),
+    
 ]

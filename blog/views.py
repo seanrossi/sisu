@@ -194,6 +194,12 @@ def about_sisu(request):
 def about_us(request):
     return render(request, 'blog/about_us.html')
 
+def terms_conditions(request):
+    return render(request, 'blog/terms_condition.html')
+    
+def privacy_policy(request):
+    return render(request, 'blog/privacy_policy.html')
+
 def story(request, category_name):
     # print(pretty_request(request))
     posts = Post.objects.filter(category_name=category_name).order_by('-published_date')
