@@ -40,7 +40,12 @@
             {% csrf_token %}
             <div class="story-entry-comment-reply">
                 <div class="story-entry-comment-entry-avatar">
-                    <img src="{% static '/img/icon/' %}{{ comment.userprofile.photo }}.png">
+                    {{ formset.management_form }}
+                    {% for form in userprofile.forms %}
+                    <!-- a href="{% url 'user_details' 1 %}" -->
+                        <img src="{% static '/img/icon/' %}{{ form.instance.photo }}.png" alt="Avatar" class="avatar">
+                    <!-- /a -->
+                    {% endfor %}
                 </div>
                 <input id="user_name_r" type="hidden" name="author" value="{{ user.username }}" >
                 <input id="commentpid{{ comment.pk }}" type="hidden" value="{{ post.pk }}"/>
