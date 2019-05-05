@@ -74,7 +74,7 @@ a{color:#6a6f8c;text-decoration:none}
 	width:100%;
 	margin:auto;
 	max-width:525px;
-	min-height:670px;
+	min-height:680px;
 	position:relative;
 	box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
 }
@@ -120,7 +120,7 @@ a{color:#6a6f8c;text-decoration:none}
 .login-html .sign-in:checked + .tab,
 .login-html .sign-up:checked + .tab{
 	/* color:#fff; */
-	border-color:#1161ee;
+	border-color:#7D1E62;
 }
 .login-form{
 	margin: 15px 0;
@@ -194,7 +194,7 @@ a{color:#6a6f8c;text-decoration:none}
 	color:#000;
 }
 .login-form .group .check:checked + label .icon{
-	background:#1161ee;
+	background:#7D1E62;
 }
 .login-form .group .check:checked + label .icon:before{
 	transform:scale(1) rotate(45deg);

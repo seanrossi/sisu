@@ -8,10 +8,9 @@
     <a href="{% url 'story_entry' pk=mt.postpk.pk %}">
         <div class="story-content-entry custom-row">
             <div class="story-text">
-                {{ mt.vote_date}}
-                <h5>{{ mt.postpk.category_name }}	</h5>
+                <h5 style="text-transform: uppercase;">{{ mt.vote_date }} </h5>
                 <h4>{{ mt.postpk }}</h4>
-                <p>{{ mt.postpk.short_desc|linebreaksbr }}</p> 
+                <h5>{{ mt.postpk.short_desc|linebreaksbr }}</h5> 
             </div>
             <div class="story-img-list">
                 <img src="{% static '/img/blog/main-blog/' %}{{ mt.postpk.pk }}.jpg" alt="" align="case">

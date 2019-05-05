@@ -1,8 +1,8 @@
 {% load staticfiles %}
 
-<div id="act_chart" style="font-family: Raleway; font-weight: bold">
+<div id="act_chart" style="font-family: Raleway;">
   {% if cat_chart %}
-  <h3>Your Activity in Different Categories </h3> 
+  <h3 style="color: #5D1049;">Your Activity in Different Categories </h3> 
     <div id="userChart">           
     {{ cat_chart|safe }}
     </div>

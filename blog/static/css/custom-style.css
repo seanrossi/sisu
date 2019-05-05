@@ -133,7 +133,7 @@
     text-align: right;
 }
 .about-info > h1 {
-    color: #7D1E62;
+    color: #5D1049;
     margin: 20px;
     font-weight: bold;
 }
@@ -148,12 +148,15 @@
     background-color: #F6E6F0;
     border-radius: 15px;
     padding: 5px 30px;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
 }
 .sisu-button, .sisu-button a {
-    color: #7D1E62;
+    color: #5D1049;
 }
+
 .about-info a {
-    color: #7D1E62;
+    color: #5D1049;
 }
 
 .about-us-upper-panel > div{
@@ -186,7 +189,7 @@
 }
 
 .about-us h1, .about-us-footer h1{
-    color: #7D1E62;
+    color: #5D1049;
     font-weight: bold;
 }
 .about-us h4 {
@@ -196,6 +199,7 @@
 }
 .about-us p {
     font-size: 16px;
+    line-height: 1.5em;
 }
 .about-us-upper-panel > div > span{
     padding: 0;
@@ -246,12 +250,11 @@
     max-width: 900px;
 }
 .contact-us-content h1 {
-    color: #7D1E62;
+    color: #5D1049;
     margin-bottom: 20px;
     font-size: 50px;
 }
 .sisu-header {
-    
     height: 250px;
     position: relative;
     text-align: center;
@@ -272,6 +275,7 @@
     color: white;
     z-index: 10;
     padding: 0 50px;
+    line-height:1.5em;
 }
 .sisu-header-text h1 {
     font-size: 45px;
@@ -326,9 +330,19 @@
     position: relative;
     margin: 0 auto;
 }
+
+.story-content  h3{
+    color: #5D1049;
+}
+
+.story-content  h6 {
+    font-size: 16px;
+    line-height: 1.75em;
+}
+
 .story-content-entry {
     position: relative;
-    padding: 50px 0;
+    padding: 40px 0;
 }
 
 .story-img-list img {
@@ -342,6 +356,7 @@
     padding-right: 50px;
     overflow: hidden;
     text-overflow: ellipsis; 
+    line-height:1.5em;
 }
 .story-text h4 {
     color: #D28D00;
@@ -354,6 +369,7 @@
     max-width: 900px;
     position: relative;
     margin: 0 auto;
+    line-height:1.5em;
 }
 .story-entry h4 {
     color: #D28D00;
@@ -406,7 +422,7 @@
 }
 .story-entry-right-content p {
     font-size: 13px;
-    color: #7D1E62;
+    color: #5D1049;
 }
 
 .story-entry-right-content h4 {
@@ -463,6 +479,12 @@
 .story-entry-comment-entry-content h5 {
     font-size: 12px;
     font-weight: lighter;
+}
+
+.story-entry-comment-entry-content h6 {
+    font-size: 13px;
+    font-weight: lighter;
+    color:#5D1049;
 }
 
 .user-details {
@@ -528,7 +550,7 @@
 }
 .user-details-header-content h1{
     font-weight: 450;
-    color: #7D1E62;
+    color: #5D1049;
 }
 .user-details-header-content input, .user-details-header-content textarea {
     border-width: 0 0 2px 0;
@@ -537,7 +559,7 @@
 }
 .user-details-header-content input {
     font-weight: 450;
-    color: #7D1E62;
+    color: #5D1049;
     font-size: 30px;
     margin-bottom: 10px;
 }
@@ -558,7 +580,7 @@
     display: block;
 }
 .sisu-nav-tabs input:checked + label {
-    border-top: 4px solid #7D1E62;
+    border-top: 4px solid #5D1049;
 }
 
 .user-details-icon {
@@ -601,7 +623,7 @@
     padding: 40px 0;
 }
 .story-entry-footer h4 {
-    color: #7D1E62;
+    color: #5D1049;
     margin: 15px 0 5px;
     font-weight: 550;
 }
@@ -633,13 +655,13 @@
 }
 .story-comment-view {
     font-size: 12px;
-    color: #7D1E62;
+    color: #5D1049;
     cursor: pointer;
 }
 
 .reply-button {
     color: #D28D00;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
     font-size: 12.5px;
     cursor: pointer;
 }
@@ -668,4 +690,10 @@
 }
 .shrink-80 {
     transform: scale(0.8);
+}
+
+input:disabled, 
+button:disabled {
+  color: #000000;
+  opacity:0.38;
 }

@@ -5162,7 +5162,6 @@ button.close {
 }
 
 .modal-open {
-   overflow: hidden;
    padding:0 !important;
 }
 
@@ -5179,7 +5178,6 @@ button.close {
     left: 0;
     z-index: 1050;
     display: none;
-    overflow: hidden;
     outline: 0
 }
 
