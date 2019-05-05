@@ -123,7 +123,14 @@ def popular_cases(request):
   #print(casesparsed)
   random_cases = []
   limit = len(Post.objects.all())
-  random_numbers = random.sample(range(1, limit), 3)
+  if limit > 2:
+    random_numbers = random.sample(range(1, limit), 3)
+  elif limit > 1:
+    random_numbers = [1, 2]
+  elif limit > 0:
+    random_numbers = [1]
+  else:
+    random_numbers = []
   random_cases = Post.objects.filter(pk__in=random_numbers)  
   
   return {'pop_cases' : pop_posts, 
