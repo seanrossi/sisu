@@ -24,6 +24,7 @@ a, a:hover, a:focus {
 }
 
 .navbar {
+    width: 100%;
     background: #fff;
     border: none;
     border-radius: 0;
@@ -39,7 +40,8 @@ a, a:hover, a:focus {
     border: none;
 }
 
-
+.navbar-content {
+}
 
 .line {
     width: 100%;
