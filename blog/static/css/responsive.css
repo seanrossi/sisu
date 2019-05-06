@@ -362,3 +362,23 @@
 		padding-right: 20px;
 	}
 }
+	
+/* About us page
+============================================================================================ */
+@media (max-width:995px){
+    .about-us-upper-panel > div > span{
+        padding: 20;
+        max-width: 100%;
+        display: inline-block;
+    }
+    .custom-row {
+        display: inline-block;
+    }
+    .left-text {
+        text-align: left;
+        padding-top: 225px;
+    }
+    .right-text {
+        text-align: left;
+    }
+}
