@@ -90,6 +90,8 @@
 .custom-row {
     display: flex;
 }
+
+
 .story-carousel-caption {
     position: absolute;
     top: 10%;
@@ -132,6 +134,7 @@
     max-width: 500px;
     text-align: right;
 }
+
 .about-info > h1 {
     color: #5D1049;
     margin: 20px;
