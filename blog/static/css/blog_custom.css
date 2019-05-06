@@ -754,3 +754,77 @@ label {
     border-radius: 50%;
 }
 
+/* Footer */
+#social_icon_footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: #F5F5F5;
+   color: black;
+   font-size: 12px;
+}
+
+#social_icon_footer a {
+  color: black;
+}
+
+#social_icon_footer u {
+    color: #7D1E62;
+}
+
+#social_icon_footer .social:hover {
+  -webkit-transform: scale(0.95);
+  -moz-transform: scale(0.95);
+  -o-transform: scale(0.95);
+}
+
+#social_icon_footer .social {
+  -webkit-transform: scale(0.8);
+  /* Browser Variations: */
+  
+  -moz-transform: scale(0.8);
+  -o-transform: scale(0.8);
+  -webkit-transition-duration: 0.5s;
+  -moz-transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+}
+
+#social_icon_footer #icon-fb:hover {
+  color: #3B5998;
+}
+
+#social_icon_footer #icon-tw:hover {
+  color: #4099FF;
+}
+
+#social_icon_footer #icon-li:hover {
+  color: #007bb5;
+}
+
+.footer-row {
+    width:100%;
+    margin : 0;
+}
+
+.footer-row-left {
+    width:50%;
+    margin : 0;
+    float : left ;
+    padding-left: 80px;
+    padding-top:10px;
+}
+
+.footer-row-left p {
+    line-height: 1.5;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.footer-row-right{
+   width:50%;
+   margin : 0;
+   float : left ;
+   padding-left: 30%;
+   padding-top: 5px;
+}

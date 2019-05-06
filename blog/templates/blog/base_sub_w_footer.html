@@ -76,30 +76,23 @@
           {% endif %}
         </ul>
         </div>
-         
-         </nav>
-         
+               
         </div>   
     </div>
-    
-   </div>
-  </div>
 </nav>    
-    
-      <!--================Header Menu Area =================-->
-      
-
-<!-- Sign-in/up Modal -->
-  <div class="modal fade" id="signinModal" role="dialog" style="overflow-y:hidden;">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        {% include 'blog/login_modal.html' %}
-      </div>
-    </div>
-  </div>
    
-        {% block sub_content %}
-        {% endblock %}
+<!-- Sign-in/up Modal -->
+<div class="modal fade" id="signinModal" role="dialog" style="overflow-y:hidden;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        {% include 'blog/login_modal.html' %}
+        </div>
+    </div>
+</div>      
+
+    {% block sub_content %}
+        
+    {% endblock %}
      
 {% endblock %}
         

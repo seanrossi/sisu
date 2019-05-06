@@ -1,11 +1,11 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static 'css/alert.css' %}" /> 
-<section class="story-entry-comment">
+<section class="story-entry-comment" style="padding-top: 40px;">
     <!-- dynamic comment numbers -->
     {% if cases|dict_key:post.pk %}
-    <h5> {{ cases|dict_key:post.pk }} Comments </h5>
+    <h5><i class="fa fa-comments"></i> {{ cases|dict_key:post.pk }} Comments </h5>
     {% else %}
-    <h5>0 Comment</h5>
+    <h5><i class="fa fa-comments-o"></i> 0 Comment</h5>
     {% endif %}
     
     <!-- run for loop for each user comment -->
@@ -23,7 +23,7 @@
                     
         <div class="story-entry-comment-entry-content">
             <h5>{{ comment.author }}</h5>
-            <p>{{ comment.text|linebreaks }}</p>
+            <h6>{{ comment.text|linebreaks }}</h6>
         </div>
         <div class="story-entry-comment-entry-timeline">
             <h5>
@@ -40,7 +40,12 @@
             {% csrf_token %}
             <div class="story-entry-comment-reply">
                 <div class="story-entry-comment-entry-avatar">
-                    <img src="{% static '/img/icon/' %}{{ comment.userprofile.photo }}.png">
+                    {{ formset.management_form }}
+                    {% for form in userprofile.forms %}
+                    <!-- a href="{% url 'user_details' 1 %}" -->
+                        <img src="{% static '/img/icon/' %}{{ form.instance.photo }}.png" alt="Avatar" class="avatar">
+                    <!-- /a -->
+                    {% endfor %}
                 </div>
                 <input id="user_name_r" type="hidden" name="author" value="{{ user.username }}" >
                 <input id="commentpid{{ comment.pk }}" type="hidden" value="{{ post.pk }}"/>
@@ -52,7 +57,7 @@
         </div>
     </div>
         {% if comment.replyToComment.all %}
-            <div class="story-comment-view">Show All Replies</div>
+            <div class="story-comment-view" id="view{{ comment.pk }}">Show All Replies</div>
             <div class="story-comment-replies" id="comment-replies{{ comment.pk }}">
                 {% for reply in comment.replyToComment.all|dictsortreversed:"created_date" %}
                 <div class="story-entry-comment-entry" id="replies{{ comment.pk }}">
@@ -64,7 +69,7 @@
                     
                     <div class="story-entry-comment-entry-content">
                         <h5 id="author">{{ reply.author }}</h5>
-                        <p>{{ reply.text }} </p>
+                        <h6>{{ reply.text|linebreaks }} </h6>
                     </div>
                     
                     <div class="story-entry-comment-entry-timeline">
@@ -74,6 +79,29 @@
                     </div>            
                 </div>
                 {% endfor %}
+            </div>
+        {% else %}
+            <div class="story-comment-view" id="view{{ comment.pk }}" style="display: none">Hide</div>
+            <div class="story-comment-replies" id="comment-replies{{ comment.pk }}" style="display: none">
+                <div class="story-entry-comment-entry" id="replies{{ comment.pk }}">
+                    <div class="story-entry-comment-entry-avatar">
+                         {{ formset.management_form }}
+                         {% for form in userprofile.forms %}
+                            <!-- a href="{% url 'user_details' 1 %}" -->
+                            <img src="{% static '/img/icon/' %}{{ form.instance.photo }}.png" alt="Avatar" class="avatar">
+                            <!-- /a -->
+                         {% endfor %}
+                    </div>
+                    <div class="story-entry-comment-entry-content">
+                        <h5 id="reply-author"></h5>
+                        <h6 id="reply-text"></h6>
+                    </div>
+                    
+                    <div class="story-entry-comment-entry-timeline">
+                        <h5 id="reply-date">
+                        </h5>
+                    </div>     
+                </div>
             </div>
         {% endif %}
     {% else %}
@@ -88,7 +116,7 @@
                       
             <div class="story-entry-comment-entry-content">
                 <h5>{{ comment.author }} <p>[Your comment will be pulished after censoring]</p> </h5>
-                <p>{{ comment.text|linebreaks }}</p>
+                <h6>{{ comment.text|linebreaks }}</h6>
             </div>
             <div class="story-entry-comment-entry-timeline">
                 <h5>
@@ -108,7 +136,7 @@
           
     {% endfor %}
     </div>
-    
+    <br>
     <div class="story-entry-comment-entry custom-row">
         <div class="story-entry-comment-entry-avatar">
             <!-- dynamic user id and img -->
@@ -136,8 +164,9 @@
             Post
         </button>
     {% else %}
-    <h5>What to give some suggestions? <i data-toggle="modal" data-target="#signinModal" class="underline"> Sign in / Sign up</i> to comment!</h5>
+    <h5>Want to give some suggestions? <i data-toggle="modal" data-target="#signinModal" class="underline"> Sign In | Sign up</i> to comment!</h5>
     {% endif %}
+      
 </section>
 
 <!-- jQuery CDN -->
@@ -242,6 +271,7 @@ function addReply(id) {
     var author = document.getElementById("user_name_r").value;
     var content = document.getElementById("reply_content" + commentId).value;
     var textArea = document.getElementById("reply_content" + commentId);
+    var view = document.getElementById("view" + commentId);
     var replies = document.getElementById("comment-replies" + commentId);
     var replyBtn = document.getElementById("addReplyBtn" + commentId);
     var lastReply = document.getElementById("replies" + commentId);
@@ -260,10 +290,30 @@ function addReply(id) {
          },
          success: function( data ){
                 $(textArea).val("");
-                $(replies).prepend( $(nextReply) );
+                
+                
+                let text = $(view).text();
+                if(text == "Show All Replies") {
+                    $(view).text("Hide");
+                    $(replies).toggle();
+                }
+                
+                if($(view).css("display") == "none") {
+                    $(view).css("display", "block");
+                    
+                    $("#reply-author").html(author);
+                    $("#reply-text").html(content);
+                    $("#reply-date").html("Now");
+                    $(replies).css("display", "block");
+                    
+                } else {
+                    $(replies).prepend( $(nextReply) );
+                    $(nextReply).find( "#date" ).html(moment(data.replyDate).format('LLL'));
+                }
+                
                 $("#reply").css("display", "none");
                 $(replyBtn).prop("disabled",true);
-                $(nextReply).find( "#date" ).html(moment(data.replyDate).format('LLL'));
+                
          }
    })
 }  

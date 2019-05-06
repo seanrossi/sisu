@@ -37,16 +37,18 @@ https://codepen.io/khadkamhn/pen/ZGvPLo -->
 						<input id="pass" type="password" class="input" name="password" placeholder="Password">
 					</div>
 					<div class="group">
-						<input id="check" type="checkbox" class="check" checked>
-						<label for="check" class="loginCheck"><span class="icon"></span> Keep me Signed in</label>
+						<input id="check" type="checkbox" class="check" checked onchange="document.getElementById('sign-in-button').disabled = !this.checked;">
+						<label for="check" class="loginCheck" style="line-height:1em;font-weight:lighter;"><span class="icon"></span> I agree to SISU's <a href="{% url 't_c' %}"><u>Terms & Conditions</u></a> &nbsp and &nbsp  
+                        <a href="{% url 'p_p' %}"><u>Privacy Policy</u></a>
+                        </label>
 					</div>
 					<div class="group">
-						<input type="submit" class="sisu-button" value="Sign In">
+						<input type="submit" class="sisu-button" value="Sign In" id="sign-in-button">
 					</div>
 					<input type="hidden" name="next" value="{{ request.path }}" />
 				</form>
 				<div class="foot-lnk">
-						Don't have an account?  <label for="tab-2" class="switchLabel">Sign up</label>
+						Don't have an account?  <label for="tab-2" class="switchLabel" style="cursor: pointer;">Sign up</label>
                         <br>Forget Password ? <a href="{% url 'password_reset' %}">Reset</a>  
 				</div>
 			</div>
@@ -80,14 +82,19 @@ https://codepen.io/khadkamhn/pen/ZGvPLo -->
 						<p style="color: red">{{ error }}</p>
 					{% endfor %} -->
                 {% endfor %}
-        
                     <div class="group">
-                        <input type="submit" class="sisu-button" value="Sign Up">
+						<input id="check2" type="checkbox" class="check" checked onchange="document.getElementById('sign-up-button').disabled = !this.checked;">
+						<label for="check2" class="loginCheck" style="line-height:1em;font-weight:lighter;"><span class="icon"></span> I agree to SISU's <a href="{% url 't_c' %}"><u>Terms & Conditions</u></a> &nbsp and &nbsp  
+                        <a href="{% url 'p_p' %}"><u>Privacy Policy</u></a>
+                        </label>
+					</div>
+                    <div class="group">
+                        <input type="submit" class="sisu-button" value="Sign Up" id="sign-up-button">
                     </div>
                 </form>
       
                 <div class="foot-lnk">
-					Already have an account?  <label for="tab-1" class="switchLabel">Sign in</label>
+					Already have an account?  <label for="tab-1" class="switchLabel" style="cursor: pointer;">Sign in</label>
                 </div>
 			</div>
 		</div>
