@@ -4,6 +4,7 @@ about_us.jpg - Photo by Nathan Dumlao on Unsplash
 contact_us.jpg - Photo by Stanley Dai on Unsplash
 contact_us_header.jpg - Photo by Aaron Burden on Unsplash
 construction.jpg - Photo by Kobu Agency on Unsplash
+empower.jpg - Photo by Annie Spratt on Unsplash
 
 Conflict.jpg - Photo by Drew Beamer on Unsplash
 ConflictEM.jpg - Photo by Helloquence on Unsplash
