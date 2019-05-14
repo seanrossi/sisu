@@ -15,32 +15,16 @@
             
             <div class="custom-row">
                 {% if noodle_form.instance.first_name %}
-                    <h1> {{noodle_form.instance.first_name}},&nbsp </h1> 
+                    <h1> {{noodle_form.instance.first_name}},&nbsp; </h1> 
                 {% else %}
-                    <h5> Your first name,   </h5>
+                    <h4> Your first name,&nbsp;</h4>
                 {% endif %}
                 
                 {% if noodle_form.instance.last_name %}
                     <h1> {{noodle_form.instance.last_name}} </h1>
                 {% else %}
-                    <h5>  Your last name </h5>
+                    <h4>  Your last name </h4>
                 {% endif %}
-                
-                <button class="sisu-button edit-button">
-                    <a class="sisu-button" href="{% url 'display_profile' pk=user.pk %}">
-                            EDIT PROFILE
-                    </a>
-                </button>
-                <button class="sisu-button edit-button">
-                    <a class="sisu-button" href="{% url 'change_password' %}">
-                            CHANGE PASSWORD
-                    </a>
-                </button>
-                <button class="sisu-button edit-button">
-                    <a class="sisu-button" href="{% url 'delete_profile' pk=user.pk %}">
-                            DELETE ACCOUNT
-                    </a>
-                </button>
                     
             </div>
             <div>
@@ -67,6 +51,19 @@
                 Your Username: {{ noodle_form.instance.username }} <br>
                 Your Email: {{ noodle_form.instance.email }}
             </p>
+            
+            <div class="custom-row">
+            
+                <button class="sisu-button edit-button">
+                    <a href="{% url 'display_profile' pk=user.pk %}" title="Edit profile.">UPDATE DETAILS</a>
+                </button>&ensp;
+                <button class="sisu-button edit-button" title="Change password.">
+                    <a href="{% url 'change_password' %}">CHANGE PASSWORD</a>
+                </button>&ensp;
+                <button class="sisu-button edit-button" title="Delete account.">
+                    <a href="{% url 'delete_profile' pk=user.pk %}">DELETE ACCOUNT</a>
+                </button>
+            </div>
         </div>
 
 
