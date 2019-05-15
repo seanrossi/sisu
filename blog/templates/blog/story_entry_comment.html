@@ -20,9 +20,10 @@
                 <img src="{% static '/img/icon/' %}{{ comment.userprofile.photo }}.png">
             <!-- /a -->
         </div>
-                    
-        <div class="story-entry-comment-entry-content">
+        <div class="story-entry-comment-entry-author">
             <h5>{{ comment.author }}</h5>
+        </div>
+        <div class="story-entry-comment-entry-content">
             <h6>{{ comment.text|linebreaks }}</h6>
         </div>
         <div class="story-entry-comment-entry-timeline">

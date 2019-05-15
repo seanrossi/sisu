@@ -57,11 +57,11 @@
                 <button class="sisu-button edit-button">
                     <a href="{% url 'display_profile' pk=user.pk %}" title="Edit profile.">UPDATE DETAILS</a>
                 </button>&ensp;
-                <button class="sisu-button edit-button" title="Change password.">
-                    <a href="{% url 'change_password' %}">CHANGE PASSWORD</a>
+                <button class="sisu-button edit-button" >
+                    <a href="{% url 'change_password' %}" title="Change password.">CHANGE PASSWORD</a>
                 </button>&ensp;
-                <button class="sisu-button edit-button" title="Delete account.">
-                    <a href="{% url 'delete_profile' pk=user.pk %}">DELETE ACCOUNT</a>
+                <button class="sisu-button edit-button" >
+                    <a href="{% url 'delete_profile' pk=user.pk %}" title="Delete account.">DELETE ACCOUNT</a>
                 </button>
             </div>
         </div>

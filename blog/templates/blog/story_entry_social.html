@@ -6,28 +6,39 @@
 <div class="story-entry-left">
     <!-- Plug in post_details for each sharing functionality -->
     <div class="story-icons">
+        <div>
         {% include 'blog/story_entry_metoo.html' %} 
+        </div>
+        <div>
+            <a href="#" title="Views">
+                <i class="fa fa-bookmark" ></i> 
+                <span style="font-size:10px;">{% get_hit_count for post %} </span>
+            </a>
+        </div>
         
-        <a href="#" title="Views"><i class="fa fa-bookmark" ></i> {% get_hit_count for post %} </a>
+        <div>
+            {% with "facebook" as service %}
+            <a href="http://www.facebook.com/share.php?u={{ host }}{% url 'story_entry' pk=post.pk %}&amp;t={{ post.title }}" target="_blank" title="{{ share_txt }} {{ service }}">
+                <i class="fa fa-facebook-square"></i>
+            </a>
+            {% endwith %}
+        </div>
         
-        {% with "facebook" as service %}
-        <a href="http://www.facebook.com/share.php?u={{ host }}{% url 'story_entry' pk=post.pk %}&amp;t={{ post.title }}" target="_blank" title="{{ share_txt }} {{ service }}">
-            <i class="fa fa-facebook-square"></i>
-        </a>
-        {% endwith %}
+        <div>
+            {% with "linkedin" as service %}
+            <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{ host }}{% url 'story_entry' pk=post.pk %}&amp;title={{ post.title }}&amp;ro=false&amp;summary=&amp;source=" target="_blank" title="{{ share_txt }} {{ service }}">
+                <i class="fa fa-linkedin-square"></i>
+            </a> 
+            {% endwith %}
+        </div>
         
-        {% with "linkedin" as service %}
-        <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{ host }}{% url 'story_entry' pk=post.pk %}&amp;title={{ post.title }}&amp;ro=false&amp;summary=&amp;source=" target="_blank" title="{{ share_txt }} {{ service }}">
-            <i class="fa fa-linkedin-square"></i>
-        </a> 
-        {% endwith %}
-        
-        {% with "twitter" as service %}
-        <a href="http://twitter.com/share?url={{ host }}{% url 'story_entry' pk=post.pk %}&amp;text={{ post.title }}" target="_blank" title="{{ share_txt }} {{ service }}">
-            <i class="fa fa-twitter"></i>
-        </a>
-        {% endwith%}
-        
+        <div>
+            {% with "twitter" as service %}
+            <a href="http://twitter.com/share?url={{ host }}{% url 'story_entry' pk=post.pk %}&amp;text={{ post.title }}" target="_blank" title="{{ share_txt }} {{ service }}">
+                <i class="fa fa-twitter"></i>
+            </a>
+            {% endwith%}
+        </div>  
     </div>
 </div>
 {% endwith %}

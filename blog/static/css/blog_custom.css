@@ -719,16 +719,16 @@ label {
   .metoo_icon_filled {
     background: url(../img/metoo/lightbulb_selected.svg) no-repeat center center/cover;
     display: inline-block;
-    height: 27px;
-    width: 20px;
+    height: 24px;
+    width: 18px;
     /* Other styles here */
   }
   
    .metoo_icon {
     background: url(../img/metoo/lightbulb.svg) no-repeat center center/cover;
     display: inline-block;
-    height: 27px;
-    width: 20px;
+    height: 24px;
+    width: 18px;
     /* Other styles here */
   }
  

@@ -424,24 +424,37 @@
 }
 .story-entry-left {
     position: absolute;
-    margin-top: 50px;
-    margin-left: -20px;
+    margin-top: 55px;
+    margin-left: -50px;
 }
 .story-icons a {
     display: block;
+    color:#7B7B7B;
     padding: 5px;
-    transform: scale(1.1);
+    transform: scale(1.25);
+    margin-top: 8px;
+    vertical-align:middle;
 }
-.story-icons a:first-child {
-    color: #D28D00;
+
+.story-icons > div {
+    text-align: left;
 }
+
+.story-icons span {
+    text-align: center;
+    font-weight:lighter;
+    padding-left: 5px;
+}
+
 .story-entry-content {
     position: relative;
     padding: 50px 50px;
     min-height: 800px;
 }
 .story-entry-conent-center {
+    margin-left: 20px;
     padding-right: 300px;
+    margin-right: 20px;
 }
 .story-entry-center section {
     margin-bottom: 200px;
@@ -488,28 +501,43 @@
     background-color: #F5F5F5;
     border-radius: 10px;
     min-height: 50px;
+    display: flex;
+    flex-flow: row wrap;
 }
-.story-entry-comment-entry div {
-    display: inline-block;
-}
+
 .story-entry-comment-entry-avatar {
     height: 30px;
     width: 30px;
     margin-right: 10px;
     float: left;
 }
+
 .story-entry-comment-entry-avatar img {
     height: 100%;
     width: 100%;
     border-radius: 50%;
 }
+
+.story-entry-comment-entry-author {
+    margin-left: 5px;
+    height: 30px;
+}
+
 .story-entry-comment-entry-timeline {
+    height: 30px;
     float: right;
 }
 
 .story-entry-comment-entry-timeline h5 {
     font-size: 12px;
     font-weight: lighter;
+}
+
+.story-entry-comment-entry-content {
+    margin-left: 5px;
+    left: 35px;
+    top:50%;
+    height: 50%;
 }
 
 .story-entry-comment-entry-content input {
@@ -663,6 +691,7 @@
 }
 .story-entry-center section {
     margin-bottom: 20px;
+    text-align:justify;
 }
 .story-entry-footer {
     background-color:#F6E6F0;
