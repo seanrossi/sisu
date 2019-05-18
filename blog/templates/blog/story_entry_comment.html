@@ -3,9 +3,9 @@
 <section class="story-entry-comment" style="padding-top: 40px;">
     <!-- dynamic comment numbers -->
     {% if cases|dict_key:post.pk %}
-    <h5><i class="fa fa-comments"></i> {{ cases|dict_key:post.pk }} Comments </h5>
+    <h6><i class="fa fa-comments"></i> {{ cases|dict_key:post.pk }} Comments </h6>
     {% else %}
-    <h5><i class="fa fa-comments-o"></i> 0 Comment</h5>
+    <h6><i class="fa fa-comments-o"></i> 0 Comment</h6>
     {% endif %}
     
     <!-- run for loop for each user comment -->
@@ -13,79 +13,72 @@
     <div id="newComment">
     {% for comment in post.comments.all|dictsortreversed:"created_date" %}
     {% if comment.approved_comment %}
-    <div class="story-entry-comment-entry">
-        <div class="story-entry-comment-entry-avatar">
-            <!-- dynamic user_id and image -->
-            <!-- a href="{% url 'user_details' 1 %}" -->
+    <div class="one-comment-section">
+        <div class="comment-entry-wrapper">
+            <div class="comment-entry comment-entry-avatar">
                 <img src="{% static '/img/icon/' %}{{ comment.userprofile.photo }}.png">
-            <!-- /a -->
-        </div>
-        <div class="story-entry-comment-entry-author">
-            <h5>{{ comment.author }}</h5>
-        </div>
-        <div class="story-entry-comment-entry-content">
-            <h6>{{ comment.text|linebreaks }}</h6>
-        </div>
-        <div class="story-entry-comment-entry-timeline">
-            <h5>
-                {{ comment.created_date }}
-            </h5>
-        </div>
-    </div>
-    <div id="replyButton{{ comment.pk }}" class="reply-button" onClick="replyToCommentFunction({{ comment.pk }})">
-        <i class="fa fa-reply fa-rotate-180" aria-hidden="true"></i> Reply
-    </div>
-    <input id="cid" type="hidden" value="{{ comment.pk }}"/>
-    <div id="replyToCommentDiv{{ comment.pk }}" style="display:none;">
-        <div id="replyToCommentForm{{ comment.pk }}" >
-            {% csrf_token %}
-            <div class="story-entry-comment-reply">
-                <div class="story-entry-comment-entry-avatar">
-                    {{ formset.management_form }}
-                    {% for form in userprofile.forms %}
-                    <!-- a href="{% url 'user_details' 1 %}" -->
-                        <img src="{% static '/img/icon/' %}{{ form.instance.photo }}.png" alt="Avatar" class="avatar">
-                    <!-- /a -->
-                    {% endfor %}
-                </div>
-                <input id="user_name_r" type="hidden" name="author" value="{{ user.username }}" >
-                <input id="commentpid{{ comment.pk }}" type="hidden" value="{{ post.pk }}"/>
-                <textarea onkeyup="rpybtnsuccess({{ comment.pk }})" id="reply_content{{ comment.pk }}" name="text" wrap="soft" style="overflow:auto; resize:none;" placeholder="Reply to {{ comment.author }}"></textarea>
             </div>
-            <button type="submit" id="addReplyBtn{{ comment.pk }}" class="sisu-button shrink-80" style="margin-left: auto; display: block;" onClick="addReply({{ comment.pk }})" disabled>
-                Reply</i>
-            </button>
+            <div class="comment-entry comment-entry-container flex-direction">
+                <div class="comment-entry comment-entry-author">{{ comment.author }} </div>
+                <div class="comment-entry comment-entry-timeline">{{ comment.created_date }} </div>
+            </div>
+            <div class="comment-entry-content">
+                {{ comment.text|linebreaks }}  
+            </div>
         </div>
-    </div>
+
+        <div id="replyButton{{ comment.pk }}" class="reply-button" onClick="replyToCommentFunction({{ comment.pk }})">
+            <i class="fa fa-reply fa-rotate-180" aria-hidden="true"></i> Reply
+        </div>
+        <input id="cid" type="hidden" value="{{ comment.pk }}"/>
+        <div id="replyToCommentDiv{{ comment.pk }}" style="display:none;">
+            <div id="replyToCommentForm{{ comment.pk }}" >
+                {% csrf_token %}
+                <div class="story-entry-comment-reply">
+                    <div class="comment-entry comment-entry-avatar">
+                        {{ formset.management_form }}
+                        {% for form in userprofile.forms %}
+                        <!-- a href="{% url 'user_details' 1 %}" -->
+                            <img src="{% static '/img/icon/' %}{{ form.instance.photo }}.png" alt="Avatar" class="avatar">
+                        <!-- /a -->
+                        {% endfor %}
+                    </div>
+                    <input id="user_name_r" type="hidden" name="author" value="{{ user.username }}" >
+                    <input id="commentpid{{ comment.pk }}" type="hidden" value="{{ post.pk }}"/>
+                    <textarea onkeyup="rpybtnsuccess({{ comment.pk }})" id="reply_content{{ comment.pk }}" name="text" wrap="soft" style="overflow:auto; resize:none;order: 2" placeholder="Reply to {{ comment.author }}"></textarea>
+                </div>
+                <button type="submit" id="addReplyBtn{{ comment.pk }}" class="sisu-button shrink-80" style="margin-left: auto; display: block;" onClick="addReply({{ comment.pk }})" disabled>
+                    Reply</i>
+                </button>
+            </div>
+        </div>
+    
         {% if comment.replyToComment.all %}
             <div class="story-comment-view" id="view{{ comment.pk }}">Show All Replies</div>
             <div class="story-comment-replies" id="comment-replies{{ comment.pk }}">
                 {% for reply in comment.replyToComment.all|dictsortreversed:"created_date" %}
-                <div class="story-entry-comment-entry" id="replies{{ comment.pk }}">
-                    <div class="story-entry-comment-entry-avatar">
+                <div class="comment-entry-wrapper" id="replies{{ comment.pk }}">
+                    <div class="comment-entry comment-entry-avatar">
                         <!-- a href="{% url 'user_details' 1 %}" -->
                             <img src="{% static '/img/icon/' %}{{ reply.userprofile.photo }}.png" alt="Avatar" class="avatar">
                         <!-- /a -->
                     </div>
-                    
-                    <div class="story-entry-comment-entry-content">
-                        <h5 id="author">{{ reply.author }}</h5>
-                        <h6>{{ reply.text|linebreaks }} </h6>
+                    <div class="comment-entry comment-entry-container flex-direction">
+                        <div class="comment-entry comment-entry-author" id="author">{{ reply.author }} </div>
+                        <div class="comment-entry comment-entry-timeline" id="date">{{ reply.created_date }} </div>
                     </div>
-                    
-                    <div class="story-entry-comment-entry-timeline">
-                        <h5 id="date">
-                        {{ reply.created_date }}
-                        </h5>
-                    </div>            
+                    <div class="comment-entry-content">
+                        {{ reply.text|linebreaks }}  
+                    </div>                               
                 </div>
                 {% endfor %}
             </div>
+          
         {% else %}
             <div class="story-comment-view" id="view{{ comment.pk }}" style="display: none">Hide</div>
             <div class="story-comment-replies" id="comment-replies{{ comment.pk }}" style="display: none">
-                <div class="story-entry-comment-entry" id="replies{{ comment.pk }}">
-                    <div class="story-entry-comment-entry-avatar">
+                <div class="comment-entry-wrapper" id="replies{{ comment.pk }}">
+                    <div class="comment-entry comment-entry-avatar">
                          {{ formset.management_form }}
                          {% for form in userprofile.forms %}
                             <!-- a href="{% url 'user_details' 1 %}" -->
@@ -93,41 +86,47 @@
                             <!-- /a -->
                          {% endfor %}
                     </div>
-                    <div class="story-entry-comment-entry-content">
-                        <h5 id="reply-author"></h5>
-                        <h6 id="reply-text"></h6>
+                    <div class="comment-entry comment-entry-container flex-direction">
+                        <div class="comment-entry comment-entry-author" id="reply-author"></div>
+                        <div class="comment-entry comment-entry-timeline" id="reply-date"></div>
                     </div>
                     
-                    <div class="story-entry-comment-entry-timeline">
-                        <h5 id="reply-date">
+                    <div class="comment-entry-content">
+                        <h5 id="reply-text">
                         </h5>
                     </div>     
                 </div>
             </div>
+         </div>     
         {% endif %}
     {% else %}
         {% if user.get_username == comment.author or user.is_superuser %}
-        <div class="story-entry-comment-entry">
-            <div class="story-entry-comment-entry-avatar">
+        <div class="one-comment-section">
+        <div class="comment-entry-wrapper">
+            <div class="comment-entry comment-entry-avatar">
                 <!-- dynamic user_id and image -->
                 <!-- a href="{% url 'user_details' 1 %}" -->
                     <img src="{% static '/img/icon/' %}{{ comment.userprofile.photo }}.png">
                 <!-- /a -->  
             </div>
-                      
-            <div class="story-entry-comment-entry-content">
-                <h5>{{ comment.author }} <p>[Your comment will be pulished after censoring]</p> </h5>
-                <h6>{{ comment.text|linebreaks }}</h6>
+            
+            <div class="comment-entry comment-entry-container flex-direction">
+                <div class="comment-entry comment-entry-author">{{ comment.author }} </div>
+                <div class="comment-entry comment-entry-timeline">{{ comment.created_date }} </div>
+            </div>            
+            
+            <div class="comment-entry-content">
+                <p style="color: #5D1049">[Your comment will be pulished after censoring]</p>
+                <p>{{ comment.text|linebreaks }}</p>  
+                
+                {% if user.is_superuser %}
+                <a class="sisu-button shrink-90" href="{% url 'comment_remove' pk=comment.pk %}"> Remove </a>
+                <a class="sisu-button shrink-90" href="{% url 'comment_approve' pk=comment.pk %}"> Approve </a>
+                {% endif %}
             </div>
-            <div class="story-entry-comment-entry-timeline">
-                <h5>
-                    {{ comment.created_date }}
-                </h5>
-            </div>
-            {% if user.is_superuser %}
-            <a class="sisu-button shrink-90" href="{% url 'comment_remove' pk=comment.pk %}"> Remove </a>
-            <a class="sisu-button shrink-90" href="{% url 'comment_approve' pk=comment.pk %}"> Approve </a>
-            {% endif %}
+            
+            
+        </div>
         </div>
         {% endif %}
     {% endif %}
@@ -139,7 +138,7 @@
     </div>
     <br>
     <div class="story-entry-comment-entry custom-row">
-        <div class="story-entry-comment-entry-avatar">
+        <div class="comment-entry comment-entry-avatar">
             <!-- dynamic user id and img -->
             {{ formset.management_form }}
             {% for form in userprofile.forms %}
@@ -151,7 +150,7 @@
         {% csrf_token %}
         <input id="user_name" type="hidden" name="author" value="{{ user.username }}" >
         <input id="id-div" type="hidden" name="pid" value="{{ post.id }}" >
-        <textarea onkeyup="btnsuccess()" id="comment_content" name="text" wrap="soft" style="overflow:auto; resize:none;" placeholder="{{ user.username }}, what do you think?"></textarea>
+        <textarea onkeyup="btnsuccess()" id="comment_content" name="text" wrap="soft" style="overflow:auto; resize:none; order: 2" placeholder="{{ user.username }}, what do you think?"></textarea>
         
         {% if messages %}
         <ul class="messages" style="display:none;">
@@ -165,7 +164,11 @@
             Post
         </button>
     {% else %}
-    <h5>Want to give some suggestions? <i data-toggle="modal" data-target="#signinModal" class="underline"> Sign In | Sign up</i> to comment!</h5>
+    <h5 style="text-align:left;">Want to give some suggestions? 
+        <i data-toggle="modal" data-target="#signinModal" class="underline" style="cursor: pointer;"> Sign In</i> | 
+        <i data-toggle="modal" data-target="#signupModal" class="underline" style="cursor: pointer;"> Sign up</i> 
+        to comment!
+    </h5>
     {% endif %}
       
 </section>

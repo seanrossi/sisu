@@ -22,13 +22,21 @@ def update():
             user_comments = Comment.objects.filter(author=all_users[i])
             user_metoos = PostPreferrence.objects.filter(username__username__exact=all_users[i])
             
+            # if a user has not comment anything, choose the default comments
+            if not user_comments:
+                user_comments = Comment.objects.filter(pk__in=[1, 2, 3])
+            
+            # if a user has not metoo anything, choose the default posts
+            if not user_metoos:
+                user_metoos = PostPreferrence.objects.filter(pk__in=[4, 5, 6])
+            
             for user_comment in user_comments:
                 rec_v[i,user_comment.post.pk] = user_comment.rec_value
-      
+          
             for user_metoo in user_metoos:
                 rec_v[i,user_metoo.postpk.pk] = user_metoo.vote_value
       
-      print (rec_v)
+      #print (rec_v)
       # Perform kmeans clustering
       k = int(num_users / 10) + 2
       kmeans = KMeans(n_clusters=k)

@@ -3,43 +3,43 @@
 
 {% block sub_content %} 
 <div class="user-details">
-    <div class="user-details-header user-details-header-edit">
+    <div class="user-details-header">
+        
+        <hr class="hr-text" data-content="CHANGE PROFILE PICTURE">
         
         <div id="my-icon-select"></div>
-            <input type="text" id="selected-text" name="photo" style="display:none;">
-            <input type="text" id="profile-id" data="{{ context.photo }}"
+        <input type="text" id="selected-text" name="photo" style="display:none;">
+        <input type="text" id="profile-id" data="{{ context.photo }}"
                 value="{% static '/img/icon/' %}{{ context.photo }}.png"
                 style="display:none;">
-        <div class="user-details-header-avatar">
-        </div>
+                
+        <hr class="hr-text" data-content="UPDATE YOUR NAME">
         
         <div class="user-details-header-content">
             <div class="custom-row">
                 <input type="text" id="first-name-div" name="first_name"
-                value="{{ context.f_name }}" 
-                placeholder="Your First Name">
+                    value="{{ context.f_name }}" 
+                    placeholder="Your First Name">
             </div>
             <div class="custom-row">
                 <input type="text" id="last-name-div" name="last_name"
                 value="{{ context.l_name }}"
                 placeholder="Your Last Name"> 
-            </div>
-            
         </div>
         
-        <div id="results" style="display:none"><p>Updated Successfully. Go Back to see results!</p></div>
-  
         <div class="user-details-edit-button">
             <button type="submit" class="sisu-button">
                 <a href="{% url 'user_details' pk=user.id %}">GO BACK</a>
             </button>
-            
+         
             <button type="submit" id="updateButton" class="sisu-button">
-                SAVE
+                  SAVE
             </button> 
         </div>
-    </div>
+        <div id="results" style="display:none"><p>Updated Successfully. Go Back to see results!</p></div>
     
+        </div>
+        </div>
 </div>
           
 <script>
@@ -60,14 +60,14 @@
     profiletag = document.getElementById('profile-id').getAttribute("data");
     
     iconSelect = new IconSelect("my-icon-select", 
-                 {'selectedIconWidth':95,
-                  'selectedIconHeight':110,
+                 {'selectedIconWidth':150,
+                  'selectedIconHeight':150,
                   'selectedBoxPadding':5,
-                  'iconsWidth':95,
-                  'iconsHeight':110,
+                  'iconsWidth':60,
+                  'iconsHeight':60,
                   'boxIconSpace':5,
-                  'vectoralIconNumber':5,
-                  'horizontalIconNumber':5});
+                  'vectoralIconNumber':8,
+                  'horizontalIconNumber':3});
 
     var icons = [];
     icons.push({'iconFilePath':profile, 'iconValue':profiletag});
@@ -95,8 +95,9 @@
     icons.push({'iconFilePath':"{% static 'img/icon/male_user_10.png' %}", 'iconValue':'male_user_10'});
     icons.push({'iconFilePath':"{% static 'img/icon/male_user_11.png' %}", 'iconValue':'male_user_11'});
     icons.push({'iconFilePath':"{% static 'img/icon/male_user_12.png' %}", 'iconValue':'male_user_12'});
-              
+    
     iconSelect.refresh(icons);
+    
  };
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>

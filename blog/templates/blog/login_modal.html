@@ -7,9 +7,6 @@ https://codepen.io/khadkamhn/pen/ZGvPLo -->
 
 <div class="login-wrap">
 	<div class="login-html">
-		<input id="tab-1" type="radio" name="tab" class="sign-in"><label id="label-tab-1" for="tab-1" class="tab">Sign In</label>
-		<input id="tab-2" type="radio" name="tab" class="sign-up" checked><label id="label-tab-2" for="tab-2" class="tab">Sign Up</label>
-        
 		<div class="login-form">
 			<div class="sign-in-htm">
 				<div class="group">
@@ -18,10 +15,16 @@ https://codepen.io/khadkamhn/pen/ZGvPLo -->
 					</h3>
 				</div>
 				<div class="group">
-					<button<>GOOGLE</button>
+                    <a href="{% provider_login_url 'google' %}" class = "btn btn-block btn-md btn-social btn-google">
+                        <span class = "fa fa-google"></span>
+                        Login with Google 
+                    </a>
 				</div>
 				<div class="group">
-					<button<>FACEBOOK</button>
+					<a href="#" class = "btn btn-block btn-md btn-social btn-linkedin">
+                        <span class = "fa fa-linkedin"></span>
+                        Login with LinkedIn 
+                    </a>
 				</div>
 				<div class="group">
 					<h4>
@@ -47,55 +50,10 @@ https://codepen.io/khadkamhn/pen/ZGvPLo -->
 					</div>
 					<input type="hidden" name="next" value="{{ request.path }}" />
 				</form>
-				<div class="foot-lnk">
-						Don't have an account?  <label for="tab-2" class="switchLabel" style="cursor: pointer;">Sign up</label>
+				<div class="foot-lnk-login">
+						Don't have an account?  <label data-toggle="modal" data-target="#signupModal" data-dismiss="modal" style="cursor: pointer;">Sign up</label>
                         <br>Forget Password ? <a href="{% url 'password_reset' %}">Reset</a>  
 				</div>
-			</div>
-     
-            <div class="sign-up-htm">
-				<div class="group">
-					<h3>
-						Welcome to SISU!
-					</h3>
-				</div>
-				<div class="group">
-					<button><a href="{% provider_login_url 'google' %}">Google</a></button>
-				</div>
-				<div class="group">
-					<button>FACEBOOK</button>
-				</div>
-				<div class="group">
-					<h4>
-						- or -
-					</h4>
-				</div>
-                <form method="post" action="{% url 'signup' %}">
-				{% csrf_token %}
-                {% for field in signup_form %}
-					<div class="group">
-                        <input for='{{ forloop.counter }}' name="{{ field.html_name }}" maxlength="150" title='{{ field.help_text }}' class="input" required="" id="{{ field.id_for_label }}" placeholder="{{ field.label }}">
-                    
-					</div>
-        
-					<!-- {% for error in field.errors %}
-						<p style="color: red">{{ error }}</p>
-					{% endfor %} -->
-                {% endfor %}
-                    <div class="group">
-						<input id="check2" type="checkbox" class="check" checked onchange="document.getElementById('sign-up-button').disabled = !this.checked;">
-						<label for="check2" class="loginCheck" style="line-height:1em;font-weight:lighter;"><span class="icon"></span> I agree to SISU's <a href="{% url 't_c' %}"><u>Terms & Conditions</u></a> &nbsp and &nbsp  
-                        <a href="{% url 'p_p' %}"><u>Privacy Policy</u></a>
-                        </label>
-					</div>
-                    <div class="group">
-                        <input type="submit" class="sisu-button" value="Sign Up" id="sign-up-button">
-                    </div>
-                </form>
-      
-                <div class="foot-lnk">
-					Already have an account?  <label for="tab-1" class="switchLabel" style="cursor: pointer;">Sign in</label>
-                </div>
 			</div>
 		</div>
 	</div>

@@ -43,6 +43,10 @@
 #nav-dropdown-header:hover {
     color: white;
 }
+
+#navigationBar {
+    font-weight: bold;
+}
 .nav-dropdown:hover > div {
     display: block;
     margin-top: -1px;
@@ -72,11 +76,21 @@
     margin: auto 0;
     padding: 0 10px;
 }
+
+#signin-button {
+    font-size: 16px;
+    margin: auto 0;
+    padding: 0 10px;
+    color: #9d9d9d;
+    cursor: pointer;
+}
+
 #signup-button {
-    border-radius: 20px;
+    border-radius: 10px;
     padding: 5px 15px;
     color: #D28D00;
     background-color: white;
+    margin-right: 10px;
 }
 
 .story-carousel a {
@@ -487,10 +501,16 @@
 }
 
 .story-entry-comment h5 {
-    color: #D28D00;
-    font-weight: bold;
     line-height: 1.5em;
 }
+
+.story-entry-comment h6 {
+    font-size: 14px;
+    line-height: 1.5em;
+    color: #D28D00; 
+    font-weight: bold;
+}
+
 .story-entry-comment p {
     color: rgba(0, 0, 0, 0.6);
 }
@@ -501,8 +521,10 @@
     background-color: #F5F5F5;
     border-radius: 10px;
     min-height: 50px;
-    display: flex;
-    flex-flow: row wrap;
+}
+
+.story-entry-comment-entry div {
+    display: inline-block;
 }
 
 .story-entry-comment-entry-avatar {
@@ -655,6 +677,8 @@
 }
 .sisu-nav-tabs input:checked + label {
     border-top: 4px solid #5D1049;
+    background-color: rgba(93, 16, 73, 0.4);
+    color:white;
 }
 
 .user-details-icon {
@@ -729,6 +753,8 @@
     display: block;
 }
 .story-comment-view {
+    margin-top: 0px;
+    margin-bottom: 15px;
     font-size: 12px;
     color: #5D1049;
     cursor: pointer;
@@ -736,6 +762,7 @@
 
 .reply-button {
     color: #D28D00;
+    margin-top:0px;
     margin-bottom: 0px;
     font-size: 12.5px;
     cursor: pointer;

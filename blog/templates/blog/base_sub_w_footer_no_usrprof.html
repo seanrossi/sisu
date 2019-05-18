@@ -71,8 +71,15 @@
                 </span>
             </div>
           {% else %}
-            <button type="submit" id="signup-button" data-toggle="modal" data-target="#signinModal">
-              Sign Up
+            <div class="header-avatar custom-row">
+                <span class="nav-item">
+                    <span class="nav-link" id="signin-button" data-toggle="modal" data-target="#signinModal">
+                      SIGN IN
+                    </span>
+                </span>
+            </div>
+            <button type="submit" id="signup-button" data-toggle="modal" data-target="#signupModal">
+              SIGN UP
             </button>
           {% endif %}
         </ul>
@@ -98,7 +105,13 @@
       </div>
     </div>
   </div>
-   
+   <div class="modal fade" id="signupModal" role="dialog" style="overflow-y:hidden;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        {% include 'blog/signup_modal.html' %}
+        </div>
+    </div>
+</div>
         {% block sub_content %}
         {% endblock %}   
 {% endblock %}

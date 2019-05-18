@@ -1,5 +1,5 @@
 body{
-	font:600 16px/18px 'Poppins',sans-serif;
+	font:600 16px/18px 'Raleway',sans-serif;
 }
 *,:after,:before{box-sizing:border-box}
 .clearfix:after,.clearfix:before{content:'';display:table}
@@ -92,9 +92,8 @@ a{color:#6a6f8c;text-decoration:none}
 	right:0;
 	bottom:0;
 	position:absolute;
-	transform:rotateY(180deg);
-	backface-visibility:hidden;
 	transition:all .4s linear;
+    
 }
 .login-html .sign-in,
 .login-html .sign-up,
@@ -227,10 +226,14 @@ a{color:#6a6f8c;text-decoration:none}
 	background:rgba(0,0,0,.2);
 }
 
-.foot-lnk{
-	margin-top: 50px;
+.foot-lnk-login{
+	margin-top: 60px;
 	text-align:center;
-	
+}
+
+.foot-lnk-signup{
+	margin-top: 10px;
+	text-align:center;	
 }
 
 .tooltip-inner {
@@ -238,9 +241,3 @@ a{color:#6a6f8c;text-decoration:none}
 	color: #000;
 	border: 1px solid #000;
 }
-
-/* button {
-	background-color: blue;
-	border-radius: 40px;
-	font-size: 100px;
-} */
