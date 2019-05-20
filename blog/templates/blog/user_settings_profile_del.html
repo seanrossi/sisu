@@ -3,21 +3,42 @@
 
 {% block sub_content %} 
 <div class="user-details">
-    <div class="user-details-edit custom-row">
-        <h3>
-            Delete Account from SISU
-        </h3>
-    </div>    
-    
-    <form method="post">
-        {% csrf_token %}
-        <button class="btn btn-danger">Confirm delete {{ object }}?</button>
-        
-    </form>
-  
-    <button type="submit" class="sisu-button">
-        <a href="{% url 'user_details' pk=user.id %}">GO BACK</a>
-    </button>
-
+<section class="contact_area p_120">
+<div class="container contact-us-content">
+    <div class="row contact-us-panel">
+        <div class="contact-us-left-panel">
+            <figure class="circle-img">
+                <img src="{% static 'img/story/deleteaccount.jpg' %}" />
+                <div class="img-blur"></div>
+            </figure>
+        </div>
+        <div class="left-text contact-us-right-panel contact-us-text-panel">
+            <h1>
+                  We are sorry to see you go!
+            </h1>
+            <p>
+                  Are your sure to delete your Sisu account?
+            </p>
+            <br>
+            
+            {% if user.is_authenticated  %}
+            
+                <button type="submit" class="sisu-button">
+                    <a href="{% url 'user_details' pk=user.id %}">GO BACK</a>
+                </button>
+                <hr class="hr-text" data-content="Stay..." />
+                <form method="post">
+                    {% csrf_token %}
+                    <button class="sisu-button">Confirm delete "{{ object }}"</button>
+                </form>
+                
+            
+            {% else %}
+                <h3> Please login to delete account.</h3>
+            {% endif %}    
+        </div>
+    </div>
 </div>    
+</section>
+</div>
 {% endblock %}

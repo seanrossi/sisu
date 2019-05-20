@@ -3,26 +3,26 @@
 
 {% block sub_content %} 
 <div class="user-details">
-    <div class="user-details-header">
-        
-        <hr class="hr-text" data-content="CHANGE PROFILE PICTURE">
-        
+<div style="height: 300px">
+    <hr class="hr-text" data-content="CHANGE PROFILE PICTURE">
+    <div class="custom-row" style="margin-top: 40px;">
         <div id="my-icon-select"></div>
         <input type="text" id="selected-text" name="photo" style="display:none;">
         <input type="text" id="profile-id" data="{{ context.photo }}"
                 value="{% static '/img/icon/' %}{{ context.photo }}.png"
                 style="display:none;">
-                
-        <hr class="hr-text" data-content="UPDATE YOUR NAME">
-        
-        <div class="user-details-header-content">
-            <div class="custom-row">
-                <input type="text" id="first-name-div" name="first_name"
+    </div>
+    
+    <hr class="hr-text" style="margin-top: 40px;" data-content="UPDATE YOUR NAME">
+    
+    <div class="user-details-header-content">
+        <div class="custom-row">
+            <input type="text" id="first-name-div" name="first_name"
                     value="{{ context.f_name }}" 
                     placeholder="Your First Name">
-            </div>
-            <div class="custom-row">
-                <input type="text" id="last-name-div" name="last_name"
+        </div>
+        <div class="custom-row">
+            <input type="text" id="last-name-div" name="last_name"
                 value="{{ context.l_name }}"
                 placeholder="Your Last Name"> 
         </div>
@@ -38,8 +38,8 @@
         </div>
         <div id="results" style="display:none"><p>Updated Successfully. Go Back to see results!</p></div>
     
-        </div>
-        </div>
+     </div>
+</div>     
 </div>
           
 <script>

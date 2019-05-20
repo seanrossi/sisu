@@ -600,6 +600,7 @@
     /* width: 100%; */
     border-radius: 50%;
 }
+
 .edit-button, .edit-button > a {
     background-color: #F6E6F0;
     height: 100%;
@@ -610,7 +611,7 @@
 }
 .user-details-edit-button {
     right: 0;
-    margin: 10px;
+    margin: 20px;
     position: absolute;
 }
 .user-details-edit-button .sisu-button {
