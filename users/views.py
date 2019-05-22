@@ -98,7 +98,7 @@ class DeleteUser(generic.DeleteView):
 
 class ResetPasswordRequestView(FormView):
         template_name = "blog/forget_password.html"   
-        success_url = reverse_lazy('password_reset')
+        success_url = reverse_lazy('password_reset_done')
         form_class = PasswordResetRequestForm
 
         @staticmethod
@@ -121,7 +121,7 @@ class ResetPasswordRequestView(FormView):
                             c = {
                                 'email': user.email,
                                 'domain': request.META['HTTP_HOST'],
-                                'site_name': 'sisu.com',
+                                'site_name': 'mysisu.co',
                                 'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode('utf-8'),
                                 'user': user,
                                 'token': default_token_generator.make_token(user),
@@ -145,7 +145,7 @@ class ResetPasswordRequestView(FormView):
                             mail = Mail(from_email, subject, to_email, content)
                             response = sg.client.mail.send.post(request_body=mail.get())
                     result = self.form_valid(form)
-                    messages.success(request, 'An email has been sent to ' + data +". Please check its inbox to continue reseting password.")
+                    #messages.success(request, 'An email has been sent to ' + data +". Please check its inbox to continue reseting password.")
                     return result
                 result = self.form_invalid(form)
                 messages.error(request, 'No user is associated with this email address')

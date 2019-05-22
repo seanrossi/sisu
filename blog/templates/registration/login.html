@@ -1,75 +1,44 @@
+{% extends "blog/base_sub_w_footer.html" %}
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static 'css/login.css' %}" />
 
-<div class="login-wrap">
+{% block sub_content %} 
+<link rel="stylesheet" href="{% static 'css/login.css' %}" />
+<div class="login-wrap-adj">
 	<div class="login-html">
-		<input id="tab-1" type="radio" name="tab" class="sign-in" checked><label id="label-tab-1" for="tab-1" class="tab">Sign In</label>
-		<input id="tab-2" type="radio" name="tab" class="sign-up"><label id="label-tab-2" for="tab-2" class="tab">Sign Up</label>
-		<div class="login-form"> 
-    <form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
+		<div class="login-form">
 			<div class="sign-in-htm">
 				<div class="group">
-					<label for="user" class="loginlabel">Username</label>
-					<input id="user" type="text" class="input" name="username">
+					<h3>
+						Sign in to sisu
+					</h3>
 				</div>
-				<div class="group">
-					<label for="pass" class="loginlabel">Password</label>
-					<input id="pass" type="password" class="input" name="password">
-				</div>
-				<div class="group">
-					<input id="check" type="checkbox" class="check" checked>
-					<label for="check" class="loginCheck"><span class="icon"></span> Keep me Signed in</label>
-				</div>
-				<div class="group">
-					<input type="submit" class="button" value="Sign In">
-				</div>
-        </form>
-        
-				<div class="hr"></div>
-				<div class="foot-lnk">
-					<a href="#forgot">Forgot Password?</a>
-				</div>
-        <div>{% if messages %}
-          <ul class="messages">
-              {% for message in messages %}
-              <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-              {% endfor %}
-              {% endif %}
-          </ul>
-        </div>
-        {% if form.errors %}
-        <p style="color:red;text-align: center;">Your username and password didn't match. <br>Please try again.</p>
-        {% endif %}
-			</div>
-      <input type="hidden" name="next" value="{{ next }}" />
-      
-         
-			<div class="sign-up-htm">
-				<div class="group">
-					<label for="user" class="loginlabel">Username</label>
-					<input id="user" type="text" class="input">
-				</div>
-				<div class="group">
-					<label for="pass" class="loginlabel">Password</label>
-					<input id="pass" type="password" class="input" data-type="password">
-				</div>
-				<div class="group">
-					<label for="pass" class="loginlabel">Repeat Password</label>
-					<input id="pass" type="password" class="input" data-type="password">
-				</div>
-				<div class="group">
-					<label for="pass" class="loginlabel">Email Address</label>
-					<input id="pass" type="text" class="input">
-				</div>
-				<div class="group">
-					<input type="submit" class="button" value="Sign Up">
-				</div>
-				<div class="hr-1"></div>
-				<div class="foot-lnk">
-					<label for="tab-1" class="switchLabel">Already Member?</label>
+				
+				<form id="signinForm" method="post" action="{% url 'login' %}">
+					{% csrf_token %}
+					<div class="group">
+						<input id="user" type="text" class="input" name="username" placeholder="Username">
+					</div>
+					<div class="group">
+						<input id="pass" type="password" class="input" name="password" placeholder="Password">
+					</div>
+					<div class="group" style="font-size: 0.8rem">
+						<input id="check" type="checkbox" class="check" checked onchange="document.getElementById('sign-in-button').disabled = !this.checked;">
+						<label for="check" class="loginCheck" style="line-height:1em;font-weight:lighter;"><span class="icon"></span> You agreed to SISU's <a href="{% url 't_c' %}"><u>Terms & Conditions</u></a>&nbsp and &nbsp  
+                        <a href="{% url 'p_p' %}"><u>Privacy Policy</u></a>
+                        </label>
+					</div>
+                    
+					<div class="group">
+						<input type="submit" class="sisu-button" value="Sign In" id="sign-in-button">
+					</div>
+					<!-- input type="hidden" name="next" value="{{ request.path }}" / -->
+				</form>
+				<div class="foot-lnk-login">
+						Forget Password? <a href="{% url 'password_reset' %}">Reset</a>  
 				</div>
 			</div>
 		</div>
 	</div>
+  
 </div>
+{% endblock %}

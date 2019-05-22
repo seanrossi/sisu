@@ -3,6 +3,7 @@ from users.models import CustomUser
 from sklearn.cluster import KMeans
 from scipy.sparse import dok_matrix, csr_matrix
 import numpy as np
+from operator import or_
 
 def update():
       # Create a sparse matrix from user reviews
@@ -13,8 +14,10 @@ def update():
       all_users = list(all_user_names)
       num_users = len(all_users)
       
-      if all_comment_ids:
-         rec_v = dok_matrix((num_users, max(all_comment_ids)+1), dtype=np.float32)
+      all_ids = all_comment_ids | all_metoo_ids
+      
+      if all_ids:
+         rec_v = dok_matrix((num_users, max(all_ids)+1), dtype=np.float32)
       else:
          rec_v = dok_matrix((num_users, 1), dtype=np.float32)
       
@@ -38,7 +41,7 @@ def update():
       
       #print (rec_v)
       # Perform kmeans clustering
-      k = int(num_users / 10) + 2
+      k = int(num_users / 100) + 2
       kmeans = KMeans(n_clusters=k)
       clustering = kmeans.fit(rec_v.tocsr())      
       

@@ -3,10 +3,12 @@ about_us_upper.jpg - Photo by Rohan Makhecha on Unsplash
 about_us.jpg - Photo by Nathan Dumlao on Unsplash
 contact_us.jpg - Photo by Stanley Dai on Unsplash
 contact_us_header.jpg - Photo by Aaron Burden on Unsplash
+contact_us_suc.jpg - Photo by Kristina Tripkovic on Unsplash
 construction.jpg - Photo by Kobu Agency on Unsplash
 empower.jpg - Photo by Annie Spratt on Unsplash
 deleteaccount.jpg - Photo by Eutah Mizushima on Unsplash
 reset_pw.jpg - Photo by Daria Nepriakhina on Unsplash
+reset_completed.jpg - Photo by CMDR Shane on Unsplash
 
 Conflict.jpg - Photo by Drew Beamer on Unsplash
 ConflictEM.jpg - Photo by Helloquence on Unsplash
