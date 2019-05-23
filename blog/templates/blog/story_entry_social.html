@@ -10,9 +10,9 @@
         {% include 'blog/story_entry_metoo.html' %} 
         </div>
         <div>
-            <a href="#" title="Views">
-                <i class="fa fa-bookmark" ></i> 
-                <span style="font-size:10px;">{% get_hit_count for post %} </span>
+            <a href="#" title="{% get_hit_count for post %} Views" style="pointer:context-menu">
+                <i class="fa fa-info-circle" ></i> 
+                <span style="font-size:10px;text-align:right">{% get_hit_count for post %}</span>
             </a>
         </div>
         

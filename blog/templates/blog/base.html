@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% with "http://mysisu.co" as host %}
 <html>
     <head>
         <meta charset="utf-8">
@@ -41,7 +42,9 @@
             <div class="footer-row">
                 <div class="footer-row-center">
                     <a class="footer-row-center-icon" href="mailto:sisu.contact.us@gmail.com" title="Email us!"><i id="icon-email" class="fa fa-envelope fa-3x social"></i></a>
-                    <a class="footer-row-center-icon" href="#" title="Follow us on Facebook" target="_blank"><i id="icon-fb" class="fa fa-facebook fa-3x social"></i></a>
+                    {% with "facebook" as service %}
+                    <a class="footer-row-center-icon" href="http://www.facebook.com/share.php?u={{ host }}" title="Share sisu on Facebook" target="_blank"><i id="icon-fb" class="fa fa-facebook fa-3x social"></i></a>
+                    {% endwith %}
                     <a class="footer-row-center-icon" href="https://twitter.com/MySISUCo" title="Follow us on Twitter" target="_blank"><i id="icon-tw" class="fa fa-twitter fa-3x social"></i></a>
                     <a class="footer-row-center-icon" href="https://www.linkedin.com/company/mysisuco" title="Follow us on LinkedIn" target="_blank"><i id="icon-li" class="fa fa-linkedin fa-3x social"></i></a>
                     <a class="footer-row-center-icon" href="https://fundly.com/sisu-donations-and-crowdfunding" title="Donate to us on Fundly" target="_blank">
@@ -76,3 +79,4 @@
 
     </body>
 </html>
+{% endwith %}

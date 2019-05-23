@@ -72,7 +72,7 @@
                   Hi, {{ request.user }}!
                 </span>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'user_details' pk=user.pk %}">Settings</a>
+                    <a class="dropdown-item" href="{% url 'user_details' pk=user.pk %}">Account</a>
                     <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
                     
                 </div>
