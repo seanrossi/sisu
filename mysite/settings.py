@@ -85,7 +85,7 @@ INSTALLED_APPS = [
     'allauth.account', # new
     'allauth.socialaccount', # new
     'allauth.socialaccount.providers.google', # new
-    'allauth.socialaccount.providers.linkedin', # new
+    'allauth.socialaccount.providers.linkedin_oauth2', # new
 ]
 
 AUTHENTICATION_BACKENDS = (
