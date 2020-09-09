@@ -1,73 +1,114 @@
 {% extends "blog/base_sub_w_footer.html" %}
 {% load staticfiles %}
 
-{% block header %}
- 	<li class="nav-item"><a class="nav-link" href="/">Home</a></li> 
-  <li class="nav-item"><a class="nav-link" href="{% url 'about_us' %}">About</a></li> 
-	<li class="nav-item"><a class="nav-link" href="{% url 'post_cases' %}">Cases</a></li> 
-{% endblock %}
-
 {% block sub_content %}   
-<!--================Home Banner Area =================-->
-        <section class="banner_area">
-            <div class="banner_inner d-flex align-items-center">
-            	<div class="overlay bg-parallax" data-stellar-ratio="0.9" data-stellar-vertical-offset="0" data-background=""></div>
-				<div class="container">
-					<div class="banner_content text-center">
-						<h2>Contact Us</h2>
-						<div class="page_link">
-							<a href="/">Home</a>
-							<a href="{% url 'contact_us' %}">Contact Us</a>
-						</div>
-					</div>
-				</div>
-            </div>
-        </section>
-        <!--================End Home Banner Area =================-->
-        
-        <!--================Contact Area =================-->
-        <section class="contact_area p_120">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="contact_info">
-                            <div class="info_item">
-                                <i class="lnr lnr-home"></i>
-                                <h6>California, United States</h6>
-                                
-                            </div>
-                            <div class="info_item">
-                                <p>Leave us a message!</p>
-                            </div>
-                            <div class="info_item">
-                                <i class="lnr lnr-envelope"></i>
-                                <h6>sisu.contact.us@gmail.com</h6>
-                                <p>Your feedback is valued! Or if you want to share a story, don't hesitate to contact us!</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-lg-5">
-                     <form method="post" class="contact_form">
-                      <table style="font-family:'Roboto', sans-serif;font-size: 16px; color:#222222">
-                      {% csrf_token %}
-                      {{ form.as_table }}  
-                      </table>
-                      <br>
-                      <div class="form-actions">
-                        <button type="submit" class="main_btn"><i class="fa fa-envelope" ></i>  Send Message</button>
-                      </div>
-                      
-                     </form>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="table_img">
-                        <img src="{% static 'img/Sisu_Logo_2.png' %}" alt="">
-                      </div>
+    <div class="sisu-header" style="background-image: url({% static 'img/story/contact_us_header.jpg' %});">
+        <div class="sisu-header-text">
+            <h1>Contribute to SISU</h1>
+        </div>
+        <div class="story-carousel-blur"></div>
+    </div>
+    <section class="contact_area p_120">
+        <div class="container contact-us-content">
+            <div class="row contact-us-panel">
+                <div class="contact-us-left-panel">
+                    <div>
+                        <h1>
+                            Partnership Inquiries? 
+                            <br>Want to share your story?
+                            <br>Let’s talk!
+                        </h1>
                     </div>
                 </div>
+                <div class="contact-us-form contact-us-right-panel">
+                    <form method="post" class="contact_form">
+                    <table>
+                    {% csrf_token %}
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input 
+                                    type="text" 
+                                    name="{{ form.your_name.html_name }}" 
+                                    class="contactusfield" 
+                                    maxlength="100" 
+                                    required="" 
+                                    id="{{ form.your_name.id_for_label }}" 
+                                    placeholder="{{ form.your_name.label }}"
+                                    >
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input 
+                                    type="text" 
+                                    name="{{ form.your_email.html_name }}" 
+                                    class="contactusfield" 
+                                    maxlength="100" 
+                                    required="" 
+                                    id="{{ form.your_email.id_for_label }}" 
+                                    placeholder="{{ form.your_email.label }}"
+                                >
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input 
+                                    type="text" 
+                                    name="{{ form.subject.html_name }}" 
+                                    class="contactusfield" 
+                                    maxlength="100" 
+                                    required="" 
+                                    id="{{ form.subject.id_for_label }}" 
+                                    placeholder="{{ form.subject.label }}"
+                                >
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <textarea 
+                                    name="{{ form.message.html_name }}" 
+                                    cols="40" 
+                                    rows="10" 
+                                    required="" 
+                                    id="{{ form.message.id_for_label }}"
+                                    placeholder="{{ form.message.label }}"
+                                ></textarea>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                    </table>
+                    <br>
+                    <div class="form-actions">
+                        <button type="submit" class="sisu-button">Send</button>
+                    </div>
+                    </form>
+                </div>
             </div>
-        </section>
-        <!--================Contact Area =================-->
+            <div class="row contact-us-panel">
+                <div class="contact-us-left-panel">
+                    <figure class="circle-img">
+                        <img src="{% static 'img/story/contact_us.jpg' %}" />
+                        <div class="img-blur"></div>
+                    </figure>
+                </div>
+                <div class="right-text contact-us-right-panel contact-us-text-panel">
+                    <h1>
+                        Help SISU
+                        shine!
+                    </h1>
+                    <p>
+                        Your generous contributions will enable us to continue and further our mission.
+                    </p>
+                    <br>
+                    <button class="sisu-button">
+                        <a href="https://fundly.com/sisu-donations-and-crowdfunding" target="_blank">CONTRIBUTE TO SISU</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================Contact Area =================-->
 
 {% endblock %}

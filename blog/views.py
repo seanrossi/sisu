@@ -6,8 +6,7 @@ from sendgrid.helpers.mail import *
 
 from django.shortcuts import render
 from django.utils import timezone
-from .models import Post, Comment, Category, AppPreferrence, PostPreferrence, ReplyToComment,Cluster
-from .models import PollQuestions, PollAnswer
+from .models import Post, Comment, Category, PostPreferrence, ReplyToComment,Cluster
 from django.shortcuts import render, get_object_or_404
 from .forms import PostForm, CommentForm, ContactForm, SearchForm, ReplyToCommentForm
 from django.shortcuts import redirect
@@ -18,7 +17,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib import auth
 from ipware import get_client_ip
 from django.template import Context
-import re
+import re, random
 from django.db.models import Q
 from django.contrib import messages
 from django.db.models import Count
@@ -36,9 +35,28 @@ from .suggestions import update_clusters
 import pygal
 from .chart import CatPieChart, PollHorizontalBarChart
 from django.views.generic import TemplateView
-from pygal.style import DarkStyle
 
+def pretty_request(request):
+    headers = ''
+    for header, value in request.META.items():
+        if not header.startswith('HTTP'):
+            continue
+        header = '-'.join([h.capitalize() for h in header[5:].lower().split('_')])
+        headers += '{}: {}\n'.format(header, value)
 
+    return (
+        '{method} HTTP/1.1\n'
+        'Content-Length: {content_length}\n'
+        'Content-Type: {content_type}\n'
+        '{headers}\n\n'
+        '{body}'
+    ).format(
+        method=request.method,
+        content_length=request.META['CONTENT_LENGTH'],
+        content_type=request.META['CONTENT_TYPE'],
+        headers=headers,
+        body=request.body,
+    )
 # Create your views here.
 
 #
@@ -46,16 +64,47 @@ from pygal.style import DarkStyle
 # 
 def category(request):
   categories = Category.__members__.items()
-  return {'categories' : categories}
-
+  user_ip = get_client_ip(request)
+  ip = user_ip[0]
   
+  request.session['ip'] = ip
+  
+  if request.user.is_authenticated: 
+    user = CustomUser.objects.get(pk=request.user.pk)
+    user_form = UserProfileForm(instance=user)
+
+    ProfileInlineFormset = inlineformset_factory(CustomUser, UserProfile, fields=('photo',))
+    formset = ProfileInlineFormset(instance=user)
+
+    if request.user.id == user.id:
+        if request.method == "POST":
+            formset = ProfileInlineFormset(request.POST, request.FILES, instance=user)
+            
+    return {
+        'categories' : categories,
+        'signup_form': CustomUserCreationForm(),
+        'isLoggedIn': True,
+        'userprofile': formset,
+    }
+  else :
+    return {
+        'categories' : categories,
+        'signup_form': CustomUserCreationForm(),
+        'isLoggedIn': False,
+    }
+        
 # Popular cases
-# list top 5 cases with the most comments
+# list top 3 cases with the most comments
 # get no. of comments for all posts
 def popular_cases(request):
-  
   cases = Comment.objects.filter(approved_comment=True).values('post').annotate(dcount=Count('post')).order_by('-dcount')
-
+  default_cases = []
+  
+  if not cases.first():
+    default_cases = Post.objects.filter(pk__in=[1, 2, 3])
+  else:
+    default_cases = []
+    
   size = Post.objects.all().count();
   
   count = 0;
@@ -65,15 +114,29 @@ def popular_cases(request):
   for case in cases:
     casesparsed[case['post']] = case['dcount']
     
-    if count < 5:
+    if count < 3:
       #print(case['post'])
       #print(Post.objects.filter(pk=case['post']))
       pop_posts.append(Post.objects.filter(pk=case['post']))
       count = count + 1;
   
   #print(casesparsed)
-    
-  return {'pop_cases' : pop_posts, 'cases':casesparsed}
+  random_cases = []
+  limit = len(Post.objects.all())
+  if limit > 2:
+    random_numbers = random.sample(range(1, limit), 3)
+  elif limit > 1:
+    random_numbers = [1, 2]
+  elif limit > 0:
+    random_numbers = [1]
+  else:
+    random_numbers = []
+  random_cases = Post.objects.filter(pk__in=random_numbers)  
+  
+  return {'pop_cases' : pop_posts, 
+          'cases':casesparsed, 
+          'random_cases': random_cases,
+          'default_cases' : default_cases}
 
 # Recommendation
 def user_recommendation_list(request):
@@ -117,14 +180,14 @@ def user_recommendation_list(request):
     post_list_1 = list(Post.objects.filter(id__in=other_users_set))
     post_list_2 = list(Post.objects.exclude(id__in=user_set))
     
-    post_list = list(set(post_list_1)|set(post_list_2))[:5]
+    post_list = list(set(post_list_1)|set(post_list_2))[:3]
     
     #print(post_list)
     #print(other_users_set)
     #print(other_members_usernames)
   
   return {'rec_post_list': post_list}
-  
+
 #
 # For About us page
 #
@@ -138,21 +201,36 @@ def about_sisu(request):
 def about_us(request):
     return render(request, 'blog/about_us.html')
     
-def post_list(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
-    
-    return render(request, 'blog/post_list.html', {'posts':posts})
-    
-# Post.objects.get(pk=pk)
-def post_cases(request):
-    return render(request, 'blog/post_category_main.html')
-    
-def post_list_by_category(request, category_name):
-    posts = Post.objects.filter(category_name=category_name).order_by('-published_date')
-    cat = Category.get_label(category_name)
-    return render(request, 'blog/post_list.html', {'posts':posts, 'cat':cat })
+def about_team(request):
+    return render(request, 'blog/about_team.html')    
 
-def post_detail(request, pk):
+def about_program(request):
+    return render(request, 'blog/about_program.html')    
+
+def terms_conditions(request):
+    return render(request, 'blog/terms_condition.html')
+    
+def privacy_policy(request):
+    return render(request, 'blog/privacy_policy.html')
+
+def story(request, category_name):
+    # print(pretty_request(request))
+    posts = Post.objects.filter(category_name=category_name).order_by('-published_date')
+    cat = Category.get_label(category_name)   
+    mapping = {}
+  
+    # Bad hard codes...
+    mapping[Category.Harassment] = "the unjust or prejudicial treatment of different categories of people or things, especially on the grounds of race, age, sex, or intellectual capability"
+    mapping[Category.Discrimination] = "harassment (typically of a woman) in a workplace, or other professional or social situation, involving the making of unwanted sexual advances or obscene remarks"
+    mapping[Category.Politics] = "activities within an organization aimed at improving someone's status and are typically considered to be devious or divisive"
+    mapping[Category.Conflict] = "a serious disagreement or argument between persons of similar age, status, or abilities"
+    mapping[Category.ConflictEM] = "a serious disagreement or argument between a person responsible for controlling part of an organization and a person under the aforementioned's authority "
+    mapping[Category.Worklife] = "lack of proportion between an individual's time allocated for work, and personal interests, family, or social activities"
+    mapping[Category.Miscellaneous] = "many other issues can happen to an individual..."   
+      
+    return render(request, 'blog/story.html', {'posts':posts, 'cat':cat, 'description': mapping[cat]})
+    
+def story_entry(request, pk):
     post = get_object_or_404(Post, pk=pk)
     user_name = auth.get_user(request)
     ip = request.session['ip']
@@ -177,39 +255,33 @@ def post_detail(request, pk):
         total_yes = PostPreferrence.objects.filter(vote_value=1, postpk=pk).count()
     except PostPreferrence.DoesNotExist:
         total_yes = 0;
-    
-    #Polling questions and stats
-    if(PollAnswer.objects.filter(post=pk, user=user_name)).exists():
-       pollquestion = get_object_or_404(PollQuestions, post=pk)
-       polled = True
-       
-       bar_chart = PollHorizontalBarChart(print_values=True,value_formatter=lambda x: '{}%'.format(x),
-                                          legend_at_bottom=True,
-                                          legend_box_size=30,
-                                          style=pygal.style.styles['default'](legend_font_size=30, 
-                                                                              value_font_size=30, 
-                                                                              label_font_size=25,
-                                                                              ))
-       chart = bar_chart.generate(pollquestion)
-    
-    else:
-       pollquestion = get_object_or_404(PollQuestions, post=pk)
-       polled = False
-       chart = None
+        
     
     summary = ({
         'voted':voted,
         'total_yes': total_yes,
-        'polled': polled,
-        'pollquestion': pollquestion,
+
     }) 
     
-    return render(request, 'blog/post_detail_index.html', 
+    return render(request, 'blog/story_entry.html', 
                   {'post': post, 
                    'summary': summary,
-                   'barchart': chart,
                   })
+
+def post_list(request):
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
     
+    return render(request, 'blog/post_list.html', {'posts':posts})
+    
+# Post.objects.get(pk=pk)
+def post_cases(request):
+    return render(request, 'blog/post_category_main.html')
+    
+def post_list_by_category(request, category_name):
+    posts = Post.objects.filter(category_name=category_name).order_by('-published_date')
+    cat = Category.get_label(category_name)
+    return render(request, 'blog/post_list.html', {'posts':posts, 'cat':cat })
+   
 @login_required
 def post_new(request):
     if request.method == "POST":
@@ -257,39 +329,6 @@ def post_edit(request, pk):
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
 
-'''
-@login_required     
-def add_comment_to_post_orig(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    if request.method == "POST":
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.post = post
-            comment.save()
-            messages.info(request, 'Thank you for your comment! It will be posted after censoring.')
-            return redirect('post_detail', pk=post.pk)
-    else:
-        form = CommentForm()
-    return render(request, 'blog/add_comment_to_post.html', {'form': form})
-
-@login_required     
-def add_reply_to_comment_orig(request, pk, cpk):
-    post = get_object_or_404(Post, pk=pk)
-    comment = get_object_or_404(Comment, post=post, pk=cpk)
-    if request.method == "POST":
-        form = ReplyToCommentForm(request.POST)
-        if form.is_valid():
-            replyToComment = form.save(commit=False)
-            replyToComment.post = post
-            replyToComment.comment = comment
-            replyToComment.save()
-            return redirect('post_detail', pk=post.pk)
-    else:
-        form = CommentForm()
-    return render(request, 'blog/add_comment_to_post.html', {'form': form})
-'''
-
 @login_required     
 def add_comment_to_post(request):
   
@@ -317,7 +356,7 @@ def add_comment_to_post(request):
   else:
      form = CommentForm()
     
-  return render(request, 'blog/post_detail_index.html', {'post':commentpost})    
+  return render(request, 'blog/story_entry.html', {'post':commentpost})    
     
 @login_required     
 def add_reply_to_comment(request):
@@ -343,21 +382,26 @@ def add_reply_to_comment(request):
         
         replyToComment.save()
            
+        data = {
+            'success': True,
+            'newReply': replyToComment.created_date
+        }
     else:
         form = CommentForm()
-    return render(request, 'blog/post_detail_index.html', {'post':replypost})
+    return JsonResponse(data)
+    #return render(request, 'blog/story_entry.html', {'post':replypost})
     
 @login_required
 def comment_approve(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
     comment.approve()
-    return redirect('post_detail', pk=comment.post.pk)
+    return redirect('story_entry', pk=comment.post.pk)
 
 @login_required
 def comment_remove(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
     comment.delete()
-    return redirect('post_detail', pk=comment.post.pk)
+    return redirect('story_entry', pk=comment.post.pk)
 #
 # For contact us page
 #
@@ -373,6 +417,7 @@ def contact_us(request):
             else:
               sender = sender + "_(PUB_User)_"
               
+            print (os.environ.get('SENDGRID_API_KEY'))  
             sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
             from_email = Email(form.cleaned_data['your_email'])
             to_email = Email("sisu.contact.us@gmail.com")
@@ -396,177 +441,6 @@ def contact_us(request):
             return render(request, 'blog/contact_us_success.html')
     return render(request, "blog/contact_us.html", {'form': form})
            
-#
-# For voting app
-#
-# check if the user / ip_address has voted 
-def check_voted(request):
-  voted = False;
-  user_ip = get_client_ip(request)
-  user_name = auth.get_user(request)
-  ip = user_ip[0]
-  
-  request.session['ip'] = ip
-  
-  total_yes = AppPreferrence.objects.filter(vote_yes=1).count()
-  total_no = AppPreferrence.objects.filter(vote_no=1).count()
-  
-   
-  if request.user.is_authenticated:
-     if AppPreferrence.objects.filter(username=user_name).exists():   
-        voted = True
-        
-  else:
-     if AppPreferrence.objects.filter(ip_address=ip).exists(): 
-        voted = True
-  
-  summary = ({
-      'voted':voted,
-      'total_yes': total_yes,
-      'total_no': total_no,
-    })     
-  return ({'summary': summary}) 
-
-'''
-# save the vote if never voted
-def vote_for_app_orig(request, voted_value):
-   
-   if request.method == "POST":     
-      user_preference = int(voted_value)
-      #user_ip = get_client_ip(request)
-      user_name = auth.get_user(request)
-      ip = request.session['ip']
-  
-      app_voted = AppPreferrence() 
-      app_voted.ip_address = ip
-      
-      if user_preference == 1:
-          app_voted.vote_yes += 1
-      elif user_preference == 2:
-          app_voted.vote_no +=1
-      
-      if request.user.is_authenticated:
-         #print("===================================" + str(user_preference) + str(ip) + str(user_name))
-         app_voted.username = user_name
-              
-   app_voted.save()
-     
-   return render(request, "blog/about.html")
-'''
-
-def vote_for_app(request):
-   
-   if request.method == "GET":     
-      user_preference = request.GET['voted_value']
-      #user_ip = get_client_ip(request)
-      user_name = auth.get_user(request)
-      ip = request.session['ip']
-  
-      app_voted = AppPreferrence() 
-      app_voted.ip_address = ip
-      
-      #print("==" + user_preference)
-      
-      if user_preference == "1":
-          app_voted.vote_yes = 1
-          
-          
-      elif user_preference == "2":
-          app_voted.vote_no =1
-      
-      #print("=====" + str(app_voted.vote_yes))
-      
-      if request.user.is_authenticated:
-         #print("===================================" + str(user_preference) + str(ip) + str(user_name))
-         app_voted.username = user_name
-              
-   app_voted.save()
-     
-   return render(request, "blog/about.html")
-   
-def participate_poll(request):
-   if request.method == 'GET':
-      post_id = request.GET['postid']
-      poll_value = request.GET['selected']
-      user_name = auth.get_user(request)
-      
-      post = get_object_or_404(Post, pk=post_id)
-      
-      polledpost = PollAnswer()
-      polledpost.post = post
-      polledpost.user = user_name
-      polledpost.choiceval = poll_value
-      
-      polledpost.save()
-      
-      pollquestion = get_object_or_404(PollQuestions, pk=post_id)
-        
-      if(poll_value == '1'):
-         pollquestion.choice1stat += 1
-      elif(poll_value == '2'):
-         pollquestion.choice2stat += 1
-      elif(poll_value == '3'): 
-         pollquestion.choice3stat += 1
-      elif(poll_value == '4'): 
-         pollquestion.choice3stat += 1
-        
-      pollquestion.total += 1  
-      pollquestion.save()            
-        
-      summary = ({
-         'pollquestion':pollquestion,
-      })
-      
-   return render(request, 'blog/post_detail_index.html', {'post':post, 'summary':summary})   
-
-   
-''' 
-def on_off_star_orig(request, postid, on_off_value):
-   
-   if request.method == "POST":     
-          
-      post_preference = int(on_off_value)
-      user_name = auth.get_user(request)
-      ip = request.session['ip']
-      
-      post = get_object_or_404(Post, pk=postid)   
-      
-      try:
-        if request.user.is_authenticated:
-          postpreferrence_obj = PostPreferrence.objects.get(username=user_name, postpk=post, ip_address=ip)     
-        else:
-          postpreferrence_obj = PostPreferrence.objects.get(postpk=post, ip_address=ip)
-        
-        postpreferrence_obj.vote_value = post_preference
-        postpreferrence_obj.save()       
-        
-        if post_preference == 2:
-            voted = False
-        else:
-            voted = True
-      
-      except PostPreferrence.DoesNotExist:
-        post_voted = PostPreferrence()
-        post_voted.ip_address = ip
-        post_voted.postpk = post
-        post_voted.vote_value = post_preference 
-      
-        if request.user.is_authenticated:
-          #print("===================================" + str(user_preference) + str(ip) + str(user_name))
-          post_voted.username = user_name
-        else:
-          post_voted.username = None
-          
-        post_voted.save()   
-        voted = True
-   
-      summary = ({
-         'voted':voted,
-         'total_yes': PostPreferrence.objects.filter(vote_value=1, postpk=postid).count(),
-      })
-      
-   return render(request, 'blog/post_detail_index.html', {'post':post, 'summary':summary})
-'''
    
 def on_off_star(request):
 
@@ -610,7 +484,8 @@ def on_off_star(request):
       
       update_clusters("false")
       
-   return render(request, 'blog/post_detail_index.html', {'post':likedpost, 'summary':summary})   
+   return render(request, 'blog/story_entry.html', {'post':likedpost, 'summary':summary})   
+   #return render(request, 'blog/post_detail_index.html', {'post':likedpost, 'summary':summary})   
  
 # Search Functionality
 def normalize_query(query_string,
@@ -689,10 +564,45 @@ def user_profile(request, pk):
     else:
         raise PermissionDenied
     #return render(request, 'blog/user_settings.html')
-    
+
+@login_required
+def user_details(request, pk):
+    user = CustomUser.objects.get(pk=pk)
+    user_form = UserProfileForm(instance=user)
+
+    ProfileInlineFormset = inlineformset_factory(CustomUser, UserProfile, fields=('photo',))
+    formset = ProfileInlineFormset(instance=user)
+
+    if request.user.is_authenticated and request.user.id == user.id:
+        if request.method == "POST":
+            user_form = UserProfileForm(request.POST, request.FILES, instance=user)
+            formset = ProfileInlineFormset(request.POST, request.FILES, instance=user)
+
+            if user_form.is_valid():
+                created_user = user_form.save(commit=False)
+                formset = ProfileInlineFormset(request.POST, request.FILES, instance=created_user)
+
+                if formset.is_valid():
+                    created_user.save()
+                    formset.save()
+                    return render(request, "blog/user_settings_profile_upd.html")
+            
+            
+        return render(request, "blog/user_details.html", {
+            "noodle": pk,
+            "noodle_form": user_form,
+            "formset": formset,
+        })
+    else:
+        raise PermissionDenied
+
+def user_edit(request, pk): 
+
+    return render(request, "blog/user_edit.html", { 'isValid': True })
+
 ## Pie chart
 class IndexView(TemplateView):
-      template_name = 'blog/user_settings.html'
+      template_name = 'blog/user_details.html'
       
       def get_context_data(self, **kwargs):
           context = super(IndexView, self).get_context_data(**kwargs)
@@ -729,7 +639,10 @@ class IndexView(TemplateView):
           
           else:
             context['cat_chart'] = None
-            
+          
+          context['user_commented_size'] = len(user_comments_approve)
+          context['user_pending_size'] = len(user_comments_pending)
+          context['user_metooed_size'] = len(user_metooed)
           context['user_commented'] = user_comments_approve[:20]
           context['user_pending'] = user_comments_pending[:20]
           context['user_metooed'] = user_metooed

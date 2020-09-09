@@ -1,6 +1,7 @@
 import pygal
 
 from .models import Category, Post
+from pygal.style import DefaultStyle
 
 class CatPieChart():
   def __init__(self, **kwargs):
@@ -27,7 +28,11 @@ class CatPieChart():
   
   def generate(self, user_data):
       chart_data = self.get_data(user_data)
-      
+      self.chart = pygal.Pie(print_values=True, style=DefaultStyle(
+                    legend_font_family = 'googlefont:Raleway',
+                    value_font_family='googlefont:Raleway',
+                    value_font_size=30,
+                    value_colors=('white','white','white','white','white','white','white')))     
       for key, value in chart_data.items():
         #self.chart.add(key, value)
         self.chart.add(key, value, formatter=lambda x: '%s' % x)

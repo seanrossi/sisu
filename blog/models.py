@@ -20,14 +20,16 @@ class Category(Enum):
   Politics = 'Politics';
   Worklife = 'Worklife';
   Conflict = 'Conflict';
+  ConflictEM = 'ConflictEM' 
   Miscellaneous = 'Miscellaneous';
   
   class Labels:
-    Harassment = 'Harassment';
     Discrimination = 'Discrimination'; 
+    Harassment = 'Sexual Harassment';
     Politics = 'Politics';
-    Conflict = 'Colleagues Conflict';
-    Worklife = 'Worklife Balance';
+    Conflict = 'Conflict Between Peers';
+    ConflictEM = 'Employee-Manager Conflict'
+    Worklife = 'Worklife Imbalance';
     Miscellaneous = 'Other issues';
     
   def get_label(cat_name):
@@ -42,7 +44,10 @@ class Category(Enum):
       
       if cat_name == "Conflict":
         return Category.Conflict
-      
+        
+      if cat_name =="ConflictEM":
+        return Category.ConflictEM
+        
       if cat_name == "Worklife":
         return Category.Worklife
       
@@ -71,24 +76,6 @@ class Post(models.Model, HitCountMixin):
   def __str__(self):
     return self.title
     
-class PollQuestions(models.Model):
-  post = models.ForeignKey('Post', default=1, on_delete=models.CASCADE)
-  question = models.CharField(max_length=200)
-  choice1 = models.CharField(max_length=100)
-  choice1stat = models.IntegerField(default=0)
-  choice2 = models.CharField(max_length=100)
-  choice2stat = models.IntegerField(default=0)
-  choice3 = models.CharField(max_length=100)
-  choice3stat = models.IntegerField(default=0)
-  choice4 = models.CharField(max_length=100)
-  choice4stat = models.IntegerField(default=0)
-  total = models.IntegerField(default=0)
-
-class PollAnswer(models.Model):
-  post = models.ForeignKey('Post', default=1, on_delete=models.CASCADE)
-  user = models.CharField(max_length=200)
-  choiceval = models.IntegerField(default=0)
-  
 class Comment(models.Model):
   post = models.ForeignKey('Post', related_name='comments', on_delete=models.CASCADE)
   user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
@@ -109,16 +96,7 @@ class Comment(models.Model):
   def __str__(self):
     return self.text
     
-class AppPreferrence(models.Model):
-  username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,null=True)
-  ip_address = models.CharField(max_length=40)
-  vote_yes = models.IntegerField(default=0) 
-  vote_no = models.IntegerField(default=0)
-  vote_date = models.DateTimeField(default=timezone.now)
   
-  def __str__(self):
-    return str(self.username) + str(self.ip_address) + str(self.vote_date)
-    
 class PostPreferrence(models.Model):
   username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,null=True)
   postpk = models.ForeignKey(Post, on_delete=models.CASCADE)

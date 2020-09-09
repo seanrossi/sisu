@@ -1,72 +1,59 @@
-{% extends "blog/base_sub_w_footer.html" %}
+{% extends "blog/base_sub_w_footer_no_usrprof.html" %}
 {% load staticfiles %}
 
-{% block header %}
-<li class="nav-item"><a class="nav-link" href="/">Home</a></li> 
-<li class="nav-item"><a class="nav-link" href="{% url 'about_us' %}">About</a></li> 
-<li class="nav-item"><a class="nav-link" href="{% url 'post_cases' %}">Cases</a></li>
+{% block sub_content %} 
+<div class="sisu-header" style="background-image: url({% static '/img/story/search.jpg' %});">
+    <div class="sisu-header-container">
+        <div class="sisu-header-text">
+            <h2>Search Results for: </h2>
+            <h3>"{{ query_string }}"</h3>
+        </div>
+    </div>
+    <div class="story-carousel-blur"></div>
+</div>
 
-{% endblock %}
-
-{% block sub_content %}  
-<section class="banner_area">
-            <div class="banner_inner d-flex align-items-center">
-            	<div class="overlay bg-parallax" data-stellar-ratio="0.9" data-stellar-vertical-offset="0" data-background=""></div>
-				<div class="container">
-					<div class="banner_content text-center">
-						<h2>Search Results for <br> "{{ query_string }}"</h2>
-						<div class="page_link">
-							<a href="/">Home</a>
-							<a href="{% url 'post_cases' %}">Cases</a>
-						</div>
-					</div>
-				</div>
+<div class="story-content">
+    <!-- story entry insert story id -->
+    {% for post in found_entries %}
+    <a href="{% url 'story_entry' pk=post.pk %}">
+        <div class="story-content-entry custom-row">
+            <div class="story-text">
+                <h5> {{ post.category_name }} </h5>
+                <h4>
+                    {{ post.title }}
+                </h4>
+                <p>
+                    {{ post.short_desc|linebreaksbr }}
+                </p>
             </div>
-        </section>
-        
-<!--================ Break =================-->
-        <div><br></div>
-        <!--================ Break =================-->
-        
-        <!--================Blog Area =================-->
-        <section class="blog_area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div class="blog_left_sidebar">
-                        {% for post in found_entries %}
-                        
-                        <article class="row blog_item">
-                               <div class="col-md-3">
-                                   <div class="blog_info text-right">
-                                        <div class="post_tag">
-                                            {{ post.category_name }}
-                                        </div>
-                                        <ul class="blog_meta list">
-                                            <li>{{ post.published_date }} <i class="lnr lnr-calendar-full"></i></li>
-                                            <li>06 Comments <i class="lnr lnr-bubble"></i></li>                                        </ul>
-                                    </div>
-                               </div>
-                                <div class="col-md-9">
-                                    <div class="blog_post">
-                                        <img src="{% static 'img/blog/main-blog/m-blog-1.jpg' %}" alt="">
-                                        <div class="blog_details">
-                                            <a href="{% url 'post_detail' pk=post.pk %}"><h2>{{ post.title }}</h2></a>
-                                            <p>{{ post.short_desc|linebreaksbr }}</p>
-                                            <a href="{% url 'post_detail' pk=post.pk %}" class="blog_btn">View More</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                            
-                            {% empty %}
-                             <div class="separator_line"></div>
-                             <h3> No results found for "{{ query_string }}". </h3>  
-                            {% endfor %}
-                          </div>
-                    </div>  
-                    </div>
-                    </div>
-                    </section>
-                    
+            <div class="story-img-list">
+                <img src="{% static '/img/blog/main-blog/' %}{{ post.pk }}.jpg" alt="" align="case">
+                
+            </div>
+        </div>
+    </a>
+    {% empty %}
+    <br>
+    <div class="col-md-0"></div>
+    <h2><i class="fa fa-info-circle" aria-hidden="true"></i> Sorry, we searched all the Story Titles and Story Contents but couldn't find "{{ query_string }}" in any of SISU stories. 
+    </h2>  
+    <br>
+    <h3><b>Search Tips: </b></h3>
+    <br>
+    <ul class="sq">
+        <li>Check the spelling and try again; </li>
+        <li>Try a similar but different search word(s); </li>
+        <li>Try searching for one or two words; </li>
+        <li>Keep the search word(s) simple and less specific.</li>
+    </ul>   
+    <br>
+    <h3>If you want to share with us about your experiences regarding "{{ query_string }}", <a href="{% url 'contact_us' %}" style="color:#F78C18">contact us!</a></h3>
+    <br style="line-height: 2em">
+    <h3><b>You may want to read: </b></h3>
+    
+    <!-- Provide a suggested reading page -->
+    {% include 'blog/post_random_footer.html' %}
+    {% endfor %}
+ </div>
+                                       
 {% endblock %}  
